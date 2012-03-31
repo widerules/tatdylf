@@ -1,7 +1,6 @@
 /**
  * 
  */
-package cpu;
 
 /**
  * @author Nate
