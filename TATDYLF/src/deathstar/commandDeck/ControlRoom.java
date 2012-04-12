@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class Main extends JFrame implements ActionListener {
+public class ControlRoom extends JFrame implements ActionListener {
 
 	/**
 	 * @param args
