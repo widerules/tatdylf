@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -28,19 +29,33 @@ public class ControlRoom extends JFrame implements ActionListener {
 		JButton volUp = new JButton("+");
 		Label vol = new Label("Volume");
 		JButton volDown = new JButton("-");
+		volUp.setActionCommand("volUp");
+		volUp.addActionListener(this);
+		volDown.setActionCommand("volDown");
+		volDown.addActionListener(this);
 		final JPanel volume = new JPanel();
 		
 		JButton silActivate = new JButton("Activate");
 		Label sil = new Label("Silent Mode");
 		JButton silDeactivate = new JButton("Deactivate");
+		silActivate.setActionCommand("silAc");
+		silActivate.addActionListener(this);
+		silDeactivate.setActionCommand("silDeac");
+		silDeactivate.addActionListener(this);
 		final JPanel silent = new JPanel();
 		
 		JButton vibActivate = new JButton("Activate");
 		Label vib = new Label("Vibrate Mode");
 		JButton vibDeactivate = new JButton("Deactivate");
+		vibActivate.setActionCommand("vibAc");
+		vibActivate.addActionListener(this);
+		vibDeactivate.setActionCommand("vibDeac");
+		vibDeactivate.addActionListener(this);
 		final JPanel vibrate = new JPanel();
 		
 		JButton lockButton = new JButton("Lock Phone");
+		lockButton.setActionCommand("lock");
+		lockButton.addActionListener(this);
 		final JPanel lock = new JPanel();
 		
 		final JPanel controls = new JPanel();
@@ -117,8 +132,23 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
+		String command = arg0.getActionCommand();
+		
+		if(command.equals("volUp")){
+			JOptionPane.showMessageDialog(frame,"Volume Increased!");
+		} else if (command.equals("volDown")){
+			JOptionPane.showMessageDialog(frame,"Volume Decreased!");
+		} else if (command.equals("silAc")){
+			JOptionPane.showMessageDialog(frame,"Silent Mode Activated!");
+		} else if (command.equals("silDeac")){
+			JOptionPane.showMessageDialog(frame,"Silent Mode Deactivated!");
+		} else if (command.equals("vibAc")){
+			JOptionPane.showMessageDialog(frame,"Vibrate Mode Activated!");
+		} else if (command.equals("vibDeac")){
+			JOptionPane.showMessageDialog(frame,"Vibrate Mode Deactivated!");
+		} else if (command.equals("lock")){
+			JOptionPane.showMessageDialog(frame,"Phone is locked!");
+		}
 	}
 
 }
