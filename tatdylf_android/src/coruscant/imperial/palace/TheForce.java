@@ -1,5 +1,13 @@
 package coruscant.imperial.palace;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -7,8 +15,49 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 
-public class TheForce extends Service {
+public class TheForce extends IntentService {
+	
+	public TheForce() {
+		super("TheForce");
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void onHandleIntent(Intent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	  public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.d("TheForce","May the Force be with you");
+		//Toast.makeText(this, "HelloService starting", Toast.LENGTH_SHORT).show();
+		audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+		
+		try {
+			Log.d("TheForce", "Trying to create server socket");
+			ServerSocket server = new ServerSocket( 8080, 0, InetAddress.getByAddress(new byte[]{(byte)10, (byte)0, (byte)2, (byte)15}));
+			Log.d("TheForce", "Now waiting for connections on "+server.getInetAddress());
+			Socket socket = server.accept();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			String cmd = reader.readLine();
+			Log.d("TheForce","Received line:" + cmd);
+			reader.close();
+			socket.close();
+			if("VIB".equals(cmd)){
+				turnVibrationOn();
+				Log.d("TheForce", "Turned Vibration on");
+			}
+		} catch (IOException e) {
+			Log.e("TheForce", "Error in IO", e);
+		}
+	    return super.onStartCommand(intent,flags,startId);	  
+	    
+	}
+	
+	
 	private AudioManager audioManager;
 //    private RingtoneManager ringtoneManager;
 	
@@ -44,10 +93,5 @@ public class TheForce extends Service {
 		return false;
 	}
 		
-	@Override
-	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
-		audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-		return null;
-	}
+	
 }
