@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+@SuppressWarnings("serial")
 public class ControlRoom extends JFrame implements ActionListener {
 
 	private static ControlRoom frame;
