@@ -38,7 +38,7 @@ public class TheForce extends IntentService {
 		
 		try {
 			Log.d("TheForce", "Trying to create server socket");
-			ServerSocket server = new ServerSocket( 8080, 0, InetAddress.getByAddress(new byte[]{(byte)10, (byte)0, (byte)2, (byte)15}));
+			ServerSocket server = new ServerSocket( 8081, 0, InetAddress.getByAddress(new byte[]{(byte)10, (byte)0, (byte)2, (byte)15}));
 			Log.d("TheForce", "Now waiting for connections on "+server.getInetAddress());
 			Socket socket = server.accept();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
