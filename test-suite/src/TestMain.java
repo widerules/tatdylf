@@ -8,7 +8,7 @@ import java.net.Socket;
 public class TestMain {
 
 	public static void main(String[] args) throws IOException{
-		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 8080);
+		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 8081);
 		
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		bw.write("VIB");
