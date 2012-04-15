@@ -19,9 +19,8 @@ public class HoloTransmitter {
 
 	    //Set the host smtp address
 	    Properties props = new Properties();
-	    props.put("mail.smtp.host", "localhost");
+	    props.put("mail.smtp.host", "send.columbia.edu");
 	    
-
 	    // create some properties and get the default Session
 	    Session session = Session.getDefaultInstance(props, null);
 	    session.setDebug(debug);
@@ -40,12 +39,12 @@ public class HoloTransmitter {
 	   
 
 	    // Optional : You can also set your custom headers in the Email if you Want
-	    msg.addHeader("MyHeaderName", "myHeaderValue");
+//	    msg.addHeader("MyHeaderName", "myHeaderValue");
 
 	    // Setting the Subject and Content Type
 	    msg.setSubject("Email from Java");
 	    msg.setContent("I really hope this works", "text/plain");
 	    Transport.send(msg);
 		return true;
-	    }
+	}
 }
