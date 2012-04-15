@@ -9,6 +9,7 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.mail.MessagingException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,12 +19,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 @SuppressWarnings("serial")
 public class ControlRoom extends JFrame implements ActionListener {
-
+	private static HoloTransmitter holotransmitter;
 	private static ControlRoom frame;
 	
 	public ControlRoom(String name){
 		super(name);
 		setResizable(true);
+		holotransmitter = new HoloTransmitter();
 	}
 
 	public void addComponentsToPane(final Container pane) {
@@ -105,6 +107,12 @@ public class ControlRoom extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
+		try {
+			holotransmitter.sendSMS();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		/* Use an appropriate Look and Feel */
 		try {
