@@ -19,7 +19,7 @@ public class HoloTransmitter {
 
 	    //Set the host smtp address
 	    Properties props = new Properties();
-	    props.put("mail.smtp.host", "send.columbia.edu");
+	    props.put("mail.smtp.host", "mx.columbia.edu");
 	    
 	    // create some properties and get the default Session
 	    Session session = Session.getDefaultInstance(props, null);
@@ -29,12 +29,12 @@ public class HoloTransmitter {
 	    Message msg = new MimeMessage(session);
 
 	    // set the from and to address
-	    InternetAddress addressFrom = new InternetAddress("koala0106@gmail.com");
+	    InternetAddress addressFrom = new InternetAddress("es3094@columbia.edu");
 	    msg.setFrom(addressFrom);
 
-	    InternetAddress[] addressTo = new InternetAddress[2]; 
+	    InternetAddress[] addressTo = new InternetAddress[1]; 
         addressTo[0] = new InternetAddress("ndw2114@columbia.edu");
-        addressTo[1] = new InternetAddress("nad2135@columbia.edu");
+//        addressTo[1] = new InternetAddress("nad2135@columbia.edu");
 	    msg.setRecipients(Message.RecipientType.TO, addressTo);
 	   
 
@@ -43,7 +43,7 @@ public class HoloTransmitter {
 
 	    // Setting the Subject and Content Type
 	    msg.setSubject("Email from Java");
-	    msg.setContent("I really hope this works", "text/plain");
+	    msg.setContent("test email", "text/plain");
 	    Transport.send(msg);
 		return true;
 	}
