@@ -20,13 +20,12 @@ public class Relay {
 		coruscant.start();
 		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		Socket s = deathstar.talkToSelf();
-		while(!deathstar.stopListening(s)){
+		while(!deathstar.stopListening()){
 			System.out.println("Waiting on deathstar");
 			try {
 				Thread.sleep(5000);
@@ -34,10 +33,8 @@ public class Relay {
 				e.printStackTrace();
 			}
 		}
-		deathstar.stopTalking(s);
 		
-		s = coruscant.talkToSelf();
-		while(!coruscant.stopListening(s)){
+		while(!coruscant.stopListening()){
 			System.out.println("Waiting on coruscant");
 			try {
 				Thread.sleep(5000);
@@ -45,12 +42,10 @@ public class Relay {
 				e.printStackTrace();
 			}
 		}
-		coruscant.stopTalking(s);
 	}
 
 	public static void sendMessage(PrintWriter out, String string) {
 		out.println(string);
 		System.out.println(string);
 	}
-
 }
