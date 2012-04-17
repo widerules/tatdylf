@@ -15,17 +15,17 @@ public class Satellite extends Thread {
 	public Satellite() {
 	}
 	
-	public Socket talkToSelf(){
+	public Socket openOutboundSocket(String ipAddress, int targetPort){
 		Socket socket = null;
 		try {
-			socket = new Socket(InetAddress.getByName("127.0.0.1"), port);
+			socket = new Socket(InetAddress.getByName(ipAddress), targetPort);
 		} catch (Exception e) {
 			return null;
 		}
 		return socket;
 	}
 	
-	public void stopTalking(Socket s){
+	public void closeSocket(Socket s){
 		try {
 			s.close();
 		} catch (IOException e) {
@@ -34,13 +34,15 @@ public class Satellite extends Thread {
 		}
 	}
 	
-	public boolean stopListening(Socket socket) {
+	public boolean stopListening() {
 		try {
 			keepListening = false;
 			
+			Socket socket = openOutboundSocket("127.0.0.1", port);
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 			out.println("Bye.");
 			out.close();
+			closeSocket(socket);
 		} catch (Exception e) {
 			keepListening = true;
 			return false;
@@ -56,16 +58,16 @@ public class Satellite extends Thread {
 		}
 	}
 	
-	public String listen(int socket) throws IOException{
+	public String listen(int listenerPort) throws IOException{
 		
 		keepListening = true;
 		closed = false;
 		
 		ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(socket);
+            serverSocket = new ServerSocket(listenerPort);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 51245.");
+            System.err.println("Could not listen on port: " + listenerPort);
             System.exit(1);
         }
         
@@ -84,16 +86,13 @@ public class Satellite extends Thread {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					clientSocket.getInputStream()));
 			String inputLine;
+			
+//			out.println("I see you!");
 
-			out.println("I see you!");
-
-			while ((inputLine = in.readLine()) != null) {
-				if (inputLine.equals("Bye.")){
-					out.println("Fine, I don't need you!  Just leave!");
-					break;
-				}
-				handleMessage(inputLine, out);
-			}
+//			while ((inputLine = in.readLine()) != null) {
+			inputLine = in.readLine();
+			handleMessage(inputLine, out);
+			clientSocket.close();
 		}
 		closed = true;
 		return null;
