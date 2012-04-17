@@ -1,22 +1,10 @@
 package coruscant.imperial.palace;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import android.app.IntentService;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.IBinder;
-import android.util.Log;
 
 public class TheForce {
 	Context context;
