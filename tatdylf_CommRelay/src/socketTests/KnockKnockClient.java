@@ -30,8 +30,13 @@ package socketTests;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
  
 public class KnockKnockClient {
     public static void main(String[] args) throws IOException {
@@ -40,8 +45,10 @@ public class KnockKnockClient {
         PrintWriter out = null;
         BufferedReader in = null;
  
+        Scanner s = new Scanner(System.in);
+        
         try {
-            kkSocket = new Socket("Nate-Laptop", 51244);
+            kkSocket = new Socket("127.0.0.1", Integer.parseInt(s.nextLine()));
             out = new PrintWriter(kkSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
         } catch (UnknownHostException e) {
