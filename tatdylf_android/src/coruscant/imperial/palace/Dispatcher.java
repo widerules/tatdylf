@@ -1,5 +1,7 @@
 package coruscant.imperial.palace;
 
+import android.util.Log;
+
 public class Dispatcher extends Thread {
 	TheForce theForce;
 	String command;
@@ -10,7 +12,7 @@ public class Dispatcher extends Thread {
 	}
 	
 	public void run() {
-		
+		Log.d("Dispatcher", "Handling command " + command);
 	}
 
 }

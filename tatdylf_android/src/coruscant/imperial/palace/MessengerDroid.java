@@ -29,10 +29,11 @@ public class MessengerDroid extends Thread {
 				String cmd = reader.readLine();
 				Log.d("MessengerDroid","Received line:" + cmd);
 				dispatch = new Dispatcher(cmd);
-				dispatch.run();
+				dispatch.start();
 				reader.close();
 				socket.close();
 			}
+			Log.d("MessengerDroid", "exiting");
 		} catch (IOException e) {
 			Log.e("MessengerDroid", "Error in IO", e);
 		}
@@ -40,5 +41,6 @@ public class MessengerDroid extends Thread {
 	
 	public void stopThread() {
 		keepListening = false;
+		Log.d("MessengerDroid", "stop has been called");
 	}
 }
