@@ -15,9 +15,8 @@ public class TheSenate extends IntentService {
 	public static TheForce useTheForce() {
 		return theForce;
 	}
-
-	@Override
-	protected void onHandleIntent(Intent intent) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 		droid = new MessengerDroid();
 		droid.start();
 		try {
@@ -27,5 +26,10 @@ public class TheSenate extends IntentService {
 			e.printStackTrace();
 		}
 		droid.stopThread();
+		return super.onStartCommand(intent,flags,startId);
+    }
+
+    @Override
+	protected void onHandleIntent(Intent intent) {
 	}
 }	
