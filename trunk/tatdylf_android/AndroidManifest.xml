@@ -17,6 +17,13 @@
                
             </intent-filter>
         </service>
+        <service android:name=".TheSenate">
+            
+            <intent-filter>
+                <action android:name="coruscant.imperial.palace.THE_SENATE" />
+               
+            </intent-filter>
+        </service>
         
         <activity
             android:name=".TreatyOfCoruscant"
