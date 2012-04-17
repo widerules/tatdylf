@@ -13,8 +13,8 @@ public class TreatyOfCoruscant extends Activity {
         setContentView(R.layout.main);
         Log.d("TreatyOfCoruscant", "Started activity!!!");
         
-        Intent intent = new Intent(this, TheForce.class);
-        intent.setAction("coruscant.imperial.palace.THE_FORCE");
+        Intent intent = new Intent(this, TheSenate.class);
+        intent.setAction("coruscant.imperial.palace.THE_SENATE");
         startService(intent);
     }
 }
