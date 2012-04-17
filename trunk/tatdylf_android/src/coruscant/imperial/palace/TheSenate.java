@@ -19,6 +19,13 @@ public class TheSenate extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		droid = new MessengerDroid();
-		
+		droid.start();
+		try {
+			Thread.sleep(120000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		droid.stopThread();
 	}
 }	
