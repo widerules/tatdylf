@@ -3,11 +3,11 @@ package coruscant.imperial.palace;
 import android.util.Log;
 
 public class Dispatcher extends Thread {
-	TheForce theForce;
+//	TheForce theForce;
 	String command;
 
 	public Dispatcher(String cmd) {
-		theForce = TheSenate.useTheForce();
+//		theForce = TheSenate.useTheForce();
 		this.command = cmd;
 	}
 	
