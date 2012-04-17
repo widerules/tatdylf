@@ -1,3 +1,4 @@
+package socketTests;
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
@@ -29,55 +30,47 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
+import java.io.*;
+import java.net.*;
  
-public class KnockKnockServer {
+public class KnockKnockClient {
     public static void main(String[] args) throws IOException {
  
-        ServerSocket serverSocket = null;
+        Socket kkSocket = null;
+        PrintWriter out = null;
+        BufferedReader in = null;
+ 
         try {
-            serverSocket = new ServerSocket(51244);
+            kkSocket = new Socket("Nate-Laptop", 51244);
+            out = new PrintWriter(kkSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host: taranis.");
+            System.exit(1);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 51244.");
+            System.err.println("Couldn't get I/O for the connection to: taranis.");
             System.exit(1);
         }
  
-        Socket clientSocket = null;
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (IOException e) {
-            System.err.println("Accept failed.");
-            System.exit(1);
-        }
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+        String fromServer;
+        String fromUser;
  
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                clientSocket.getInputStream()));
-        String inputLine, outputLine;
-        KnockKnockProtocol kkp = new KnockKnockProtocol();
- 
-        outputLine = kkp.processInput(null);
-        out.println(outputLine);
- 
-        Scanner s = new Scanner(System.in);
-        while ((inputLine = in.readLine()) != null) {
-             //outputLine = kkp.processInput(inputLine);
-             System.out.println(inputLine);
-             //out.println(outputLine);
-             out.println(s.nextLine());
-             if (outputLine.equals("Bye."))
+        while ((fromServer = in.readLine()) != null) {
+            System.out.println("Server: " + fromServer);
+            if (fromServer.equals("Bye."))
                 break;
+             
+            fromUser = stdIn.readLine();
+        if (fromUser != null) {
+                System.out.println("Client: " + fromUser);
+                out.println(fromUser);
         }
+        }
+ 
         out.close();
         in.close();
-        clientSocket.close();
-        serverSocket.close();
+        stdIn.close();
+        kkSocket.close();
     }
 }
