@@ -7,28 +7,25 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Satellite_Deathstar extends Thread {
+public class Satellite_Coruscant extends Thread {
 	
 	boolean keepListening;
 	int port;
 	
-	public Satellite_Deathstar(){
+	public Satellite_Coruscant(){
 		port = 51244;
 	}
 	
-	public Satellite_Deathstar(int port){
+	public Satellite_Coruscant(int port){
 		this.port = port;
 	}
 	
 	public void stopListening(){
 		keepListening = false;
 	}
-
-	
 	
 	public String listen(int socket) throws IOException{
 		
-		keepListening = true;
 		ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(socket);
@@ -51,10 +48,7 @@ public class Satellite_Deathstar extends Thread {
                 clientSocket.getInputStream()));
         String inputLine;
         
-        while ((inputLine = in.readLine()) != null && keepListening) {
-        	if(!keepListening){
-        		break;
-        	}
+        while ((inputLine = in.readLine()) != null) {
             handleMessage(inputLine, out);
             if (inputLine.equals("Bye."))
                break;
@@ -67,5 +61,6 @@ public class Satellite_Deathstar extends Thread {
 		System.out.println(s);
 		//Relay.sendMessage(out, "Message Received");
 	}
+	
 	
 }
