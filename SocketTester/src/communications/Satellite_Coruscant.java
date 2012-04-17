@@ -24,6 +24,14 @@ public class Satellite_Coruscant extends Thread {
 		keepListening = false;
 	}
 	
+	public void run() {
+		try {
+			listen(port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String listen(int socket) throws IOException{
 		
 		ServerSocket serverSocket = null;
@@ -43,9 +51,7 @@ public class Satellite_Coruscant extends Thread {
         }
         
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                clientSocket.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String inputLine;
         
         while ((inputLine = in.readLine()) != null) {
