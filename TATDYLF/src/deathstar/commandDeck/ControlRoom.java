@@ -3,17 +3,20 @@
  */
 package deathstar.commandDeck;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.mail.MessagingException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -21,6 +24,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class ControlRoom extends JFrame implements ActionListener {
 	private static HoloTransmitter holotransmitter;
 	private static ControlRoom frame;
+	private JButton lockButton;
+	private JLabel currentVolume;
 	
 	public ControlRoom(String name){
 		super(name);
@@ -29,66 +34,53 @@ public class ControlRoom extends JFrame implements ActionListener {
 	}
 
 	public void addComponentsToPane(final Container pane) {
-		JButton volUp = new JButton("+");
-		Label vol = new Label("Volume");
-		JButton volDown = new JButton("-");
-		volUp.setActionCommand("volUp");
-		volUp.addActionListener(this);
-		volDown.setActionCommand("volDown");
-		volDown.addActionListener(this);
+		final JPanel welcome = new JPanel();
+		welcome.add(new JLabel("Welcome!  Use the buttons below to control your phone!"));
+		
 		final JPanel volume = new JPanel();
+		volume.add(new JLabel("Adjust phone volume: "));
+		volume.add(createButton("+", "volUp"));
+		volume.add(createButton("-", "volDown"));
 		
-		JButton silActivate = new JButton("Activate");
-		Label sil = new Label("Silent Mode");
-		JButton silDeactivate = new JButton("Deactivate");
-		silActivate.setActionCommand("silAc");
-		silActivate.addActionListener(this);
-		silDeactivate.setActionCommand("silDeac");
-		silDeactivate.addActionListener(this);
+		currentVolume = new JLabel("unknown");
+		final JPanel currentVol = new JPanel();
+		currentVol.add(new JLabel("Your phone's current volume is: "));
+		currentVol.add(currentVolume);
+		
 		final JPanel silent = new JPanel();
+		silent.add(new JLabel("Turn phone ringer: "));
+		silent.add(createButton("On", "silAc"));
+		silent.add(createButton("Off", "silDeac"));
 		
-		JButton vibActivate = new JButton("Activate");
-		Label vib = new Label("Vibrate Mode");
-		JButton vibDeactivate = new JButton("Deactivate");
-		vibActivate.setActionCommand("vibAc");
-		vibActivate.addActionListener(this);
-		vibDeactivate.setActionCommand("vibDeac");
-		vibDeactivate.addActionListener(this);
 		final JPanel vibrate = new JPanel();
+		vibrate.add(new JLabel("Turn vibrator: "));
+		vibrate.add(createButton("On", "vibAc"));
+		vibrate.add(createButton("Off", "vibDeac"));
 		
-		JButton lockButton = new JButton("Lock Phone");
-		lockButton.setActionCommand("lock");
-		lockButton.addActionListener(this);
-		final JPanel lock = new JPanel();
+		lockButton = createButton("Lock Phone", "lock");
+		final JPanel lock_find = new JPanel();
+		lock_find.add(lockButton);
+		lock_find.add(new JLabel(""));
+		lock_find.add(createButton("Where is my phone?", "gps"));
 		
 		final JPanel controls = new JPanel();
+		controls.setLayout(new GridLayout(6,1));
 		
-		volume.setLayout(new GridLayout(1,3));
-		silent.setLayout(new GridLayout(1,3));
-		vibrate.setLayout(new GridLayout(1,3));
-		lock.setLayout(new GridLayout(1,1));
-		controls.setLayout(new GridLayout(4,1));
-
-		volume.add(volUp);
-		volume.add(vol);
-		volume.add(volDown);
-		
-		silent.add(silActivate);
-		silent.add(sil);
-		silent.add(silDeactivate);
-		
-		vibrate.add(vibActivate);
-		vibrate.add(vib);
-		vibrate.add(vibDeactivate);
-		
-		lock.add(lockButton);
-		
+		controls.add(welcome);
 		controls.add(volume);
+		controls.add(currentVol);
 		controls.add(silent);
 		controls.add(vibrate);
-		controls.add(lock);
+		controls.add(lock_find);
 		
 		pane.add(controls);
+	}
+	
+	private JButton createButton(String text, String actionCommand) {
+		JButton button = new JButton(text);
+		button.setActionCommand(actionCommand);
+		button.addActionListener(this);
+		return button;
 	}
 	
 	private static void createAndShowGUI() {
@@ -107,17 +99,16 @@ public class ControlRoom extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
-		try {
+/*		try {
 			holotransmitter.sendSMS();
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		/* Use an appropriate Look and Feel */
 		try {
-			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (UnsupportedLookAndFeelException ex) {
 			ex.printStackTrace();
 		} catch (IllegalAccessException ex) {
@@ -127,8 +118,6 @@ public class ControlRoom extends JFrame implements ActionListener {
 		} catch (ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
-		/* Turn off metal's use of bold fonts */
-		UIManager.put("swing.boldMetal", Boolean.FALSE);
 
 		// Schedule a job for the event dispatch thread:
 		// creating and showing this application's GUI.
@@ -157,6 +146,14 @@ public class ControlRoom extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(frame,"Vibrate Mode Deactivated!");
 		} else if (command.equals("lock")){
 			JOptionPane.showMessageDialog(frame,"Phone is locked!");
+			lockButton.setText("Unlock Phone");
+			lockButton.setActionCommand("unlock");
+		} else if (command.equals("unlock")){
+			JOptionPane.showMessageDialog(frame,"Phone is unlocked!");
+			lockButton.setText("Lock Phone");
+			lockButton.setActionCommand("lock");
+		} else if (command.equals("gps")){
+			JOptionPane.showMessageDialog(frame,"I found your phone!\n(...but I'm not telling you where it is)");
 		}
 	}
 
