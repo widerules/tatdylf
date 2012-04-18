@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class SimplMessage implements Message {
 
 	private static final long serialVersionUID = 6724107325514097651L;
+	private static final int INDENT = 4;
 	
 	private JSONObject json = new JSONObject();
 	Map<String, Object> map = new HashMap<String, Object>();
@@ -38,7 +39,7 @@ public class SimplMessage implements Message {
 	}
 	
 	public String prettyPrint() throws JSONException{
-		return new JSONObject(map).toString(4);		
+		return new JSONObject(map).toString(INDENT);		
 	}
 	
 	public Message deSerialize(String msgString) throws JSONException{
