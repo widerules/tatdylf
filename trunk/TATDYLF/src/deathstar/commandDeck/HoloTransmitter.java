@@ -29,12 +29,11 @@ public class HoloTransmitter {
 	    Message msg = new MimeMessage(session);
 
 	    // set the from and to address
-	    InternetAddress addressFrom = new InternetAddress("es3094@columbia.edu");
+	    InternetAddress addressFrom = new InternetAddress("This_is_arbitrary@foo.com");
 	    msg.setFrom(addressFrom);
 
 	    InternetAddress[] addressTo = new InternetAddress[1]; 
-        addressTo[0] = new InternetAddress("ndw2114@columbia.edu");
-//        addressTo[1] = new InternetAddress("nad2135@columbia.edu");
+        addressTo[0] = new InternetAddress("3154805277@txt.att.net");
 	    msg.setRecipients(Message.RecipientType.TO, addressTo);
 	   
 
@@ -42,7 +41,7 @@ public class HoloTransmitter {
 //	    msg.addHeader("MyHeaderName", "myHeaderValue");
 
 	    // Setting the Subject and Content Type
-	    msg.setSubject("Email from Java");
+	    //msg.setSubject("Email from Java");
 	    msg.setContent("test email", "text/plain");
 	    Transport.send(msg);
 		return true;
