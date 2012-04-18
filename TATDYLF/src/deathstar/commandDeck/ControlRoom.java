@@ -3,22 +3,26 @@
  */
 package deathstar.commandDeck;
 
-import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.Desktop;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+
+import sun.java2d.loops.ProcessPath.ProcessHandler;
 
 @SuppressWarnings("serial")
 public class ControlRoom extends JFrame implements ActionListener {
@@ -100,7 +104,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
 /*		try {
-			holotransmitter.sendSMS();
+			HoloTransmitter.sendSMS();
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -154,6 +158,32 @@ public class ControlRoom extends JFrame implements ActionListener {
 			lockButton.setActionCommand("lock");
 		} else if (command.equals("gps")){
 			JOptionPane.showMessageDialog(frame,"I found your phone!\n(...but I'm not telling you where it is)");
+			
+			// code modified from: http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
+			JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=40.809554,-73.960690\">My Phone!</a>" + "</body></html>");
+
+		    // handle link events
+		    ep.addHyperlinkListener(new HyperlinkListener()
+		    {
+		        @Override
+		        public void hyperlinkUpdate(HyperlinkEvent e)
+		        {
+		            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
+						try {
+							Desktop.getDesktop().browse(e.getURL().toURI());
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (URISyntaxException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} // roll your own link launcher or use Desktop if J6+
+		        }
+		    });
+		    ep.setEditable(false);
+		    ep.setBackground(frame.getBackground());
+
+			JOptionPane.showMessageDialog(frame, ep);
 		}
 	}
 
