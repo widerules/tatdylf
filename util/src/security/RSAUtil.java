@@ -2,13 +2,13 @@ package security;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
-import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -31,6 +31,8 @@ import javax.crypto.Cipher;
 
 public class RSAUtil {
 	
+	private static boolean isInitialized = false;
+	
 	public static void initialize(){
 		KeyPairGenerator kpg = null;
 		try {
@@ -41,8 +43,6 @@ public class RSAUtil {
 		}
 		kpg.initialize(2048);
 		KeyPair kp = kpg.genKeyPair();
-		Key publicKey = kp.getPublic();
-		Key privateKey = kp.getPrivate();
 		
 		KeyFactory fact;
 		RSAPublicKeySpec pub = null;
@@ -58,16 +58,16 @@ public class RSAUtil {
 		}
 		
 		try {
-			saveToFile("public.key", pub.getModulus(),
+			saveToFile("/home/neil/public.key", pub.getModulus(),
 			  pub.getPublicExponent());
-			saveToFile("private.key", priv.getModulus(),
+			saveToFile("/home/neil/private.key", priv.getModulus(),
 					  priv.getPrivateExponent());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
+		isInitialized = true;
 	}
 	
 	public static void saveToFile(String fileName,
@@ -84,9 +84,8 @@ public class RSAUtil {
 			  }
 	}
 	
-	PublicKey readKeyFromFile(String keyFileName) throws IOException {
-		  InputStream in =
-		    ServerConnection.class.getResourceAsStream(keyFileName);
+	public static PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
+		InputStream in = new FileInputStream(keyFileName);
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
 		  try {
@@ -103,9 +102,9 @@ public class RSAUtil {
 		  }
 		}
 	
-	PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
-		  InputStream in =
-		    ServerConnection.class.getResourceAsStream(keyFileName);
+	public static PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
+		  InputStream in = new FileInputStream(keyFileName);
+		    
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
 		  try {
@@ -122,16 +121,18 @@ public class RSAUtil {
 		  }
 		}
 	
-	public byte[] encrypt(byte[] data) throws Exception {
-		PublicKey pubKey = readKeyFromFile("/public.key");
+	public static byte[] encrypt(byte[] data) throws Exception {
+		if(!isInitialized) throw new Exception("RSAUtil has not been initialized");
+		PublicKey pubKey = readPublicKeyFromFile("/home/neil/public.key");
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE, pubKey);
 		byte[] cipherData = cipher.doFinal(data);
 		return cipherData;
 	}
 	
-	public byte[] decrypt(byte[] cipherData) throws Exception{
-		PrivateKey privKey = readPrivateKeyFromFile("/private.key");
+	public static byte[] decrypt(byte[] cipherData) throws Exception{
+		if(!isInitialized) throw new Exception("RSAUtil has not been initialized");
+		PrivateKey privKey = readPrivateKeyFromFile("/home/neil/private.key");
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.DECRYPT_MODE, privKey);
 		byte[] data = cipher.doFinal(cipherData);
