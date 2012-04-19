@@ -48,7 +48,7 @@ public class KnockKnockClient {
         Scanner s = new Scanner(System.in);
         
         try {
-            kkSocket = new Socket("127.0.0.1", Integer.parseInt(s.nextLine()));
+            kkSocket = new Socket("160.39.160.19", 61244);
             out = new PrintWriter(kkSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
         } catch (UnknownHostException e) {
