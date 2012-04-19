@@ -1,6 +1,2 @@
-tatdylf_CommRelay/bin
-test-suite/bin
-TATDYLF/bin
-tatdylf_android/bin
-tatdylf_android/gen
-util/bin
+bin/*
+bin
