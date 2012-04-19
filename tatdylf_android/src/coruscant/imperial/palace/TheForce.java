@@ -11,6 +11,7 @@ public class TheForce {
 	
 	public TheForce(Context c) {
 		this.context = c;
+		audioManager = (AudioManager)this.context.getSystemService(Context.AUDIO_SERVICE);
 	}
 		
 	private AudioManager audioManager;
@@ -18,6 +19,18 @@ public class TheForce {
 	
 	public boolean setPhoneVolume(int volume) {
 		audioManager.setStreamVolume(AudioManager.STREAM_RING, volume, AudioManager.FLAG_SHOW_UI);
+		return true;
+	}
+	
+	public boolean incresePhoneVolume() {
+		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+		setPhoneVolume(++vol);
+		return true;
+	}
+
+	public boolean decreasePhoneVolume() {
+		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+		setPhoneVolume(--vol);
 		return true;
 	}
 

@@ -3,16 +3,20 @@ package coruscant.imperial.palace;
 import android.util.Log;
 
 public class Dispatcher extends Thread {
-//	TheForce theForce;
-	String command;
+	TheForce theForce;
 
-	public Dispatcher(String cmd) {
-//		theForce = TheSenate.useTheForce();
-		this.command = cmd;
+	public Dispatcher() {
+		theForce = TheSenate.useTheForce();
 	}
 	
-	public void run() {
-		Log.d("Dispatcher", "Handling command " + command);
+	public boolean handleCommand(String command) {
+		if (command.equals("Volume +")) {
+			return theForce.incresePhoneVolume();
+		}
+		else if (command.equals("Volume -")) {
+			return theForce.decreasePhoneVolume();
+		}
+		return false;
 	}
-
+	
 }
