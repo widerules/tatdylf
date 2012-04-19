@@ -32,7 +32,7 @@ public class SimplMessage implements Message {
 	}
 	
 	@Override
-	private String serialize(){
+	public String serialize(){
 		return new JSONObject(map).toString();
 	}
 	
