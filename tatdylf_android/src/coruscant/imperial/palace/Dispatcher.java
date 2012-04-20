@@ -1,6 +1,6 @@
 package coruscant.imperial.palace;
 
-import android.util.Log;
+import comm.messaging.Message;
 
 public class Dispatcher extends Thread {
 	TheForce theForce;
@@ -9,13 +9,21 @@ public class Dispatcher extends Thread {
 		theForce = TheSenate.useTheForce();
 	}
 	
-	public boolean handleCommand(String command) {
-		if (command.equals("Volume +")) {
-			return theForce.incresePhoneVolume();
+	public boolean handleCommand(Message msg) {
+		
+		try {
+			switch(msg.getCmd()){
+			
+			case INC_VOL: theForce.incresePhoneVolume(); break;
+			case DEC_VOL: theForce.decreasePhoneVolume(); break;
+						
+			
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else if (command.equals("Volume -")) {
-			return theForce.decreasePhoneVolume();
-		}
+		
 		return false;
 	}
 	

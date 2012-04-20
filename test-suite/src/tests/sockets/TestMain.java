@@ -19,7 +19,13 @@ public class TestMain {
 //		bw.write("Go Dispatcher!");
 //		bw.close();
 //		socket.close();
-		
+		for(int i=0; i<8; i++){
+			System.out.println(i);
+			if(true){
+				i+=2;
+				continue;
+			}
+		}
 		
 		
 	}

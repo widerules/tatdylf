@@ -19,7 +19,7 @@ public class TheSenate extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
     	Log.d("TheSenate", "Starting MessengerDroid Thread");
-		droid = new MessengerDroid();
+		droid = new MessengerDroid(getResources());
 		droid.start();
 		return super.onStartCommand(intent,flags,startId);
     }

@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
 
 public class TheForce {
 	Context context;
@@ -31,6 +32,7 @@ public class TheForce {
 	public boolean decreasePhoneVolume() {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		setPhoneVolume(--vol);
+		Log.d("TheForce", "Decreased volume");
 		return true;
 	}
 

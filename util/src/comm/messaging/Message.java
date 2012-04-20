@@ -11,10 +11,8 @@ public interface Message extends Serializable{
 	public Object getParam(String key) throws Exception;
 	
 	public String serialize();
-	public byte[] serializeEncrypted() throws Exception;
 	public String prettyPrint() throws Exception;
 	
 	public Message deSerialize(String msgString) throws Exception;
-	public Message deSerializeEncrypted(byte[] data) throws Exception;
-
+	
 }
