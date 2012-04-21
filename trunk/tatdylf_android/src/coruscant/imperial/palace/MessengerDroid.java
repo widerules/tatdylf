@@ -10,8 +10,8 @@ import android.util.Log;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
-import comm.messaging.SecureChannel;
-import comm.messaging.SimplMessage;
+import coruscant.imperial.palace.comm.SecureChannelAndroid;
+import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 import coruscant.imperial.palace.comm.RSAUtilImpl;
 
@@ -21,13 +21,13 @@ public class MessengerDroid extends Thread {
 	Dispatcher dispatch;
 	boolean keepListening;
 	Resources resources;
-	SecureChannel channel;
+	SecureChannelAndroid channel;
 	
 	public MessengerDroid(Resources res) {
 		dispatch = new Dispatcher();
 		resources = res;
-		channel = new SecureChannel(new RSAUtilImpl(res));
-		computerIP = "69.203.17.33";
+		channel = new SecureChannelAndroid(new RSAUtilImpl(res));
+		computerIP = "192.168.1.7";
 	}
 	
 	private Socket openOutboundSocket() throws UnknownHostException, IOException {
@@ -47,7 +47,7 @@ public class MessengerDroid extends Thread {
 			channel.serialize(msg_out, clientSocket);*/
 			
 			Log.d("MessengerDroid", "Trying to create server socket");
-			server = new ServerSocket(61244);
+			server = new ServerSocket(61246);
 			while(keepListening) {
 				Log.d("MessengerDroid", "Now waiting for connections on " + server.getLocalPort());
 				Socket socket = server.accept();
@@ -57,10 +57,10 @@ public class MessengerDroid extends Thread {
 					keepListening = false;
 				}
 				else {
-					dispatch.handleCommand(msg_in);
+					boolean result = dispatch.handleCommand(msg_in);
 					Socket clientSocket = openOutboundSocket();
-					Message res = new SimplMessage();
-					res.addParam("RESPONSE", "Message Dispatched");
+					Message res = new SimplMessageAndroid();
+					res.addParam("success", result);
 					channel.serialize(res, clientSocket);
 				}
 			}

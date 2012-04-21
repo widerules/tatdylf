@@ -14,11 +14,12 @@ public class Dispatcher extends Thread {
 		try {
 			switch(msg.getCmd()){
 			
-			case INC_VOL: theForce.incresePhoneVolume(); break;
-			case DEC_VOL: theForce.decreasePhoneVolume(); break;
+			case INC_VOL: return theForce.incresePhoneVolume();
+			case DEC_VOL: return theForce.decreasePhoneVolume();
 						
 			
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
