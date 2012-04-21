@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import security.RSAUtilImpl;
 
+import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
@@ -27,7 +28,7 @@ public class TestSecureClient {
         Scanner s = new Scanner(System.in);
         
         try {
-            kkSocket = new Socket("127.0.0.1", 61244);
+            kkSocket = new Socket("192.168.1.9", 61246);
 //            out = kkSocket.getOutputStream();
 //            in = kkSocket.getInputStream();
 //            out = new PrintWriter(kkSocket.getOutputStream(), true);
@@ -55,7 +56,7 @@ public class TestSecureClient {
 //        fromUser = stdIn.readLine();
 //        if (fromUser != null) {
 //              System.out.println("Client: " + fromUser);
-              outMsg.addParam("COMM", "Hello");
+              outMsg.addParam(Message.CMD, Command.DEC_VOL);
               channel.serialize(outMsg, kkSocket);
 //        }
         //inMsg = channel.deSerialize(kkSocket);
@@ -82,7 +83,7 @@ public class TestSecureClient {
         //out.close();
         //in.close();
 //        stdIn.close();
-        kkSocket.close();
+//        kkSocket.close();
     
 	}
 
