@@ -1,18 +1,11 @@
 package comm.messaging;
 
-import org.json.JSONString;
-
-public enum Param implements JSONString{
+public class Param {
 	
-	TIMESTAMP,
-	LATITUDE,
-	LONGITUDE,
-	RESULT,
-	COMMAND;
-
-	@Override
-	public String toJSONString() {
-		return String.valueOf(ordinal());
-	}
+	public static final String TIMESTAMP = "Timestamp";
+	public static final String LATITUDE = "Latitude";
+	public static final String LONGITUDE = "Longitude";
+	public static final String RESULT = "Result";
+	public static final String COMMAND = "Command";
 	
 }
