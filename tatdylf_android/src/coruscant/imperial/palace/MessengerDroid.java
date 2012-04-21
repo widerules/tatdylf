@@ -38,7 +38,7 @@ public class MessengerDroid extends Thread {
 
 	public void run() {
 		keepListening = true;
-		ServerSocket server;
+		ServerSocket server = null;
 		try {
 			/* outbound communication */
 /*			Log.d("MessengerDroid", "Trying to create client socket");
@@ -57,6 +57,11 @@ public class MessengerDroid extends Thread {
 				if(msg_in.getCmd() == Command.EXIT) {
 					keepListening = false;
 				}
+				else if(msg_in.getCmd() == Command.LOCATE) {
+					Message res = dispatch.handleLocation(msg_in);
+					Socket clientSocket = openOutboundSocket();
+					channel.serialize(res, clientSocket);
+				}
 				else {
 					boolean result = dispatch.handleCommand(msg_in);
 					Socket clientSocket = openOutboundSocket();
@@ -65,6 +70,7 @@ public class MessengerDroid extends Thread {
 					channel.serialize(res, clientSocket);
 				}
 			}
+			server.close();
 			Log.d("MessengerDroid", "exiting");
 		} catch (Exception e) {
 			Log.e("MessengerDroid", "Error in IO", e);

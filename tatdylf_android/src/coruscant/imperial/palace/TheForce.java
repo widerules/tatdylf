@@ -1,6 +1,12 @@
 package coruscant.imperial.palace;
 
+import comm.messaging.Message;
+
+import coruscant.imperial.palace.comm.SimplMessageAndroid;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -9,14 +15,19 @@ import android.util.Log;
 
 public class TheForce {
 	Context context;
+	private AudioManager audioManager;
+	private KeyguardManager keyGuardManager;
+	private LocationManager locationManager;
+	private KeyguardLock lock;
+	//private RingtoneManager ringtoneManager;
 	
 	public TheForce(Context c) {
 		this.context = c;
 		audioManager = (AudioManager)this.context.getSystemService(Context.AUDIO_SERVICE);
+		keyGuardManager = (KeyguardManager)this.context.getSystemService(Context.KEYGUARD_SERVICE);
+		lock = keyGuardManager.newKeyguardLock("TreatyOfCoruscant");
+		locationManager = (LocationManager)this.context.getSystemService(Context.LOCATION_SERVICE);
 	}
-		
-	private AudioManager audioManager;
-//    private RingtoneManager ringtoneManager;
 	
 	public boolean setPhoneVolume(int volume) {
 		audioManager.setStreamVolume(AudioManager.STREAM_RING, volume, AudioManager.FLAG_SHOW_UI);
@@ -68,14 +79,19 @@ public class TheForce {
 	}
 
 	public boolean unlock() {
+		lock.disableKeyguard();	
 		return false;
 	}
 	
 	public boolean lock() {
+		lock.reenableKeyguard();
 		return false;
 	}
-		
 	
+	public SimplMessageAndroid locate(Message msg) {
+		GeoLocation geo = new GeoLocation(msg, locationManager);
+		return geo.generateLocationMessage();
+	}
 }
 
 

@@ -18,12 +18,11 @@ public class Dispatcher extends Thread {
 			case DEC_VOL: return theForce.decreasePhoneVolume();
 			case SILENT_ON: return theForce.turnSilentOn();
 			case SILENT_OFF: theForce.turnSilentOff();
-			case VIB_ON: return false; //return theForce.turnVibrationOn();
+			case VIB_ON: return theForce.turnVibrationOn();
 			case VIB_OFF: return theForce.turnVibrationOff();
 			case PLAY: return theForce.playAudio();
 			case LOCK: return theForce.lock();
 			case UNLOCK: return theForce.unlock();
-			case LOCATE: return false;
 			
 			}
 			
@@ -33,6 +32,11 @@ public class Dispatcher extends Thread {
 		}
 		
 		return false;
+	}
+	
+	public Message handleLocation(Message msg) {
+		Message res = theForce.locate(msg);
+		return res;
 	}
 	
 }
