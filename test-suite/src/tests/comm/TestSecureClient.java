@@ -51,7 +51,7 @@ public class TestSecureClient {
         Message outMsg = new SimplMessage();
         
         RSAUtilImpl rsaUtil = new RSAUtilImpl();
-        rsaUtil.setPath("./res/relay/");
+        rsaUtil.setPath("../tatdylf_CommRelay/res/relay/");
         
         SecureChannel channel = new SecureChannel(rsaUtil);
 //        fromUser = stdIn.readLine();

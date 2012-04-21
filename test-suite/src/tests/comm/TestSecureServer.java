@@ -47,7 +47,7 @@ public class TestSecureServer {
         Message inMsg = null;
 //        outMsg.addParam("COMM", outputLine);
         RSAUtilImpl rsaUtil = new RSAUtilImpl();
-        rsaUtil.setPath("./res/desktop/");
+        rsaUtil.setPath("../tatdylf/res/desktop/");
         SecureChannel channel = new SecureChannel(rsaUtil);
         //channel.serialize(outMsg, clientSocket);
 //        System.out.println("Server: "+outputLine);
