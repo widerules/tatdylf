@@ -17,7 +17,7 @@ public class TestSecureServer {
  
     	ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(61244);
+            serverSocket = new ServerSocket(61243);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 61244.");
             System.exit(1);
@@ -47,13 +47,13 @@ public class TestSecureServer {
         Message inMsg = null;
 //        outMsg.addParam("COMM", outputLine);
         RSAUtilImpl rsaUtil = new RSAUtilImpl();
-        rsaUtil.setPath("./res/server/");
+        rsaUtil.setPath("./res/desktop/");
         SecureChannel channel = new SecureChannel(rsaUtil);
         //channel.serialize(outMsg, clientSocket);
 //        System.out.println("Server: "+outputLine);
         
         inMsg = channel.deSerialize(clientSocket);
-        String inputLine = (String)inMsg.getParam("COMM");
+        String inputLine = (String)inMsg.getParam("success");
         System.out.println("Server recvd: "+inputLine);
 // 
 //        while ((inMsg = channel.deSerialize(clientSocket)) != null) {
