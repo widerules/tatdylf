@@ -35,16 +35,28 @@ public class TheForce {
 		Log.d("TheForce", "Decreased volume");
 		return true;
 	}
+	
+	public boolean turnSilentOn() {
+		audioManager.setRingerMode(audioManager.RINGER_MODE_SILENT);
+		return true;
+	}
+
+	public boolean turnSilentOff() {
+		audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
+		return true;
+	}
 
 	public boolean turnVibrationOn() {
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_NOTIFICATION, audioManager.VIBRATE_SETTING_ON);
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER, audioManager.VIBRATE_SETTING_ON);
+		audioManager.setRingerMode(audioManager.RINGER_MODE_VIBRATE);
 		return false;
 	}
 	
 	public boolean turnVibrationOff() {
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_NOTIFICATION, audioManager.VIBRATE_SETTING_OFF);
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER, audioManager.VIBRATE_SETTING_OFF);
+		audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
 		return false;
 	}
 
