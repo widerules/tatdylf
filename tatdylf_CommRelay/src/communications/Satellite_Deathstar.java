@@ -44,12 +44,26 @@ public class Satellite_Deathstar extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) throws Exception{
 		
-		Command command = Command.VIB_ON;
+		Command command = Command.INC_VOL;
 		
 		if(msg.getParam("cmd").equals("volDown")){
 			command = Command.DEC_VOL;
 		} else if(msg.getParam("cmd").equals("volUp")){
 			command = Command.INC_VOL;
+		} else if(msg.getParam("cmd").equals("silAc")){
+			command = Command.SILENT_OFF;
+		} else if(msg.getParam("cmd").equals("silDeac")){
+			command = Command.SILENT_ON;
+		} else if(msg.getParam("cmd").equals("vibAc")){
+			command = Command.VIB_ON;
+		} else if(msg.getParam("cmd").equals("vibDeac")){
+			command = Command.VIB_OFF;
+		} else if(msg.getParam("cmd").equals("lock")){
+			command = Command.LOCK;
+		} else if(msg.getParam("cmd").equals("unlock")){
+			command = Command.UNLOCK;
+		} else if(msg.getParam("cmd").equals("gps")){
+			command = Command.LOCATE;
 		}
 		
 		try {
@@ -60,6 +74,7 @@ public class Satellite_Deathstar extends Satellite {
 			
 			Message outMsg = new SimplMessage();
 			outMsg.addParam(Param.COMMAND, command);
+			outMsg.addParam(Param.MSGID, 1);
 			
 			channelClient.serialize(outMsg, socket);
 		} catch (Exception e) {

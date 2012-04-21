@@ -106,22 +106,5 @@ public class Satellite extends Thread {
 	}
 	
 	protected void handleMessage(Message msg) throws Exception{
-		
-		boolean success = true;
-		
-		if(msg.getParam("cmd").equals("volDown")){
-			
-		}
-		
-		Random gen = new Random();
-		if(gen.nextInt(3) == 0){
-			success = false;
-		}
-		
-		try {
-			Relay.sendMessage(-1, success, toPort, toIP, "Message Received");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}	
 }
