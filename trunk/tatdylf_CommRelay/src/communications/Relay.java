@@ -53,10 +53,10 @@ public class Relay {
 		}
 	}
 
-	public static void sendMessage(boolean success, int port, String string) throws Exception {
+	public static void sendMessage(int i, boolean success, int port, String toIP, String string) throws Exception {
 		System.out.println(string);
 		
-		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), port);
+		Socket socket = new Socket(InetAddress.getByName(toIP), port);
 		RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
 		rsaUtilClient.setPath("./res/client/");
 		SecureChannel channelClient = new SecureChannel(rsaUtilClient);
