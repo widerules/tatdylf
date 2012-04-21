@@ -16,6 +16,7 @@ import security.RSAUtilImpl;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
+import comm.messaging.Param;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
 
@@ -26,7 +27,7 @@ public class Satellite_Deathstar extends Satellite {
 		toIP = "192.168.1.9";
 		toPort = 61246;
 		rsaUtilServer = new RSAUtilImpl();
-		rsaUtilServer.setPath("./res/server/");
+		rsaUtilServer.setPath("./res/relay/");
 		channelServer = new SecureChannel(rsaUtilServer);
 	}
 	
@@ -36,14 +37,14 @@ public class Satellite_Deathstar extends Satellite {
 		toIP = "192.168.1.9";
 		toPort = 61246;
 		rsaUtilServer = new RSAUtilImpl();
-		rsaUtilServer.setPath("./res/server/");
+		rsaUtilServer.setPath("./res/relay/");
 		channelServer = new SecureChannel(rsaUtilServer);
 	}
 	
 	@Override
 	protected void handleMessage(Message msg) throws Exception{
 		
-		Command command = Command.VIB;
+		Command command = Command.VIB_ON;
 		
 		if(msg.getParam("cmd").equals("volDown")){
 			command = Command.DEC_VOL;
@@ -58,7 +59,7 @@ public class Satellite_Deathstar extends Satellite {
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
 			Message outMsg = new SimplMessage();
-			outMsg.addParam(Message.CMD, command);
+			outMsg.addParam(Param.COMMAND, command);
 			
 			channelClient.serialize(outMsg, socket);
 		} catch (Exception e) {
