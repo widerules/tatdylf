@@ -44,6 +44,13 @@ public class Satellite_Coruscant extends Satellite {
 		
 		boolean success = (Boolean) msg.getParam(Param.RESULT);
 		
+		double lat = -181;
+		double lon = -181;
+		try {
+			lat = (Double) msg.getParam(Param.LATITUDE);
+			lon = (Double) msg.getParam(Param.LONGITUDE);
+		} catch (Exception e) {}
+		
 		try {
 			Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
 			RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
@@ -52,6 +59,10 @@ public class Satellite_Coruscant extends Satellite {
 			
 			Message outMsg = new SimplMessage();
 			outMsg.addParam("success", success);
+			if(lat != -181){
+				outMsg.addParam("lat", lat);
+				outMsg.addParam("long", lon);
+			}
 			
 			channelClient.serialize(outMsg, socket);
 		} catch (Exception e) {
