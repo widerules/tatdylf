@@ -14,7 +14,7 @@ public class HoloTransmitter {
 	public HoloTransmitter() {
 	}
 
-	public static boolean sendSMS() throws MessagingException {
+	public static boolean sendSMS() throws Exception {
 		boolean debug = false;
 
 	    //Set the host smtp address
@@ -33,7 +33,7 @@ public class HoloTransmitter {
 	    msg.setFrom(addressFrom);
 
 	    InternetAddress[] addressTo = new InternetAddress[1]; 
-        addressTo[0] = new InternetAddress("3154805277@txt.att.net");
+        addressTo[0] = new InternetAddress("3154805277@216.77.188.73");//"es3094@columbia.edu");//
 	    msg.setRecipients(Message.RecipientType.TO, addressTo);
 	   
 
