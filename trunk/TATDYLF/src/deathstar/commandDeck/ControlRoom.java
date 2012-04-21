@@ -161,9 +161,11 @@ public class ControlRoom extends JFrame implements ActionListener {
 			e2.printStackTrace();
 		}
 		boolean wasSuccessful = false;
+		Message msg = null;
 		try {
 			sendMsg(outMsg);
-			wasSuccessful = waitForResponse(61243);
+			msg = waitForResponse(61243);
+			wasSuccessful = (Boolean) msg.getParam("success");
 		} catch (Exception e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -224,33 +226,40 @@ public class ControlRoom extends JFrame implements ActionListener {
 			}
 		} else if (command.equals("gps")){
 			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"I found your phone!\n(...but I'm not telling you where it is)");
-			
-			// code modified from: http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
-			JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=40.809554,-73.960690\">My Phone!</a>" + "</body></html>");
+				JOptionPane.showMessageDialog(frame, "I found your phone!\n(...but I'm not telling you where it is)");
 
-		    // handle link events
-		    ep.addHyperlinkListener(new HyperlinkListener()
-		    {
-		        @Override
-		        public void hyperlinkUpdate(HyperlinkEvent e)
-		        {
-		            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
-						try {
-							Desktop.getDesktop().browse(e.getURL().toURI());
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (URISyntaxException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} // roll your own link launcher or use Desktop if J6+
-		        }
-		    });
-		    ep.setEditable(false);
-		    ep.setBackground(frame.getBackground());
+				double lat = 0;
+				double lon = 0;
+				
+				try {
+					lat = (Double) msg.getParam("lat");
+					lon = (Double) msg.getParam("long");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				// code modified from:
+				// http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
+				JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=" + lat + "," + lon + "\">My Phone!</a>" + "</body></html>");
 
-			JOptionPane.showMessageDialog(frame, ep);
+				// handle link events
+				ep.addHyperlinkListener(new HyperlinkListener() {
+					@Override
+					public void hyperlinkUpdate(HyperlinkEvent e) {
+						if (e.getEventType().equals(
+								HyperlinkEvent.EventType.ACTIVATED))
+							try {
+								Desktop.getDesktop().browse(e.getURL().toURI());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							} catch (URISyntaxException e1) {
+								e1.printStackTrace();
+							}
+					}
+				});
+				ep.setEditable(false);
+				ep.setBackground(frame.getBackground());
+
+				JOptionPane.showMessageDialog(frame, ep);
 			} else {
 				JOptionPane.showMessageDialog(frame, "Stuff failed.");
 			}
@@ -266,7 +275,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 		
 	}
 
-	private boolean waitForResponse(int port) throws Exception {
+	private Message waitForResponse(int port) throws Exception {
 
 		ServerSocket serverSocket = null;
         try {
@@ -285,15 +294,12 @@ public class ControlRoom extends JFrame implements ActionListener {
 			System.exit(1);
 		}
 
-		RSAUtilImpl rsaUtil = new RSAUtilImpl();
-		rsaUtil.setPath("./res/server/");
-		SecureChannel channel = new SecureChannel(rsaUtil);
 		
-		Message inMsg = channel.deSerialize(clientSocket);
+		Message inMsg = channelDesktop.deSerialize(clientSocket);
 
 		serverSocket.close();
 		
-		return (Boolean) inMsg.getParam("success");
+		return inMsg;
 	}
 
 }
