@@ -41,10 +41,8 @@ public class ControlRoom extends JFrame implements ActionListener {
 	private static ControlRoom frame;
 	private JButton lockButton;
 	private JLabel currentVolume;
-	private static RSAUtilImpl rsaUtilServer;
-	private static RSAUtilImpl rsaUtilClient;
-	private static SecureChannel channelServer;
-	private static SecureChannel channelClient;
+	private static RSAUtilImpl rsaDesktop;
+	private static SecureChannel channelDesktop;
 	
 	public ControlRoom(String name){
 		super(name);
@@ -119,12 +117,9 @@ public class ControlRoom extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
 		
-		rsaUtilServer = new RSAUtilImpl();
-		rsaUtilServer.setPath("./res/server/");
-		rsaUtilClient = new RSAUtilImpl();
-		rsaUtilClient.setPath("./res/client/");
-		channelServer = new SecureChannel(rsaUtilServer);
-		channelClient = new SecureChannel(rsaUtilClient);
+		rsaDesktop = new RSAUtilImpl();
+		rsaDesktop.setPath("./res/desktop/");
+		channelDesktop = new SecureChannel(rsaDesktop);
 		
 /*		try {
 			HoloTransmitter.sendSMS();
@@ -267,7 +262,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 61244);
 		
 		
-		channelClient.serialize(outMsg, socket);
+		channelDesktop.serialize(outMsg, socket);
 		
 	}
 
