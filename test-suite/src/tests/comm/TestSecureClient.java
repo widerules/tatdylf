@@ -13,6 +13,7 @@ import security.RSAUtilImpl;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
+import comm.messaging.Param;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
 
@@ -28,7 +29,7 @@ public class TestSecureClient {
         Scanner s = new Scanner(System.in);
         
         try {
-            kkSocket = new Socket("192.168.1.9", 61246);
+            kkSocket = new Socket("192.168.1.7", 61243);
 //            out = kkSocket.getOutputStream();
 //            in = kkSocket.getInputStream();
 //            out = new PrintWriter(kkSocket.getOutputStream(), true);
@@ -50,13 +51,13 @@ public class TestSecureClient {
         Message outMsg = new SimplMessage();
         
         RSAUtilImpl rsaUtil = new RSAUtilImpl();
-        rsaUtil.setPath("./res/client/");
+        rsaUtil.setPath("./res/relay/");
         
         SecureChannel channel = new SecureChannel(rsaUtil);
 //        fromUser = stdIn.readLine();
 //        if (fromUser != null) {
 //              System.out.println("Client: " + fromUser);
-              outMsg.addParam(Message.CMD, Command.DEC_VOL);
+              outMsg.addParam("success", false);
               channel.serialize(outMsg, kkSocket);
 //        }
         //inMsg = channel.deSerialize(kkSocket);
