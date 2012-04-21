@@ -10,8 +10,8 @@ public class SetupSecureChannel {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		RSAUtilImpl rsaServer = new RSAUtilImpl("/home/neil/server/");
-		RSAUtilImpl rsaClient = new RSAUtilImpl("/home/neil/client/");
+		RSAUtilImpl rsaServer = new RSAUtilImpl("/home/neil/relay/");
+		//RSAUtilImpl rsaClient = new RSAUtilImpl("/home/neil/client/");
 		
 		System.out.println("RSA keys generated");
 
