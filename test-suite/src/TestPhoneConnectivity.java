@@ -12,15 +12,8 @@ public class TestPhoneConnectivity {
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			while (!(input = stdIn.readLine()).equals("End")) {
-				socket = new Socket(InetAddress.getByName("209.2.236.210"), 61246);
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				out.println(input);
-				input = in.readLine();
+//				socket = new Socket(InetAddress.getByName(""), 61246);
 				System.out.println("received: " + input);
-				in.close();
-				out.close();
-				socket.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
