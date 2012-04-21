@@ -19,12 +19,12 @@ public class SecureChannel {
 	public static final int BUF_LEN = 1024;
 	public static final byte EOF = (byte) 0xAA;
 	public static final byte ESC = 0;
-	private static final Charset CHARSET = Charset.forName( "UTF-8" );
+//	private static final Charset CHARSET = Charset.forName( "UTF-8" );
     private static final String ALGORITHM = "RSA";
     private static final String BLOCK_MODE = "ECB";
     private static final String PADDING = "PKCS1Padding";
     
-    Cipher cipher = null;
+    protected Cipher cipher = null;
 	private RSAUtil rsaUtil = null;
 	private String path = null;
 	
@@ -47,7 +47,7 @@ public class SecureChannel {
 		writeCiphered(cipher, getPrivateKey(), socket, msg.serialize());
 	}
 	
-    private static String readCiphered( Cipher cipher, PublicKey publicKey, Socket socket)
+    protected static String readCiphered( Cipher cipher, PublicKey publicKey, Socket socket)
             throws Exception
         {
         cipher.init( Cipher.DECRYPT_MODE, publicKey );
@@ -77,7 +77,7 @@ public class SecureChannel {
             bytesRemaining -= bytesThisChunk;
             }
         cin.close();
-        return new String( reconstitutedBytes, CHARSET );
+        return (new String(reconstitutedBytes));//, CHARSET));
         }
 
     private static void writeCiphered( Cipher cipher, PrivateKey privateKey, Socket socket, String plainText )
@@ -85,7 +85,7 @@ public class SecureChannel {
         {
         cipher.init( Cipher.ENCRYPT_MODE, privateKey );
         final CipherOutputStream cout = new CipherOutputStream( socket.getOutputStream(), cipher );
-        final byte[] plainTextBytes = plainText.getBytes( CHARSET );
+        final byte[] plainTextBytes = plainText.getBytes();// CHARSET );
         System.out.println( plainTextBytes.length + " plaintext bytes written" );
         // prepend with big-endian short message length, will be encrypted too.
         cout.write( plainTextBytes.length >>> 8 );// msb
@@ -100,7 +100,7 @@ public class SecureChannel {
 		return rsaUtil.readPrivateKeyFromFile();
 	}
 
-	private PublicKey getPublicKey() throws Exception {
+	protected PublicKey getPublicKey() throws Exception {
 		return rsaUtil.readPublicKeyFromFile();
 	}
 	

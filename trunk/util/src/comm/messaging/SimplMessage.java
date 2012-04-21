@@ -1,5 +1,8 @@
 package comm.messaging;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +11,8 @@ public class SimplMessage implements Message {
 	private static final long serialVersionUID = 6724107325514097651L;
 	private static final int INDENT = 4;
 	
-	private JSONObject json = new JSONObject();
+	protected Calendar c;
+	protected JSONObject json = new JSONObject();
 	
 	@Override
 	public Command getCmd() throws JSONException {
@@ -26,7 +30,14 @@ public class SimplMessage implements Message {
 	}
 	
 	@Override
-	public String serialize(){
+	public String serialize() {
+		c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("0"));
+		try {
+			addParam("Timestamp", c.getTimeInMillis());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return json.toString();
 	}
 	
@@ -43,9 +54,8 @@ public class SimplMessage implements Message {
 	
 	@Override
 	public Message deSerialize(String msgString) throws JSONException{
-		SimplMessage msg = new SimplMessage();
-		msg.json = new JSONObject(msgString);
-		return msg;
+		json = new JSONObject(msgString);
+		return this;
 	}
 	
 }
