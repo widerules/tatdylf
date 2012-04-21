@@ -1,7 +1,16 @@
 package communications;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
+
+import security.RSAUtilImpl;
+
+import comm.messaging.Message;
+import comm.messaging.SecureChannel;
+import comm.messaging.SimplMessage;
 
 public class Relay {
 
@@ -20,7 +29,7 @@ public class Relay {
 		coruscant.start();
 		
 		try {
-			Thread.sleep(60000);
+			Thread.sleep(600000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -44,8 +53,18 @@ public class Relay {
 		}
 	}
 
-	public static void sendMessage(PrintWriter out, String string) {
-		out.println(string);
+	public static void sendMessage(boolean success, int port, String string) throws Exception {
 		System.out.println(string);
+		
+		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), port);
+		RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
+		rsaUtilClient.setPath("./res/client/");
+		SecureChannel channelClient = new SecureChannel(rsaUtilClient);
+		
+		Message outMsg = new SimplMessage();
+		outMsg.addParam("success", success);
+		
+		channelClient.serialize(outMsg, socket);
+		
 	}
 }

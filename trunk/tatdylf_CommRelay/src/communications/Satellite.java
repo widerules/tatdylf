@@ -1,16 +1,22 @@
 package communications;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
+
+import security.RSAUtilImpl;
+
+import comm.messaging.Message;
+import comm.messaging.SecureChannel;
 
 public class Satellite extends Thread {
 	boolean keepListening, closed;
 	int port;
+	protected RSAUtilImpl rsaUtilServer;
+	protected SecureChannel channelServer;
 
 	public Satellite() {
 	}
@@ -80,26 +86,42 @@ public class Satellite extends Thread {
 				System.err.println("Accept failed.");
 				System.exit(1);
 			}
-
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
-					true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
-			String inputLine;
+			Message inMsg = null;
+			try {
+				inMsg = channelServer.deSerialize(clientSocket);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
-//			out.println("I see you!");
-
-//			while ((inputLine = in.readLine()) != null) {
-			inputLine = in.readLine();
-			handleMessage(inputLine, out);
-			clientSocket.close();
+			try {
+				handleMessage(inMsg);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		closed = true;
 		return null;
 	}
 	
-	private void handleMessage(String s, PrintWriter out){
-		System.out.println(s);
-		Relay.sendMessage(out, "Message Received");
+	private void handleMessage(Message msg) throws Exception{
+		
+		boolean success = true;
+		
+		if(msg.getParam("cmd").equals("volDown")){
+			success = false;
+		}
+		
+		Random gen = new Random();
+		if(gen.nextInt(3) == 0){
+			success = false;
+		}
+		
+		int newPort = 61243;
+		try {
+			Relay.sendMessage(success, newPort, "Message Received");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}	
 }
