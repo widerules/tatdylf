@@ -14,7 +14,8 @@ import comm.messaging.SecureChannel;
 
 public class Satellite extends Thread {
 	boolean keepListening, closed;
-	int port;
+	int port, toPort;
+	String toIP;
 	protected RSAUtilImpl rsaUtilServer;
 	protected SecureChannel channelServer;
 
@@ -104,12 +105,12 @@ public class Satellite extends Thread {
 		return null;
 	}
 	
-	private void handleMessage(Message msg) throws Exception{
+	protected void handleMessage(Message msg) throws Exception{
 		
 		boolean success = true;
 		
 		if(msg.getParam("cmd").equals("volDown")){
-			success = false;
+			
 		}
 		
 		Random gen = new Random();
@@ -117,9 +118,8 @@ public class Satellite extends Thread {
 			success = false;
 		}
 		
-		int newPort = 61243;
 		try {
-			Relay.sendMessage(success, newPort, "Message Received");
+			Relay.sendMessage(-1, success, toPort, toIP, "Message Received");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
