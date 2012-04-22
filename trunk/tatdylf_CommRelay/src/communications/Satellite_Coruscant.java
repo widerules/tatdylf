@@ -43,7 +43,7 @@ public class Satellite_Coruscant extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) throws Exception{
 		
-		Result res = (Result) msg.getRes();
+		Result res = msg.getRes();
 		
 		boolean success = (res == Result.SUCCESS);
 		
