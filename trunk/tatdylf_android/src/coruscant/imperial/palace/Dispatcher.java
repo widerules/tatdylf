@@ -1,6 +1,7 @@
 package coruscant.imperial.palace;
 
 import comm.messaging.Message;
+import comm.messaging.Param;
 
 public class Dispatcher extends Thread {
 	TheForce theForce;
@@ -23,6 +24,7 @@ public class Dispatcher extends Thread {
 			case PLAY: return theForce.playAudio();
 			case LOCK: return theForce.lock();
 			case UNLOCK: return theForce.unlock();
+			case TXT: return theForce.sendText((String)msg.getParam(Param.TXT_TO), (String)msg.getParam(Param.TXT_BODY));
 			
 			}
 			
