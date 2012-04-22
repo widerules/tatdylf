@@ -11,6 +11,7 @@ import android.util.Log;
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
+import comm.messaging.Result;
 import coruscant.imperial.palace.comm.SecureChannelAndroid;
 import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
@@ -63,7 +64,7 @@ public class MessengerDroid extends Thread {
 					channel.serialize(res, clientSocket);
 				}
 				else {
-					boolean result = dispatch.handleCommand(msg_in);
+					Result result = dispatch.handleCommand(msg_in);
 					Socket clientSocket = openOutboundSocket();
 					Message res = new SimplMessageAndroid();
 					res.addParam(Param.RESULT, result);

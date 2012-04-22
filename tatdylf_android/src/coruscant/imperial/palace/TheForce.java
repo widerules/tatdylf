@@ -1,18 +1,23 @@
 package coruscant.imperial.palace;
 
-import comm.messaging.Message;
-
-import coruscant.imperial.palace.comm.SimplMessageAndroid;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
+import android.database.Cursor;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
+
+import comm.messaging.Message;
+import comm.messaging.Param;
+import comm.messaging.Result;
+
+import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class TheForce {
 	Context context;
@@ -21,6 +26,7 @@ public class TheForce {
 	private LocationManager locationManager;
 	private KeyguardLock lock;
 	private SmsManager smsManager;
+	private String contactNumber;
 	//private RingtoneManager ringtoneManager;
 	
 	public TheForce(Context c) {
@@ -32,63 +38,63 @@ public class TheForce {
 		smsManager = SmsManager.getDefault();
 	}
 	
-	public boolean setPhoneVolume(int volume) {
+	public Result setPhoneVolume(int volume) {
 		audioManager.setStreamVolume(AudioManager.STREAM_RING, volume, AudioManager.FLAG_SHOW_UI);
-		return true;
+		return Result.SUCCESS;
 	}
 	
-	public boolean incresePhoneVolume() {
+	public Result incresePhoneVolume() {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		setPhoneVolume(++vol);
-		return true;
+		return Result.SUCCESS;
 	}
 
-	public boolean decreasePhoneVolume() {
+	public Result decreasePhoneVolume() {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		setPhoneVolume(--vol);
 		Log.d("TheForce", "Decreased volume");
-		return true;
+		return Result.SUCCESS;
 	}
 	
-	public boolean turnSilentOn() {
+	public Result turnSilentOn() {
 		audioManager.setRingerMode(audioManager.RINGER_MODE_SILENT);
-		return true;
+		return Result.SUCCESS;
 	}
 
-	public boolean turnSilentOff() {
+	public Result turnSilentOff() {
 		audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
-		return true;
+		return Result.SUCCESS;
 	}
 
-	public boolean turnVibrationOn() {
+	public Result turnVibrationOn() {
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_NOTIFICATION, audioManager.VIBRATE_SETTING_ON);
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER, audioManager.VIBRATE_SETTING_ON);
 		audioManager.setRingerMode(audioManager.RINGER_MODE_VIBRATE);
-		return false;
+		return Result.SUCCESS;
 	}
 	
-	public boolean turnVibrationOff() {
+	public Result turnVibrationOff() {
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_NOTIFICATION, audioManager.VIBRATE_SETTING_OFF);
 		audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER, audioManager.VIBRATE_SETTING_OFF);
 		audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
-		return false;
+		return Result.SUCCESS;
 	}
 
-	public boolean playAudio() {
+	public Result playAudio() {
 		Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
 		Ringtone ringtone = RingtoneManager.getRingtone(context, r_uri);
 		ringtone.play();
-		return false;
+		return Result.SUCCESS;
 	}
 
-	public boolean unlock() {
+	public Result unlock() {
 		lock.disableKeyguard();	
-		return false;
+		return Result.SUCCESS;
 	}
 	
-	public boolean lock() {
+	public Result lock() {
 		lock.reenableKeyguard();
-		return false;
+		return Result.SUCCESS;
 	}
 	
 	public SimplMessageAndroid locate(Message msg) {
@@ -96,10 +102,71 @@ public class TheForce {
 		return geo.generateLocationMessage();
 	}
 
-	public boolean sendText(String recipient, String textBody) {
-		smsManager.sendTextMessage(recipient, null, textBody, null, null);
+	public Result sendText(Message msg) {
+		String phoneNumber = null;
+		String name = null;
+		String msgText = null;
+		try {
+			if ((name = (String)msg.getParam(Param.TXT_TO_NAME)) != null) {
+				Result r = getNumberByName(name);
+				if (r != Result.SUCCESS) {
+					return r;
+				}
+				else {
+					phoneNumber = this.contactNumber;
+				}
+			} else if ((phoneNumber = (String)msg.getParam(Param.TXT_TO_NUMBER)) != null){ }
+			else {
+				return Result.INVALID_INPUT;
+			}
+			msgText = (String)msg.getParam(Param.TXT_BODY);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.INVALID_INPUT;
+		}
+		Log.d("TheForce", "name: "+name+" number: "+phoneNumber+" text: "+msgText);
+		smsManager.sendTextMessage(phoneNumber, null, msgText, null, null);
 		Log.d("TheForce", "Text sent");
-		return true;
+		
+		return Result.SUCCESS;
+	}
+
+	private Result getNumberByName(String name) {
+		int contactCount = 0;
+		int numberCount = 0;
+		Uri lkup = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, name);
+		Cursor idCursor = context.getContentResolver().query(lkup, null, null, null, null);
+		while (idCursor.moveToNext()) {
+			contactCount++;
+			String id = idCursor.getString(idCursor.getColumnIndex(ContactsContract.Contacts._ID));
+			name = idCursor.getString(idCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+			String phoneQuery = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+			String[] phoneParams = new String[]{id, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
+			Cursor phoneRes = context.getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, phoneQuery, phoneParams, null);
+			while(phoneRes.moveToNext()) {
+				numberCount++;
+				contactNumber = phoneRes.getString(phoneRes.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+			}
+			phoneRes.close();
+		}
+		idCursor.close();
+		if(contactCount == 1 && numberCount == 1) {
+			return Result.SUCCESS;
+		}
+		else if(contactCount > 1) {
+			return Result.MULTIPLE_CONTACTS;
+		}
+		else if (numberCount > 1) {
+			return Result.MULTIPLE_NUMBERS;
+		}
+		else if (contactCount == 0) {
+			return Result.CONTACT_NOT_FOUND;
+		}
+		else if (numberCount == 0) {
+			return Result.NUMBER_NOT_FOUND;
+		}
+		return Result.ERROR;
 	}
 }
 
