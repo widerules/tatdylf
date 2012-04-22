@@ -68,11 +68,13 @@ public class Satellite_Deathstar extends Satellite {
 			command = Command.LOCATE;
 		} else if(msg.getParam("cmd").equals("textNumber")){
 			command = Command.TXT;
-			outMsg.addParam(Param.TXT_TO_NUMBER, msg.getParam("to"));
+			outMsg.addParam(Param.TXT_BY_NAME, false);
+			outMsg.addParam(Param.TXT_TO, msg.getParam("to"));
 			outMsg.addParam(Param.TXT_BODY, msg.getParam("text"));
 		} else if(msg.getParam("cmd").equals("textName")){
 			command = Command.TXT;
-			outMsg.addParam(Param.TXT_TO_NAME, msg.getParam("to"));
+			outMsg.addParam(Param.TXT_BY_NAME, true);
+			outMsg.addParam(Param.TXT_TO, msg.getParam("to"));
 			outMsg.addParam(Param.TXT_BODY, msg.getParam("text"));
 		}
 		
