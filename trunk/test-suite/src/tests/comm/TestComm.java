@@ -38,12 +38,12 @@ public class TestComm {
 		System.out.println("Printing int: "+x);
 		System.out.println("Printing command: "+cmmd.name());
 		
-		RSAUtilImpl.initialize("/home/neil/");
-		System.out.println("Encrypted message: ");
-		byte[] msgBytes = msg.serializeEncrypted();
-		System.out.println(new String(msgBytes));
-		
-		System.out.println(((byte)'\n'));
+//		RSAUtilImpl.initialize("/home/neil/");
+//		System.out.println("Encrypted message: ");
+//		byte[] msgBytes = msg.serializeEncrypted();
+//		System.out.println(new String(msgBytes));
+//		
+//		System.out.println(((byte)'\n'));
 
 	}
 
