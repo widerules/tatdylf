@@ -20,6 +20,11 @@ public class SimplMessage implements Message {
 	}
 
 	@Override
+	public Result getRes() throws JSONException {
+		return (Result) json.get(RES);
+	}
+
+	@Override
 	public void addParam(String key, Object value) throws JSONException {
 		json.put(key, value);
 	}
