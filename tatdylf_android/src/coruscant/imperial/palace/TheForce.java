@@ -107,21 +107,26 @@ public class TheForce {
 		String name = null;
 		String msgText = null;
 		try {
-			if ((name = (String)msg.getParam(Param.TXT_TO_NAME)) != null) {
+			if ((Boolean)msg.getParam(Param.TXT_BY_NAME)) {
+				name = (String)msg.getParam(Param.TXT_TO);
+				Log.d("TheForce", "Looking up number based on name: " + name);
 				Result r = getNumberByName(name);
 				if (r != Result.SUCCESS) {
+					Log.d("TheForce", "Failed to find number");
 					return r;
 				}
 				else {
 					phoneNumber = this.contactNumber;
+					Log.d("TheForce", "Found number: " + phoneNumber);
 				}
-			} else if ((phoneNumber = (String)msg.getParam(Param.TXT_TO_NUMBER)) != null){ }
-			else {
-				return Result.INVALID_INPUT;
+			} else {
+				phoneNumber = (String)msg.getParam(Param.TXT_TO);
+				Log.d("TheForce", "Using phone number: " + phoneNumber);
 			}
 			msgText = (String)msg.getParam(Param.TXT_BODY);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.d("TheForce", "Invalid Input.  Text failed");
 			return Result.INVALID_INPUT;
 		}
 		Log.d("TheForce", "name: "+name+" number: "+phoneNumber+" text: "+msgText);
@@ -147,6 +152,7 @@ public class TheForce {
 			while(phoneRes.moveToNext()) {
 				numberCount++;
 				contactNumber = phoneRes.getString(phoneRes.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+				Log.d("TheForce", "contact: " + name + " number: " + contactNumber);
 			}
 			phoneRes.close();
 		}
