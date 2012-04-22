@@ -16,12 +16,12 @@ public class SimplMessage implements Message {
 	
 	@Override
 	public Command getCmd() throws JSONException {
-		return (Command) json.get(Param.COMMAND);
+		return Command.values()[(Integer) json.get(Param.COMMAND)];
 	}
 
 	@Override
 	public Result getRes() throws JSONException {
-		return (Result) json.get(Param.RESULT);
+		return Result.values()[(Integer)json.get(Param.RESULT)];
 	}
 
 	@Override

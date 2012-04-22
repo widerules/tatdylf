@@ -7,6 +7,8 @@ import security.RSAUtilImpl;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
+import comm.messaging.Param;
+import comm.messaging.Result;
 import comm.messaging.SimplMessage;
 
 public class TestComm {
@@ -23,16 +25,20 @@ public class TestComm {
 		Message msg = new SimplMessage();
 		
 		msg.addParam("T1", "Hello World");
-		msg.addParam(Message.CMD, cmd);
+		msg.addParam(Param.COMMAND, cmd);
+		
+		msg.addParam(Param.RESULT, Result.ERROR);
 		msg.addParam("T2", 2);
 		msg.addParam("T3", 3.1416);
 		
 		System.out.println(msg.prettyPrint());
 		
 		// Notice that we have to cast primitives to the boxed types
-		Double dbl = (Double)msg.getParam("T3");
-		Integer x = (Integer)msg.getParam("T2");
-		Command cmmd = msg.getCmd();
+		Message nmsg = new SimplMessage();
+		nmsg.deSerialize(msg.serialize());
+		Double dbl = (Double)nmsg.getParam("T3");
+		Integer x = (Integer)nmsg.getParam("T2");
+		Command cmmd = nmsg.getCmd();
 		
 		System.out.println("Printing double: "+dbl);
 		System.out.println("Printing int: "+x);
