@@ -8,32 +8,33 @@ import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import security.RSAUtilImpl;
+
 import comm.messaging.Message;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
-
-import security.RSAUtilImpl;
-import sun.java2d.loops.ProcessPath.ProcessHandler;
 
 @SuppressWarnings("serial")
 public class ControlRoom extends JFrame implements ActionListener {
@@ -43,8 +44,11 @@ public class ControlRoom extends JFrame implements ActionListener {
 	private JLabel currentVolume;
 	private static RSAUtilImpl rsaDesktop;
 	private static SecureChannel channelDesktop;
-	
-	public ControlRoom(String name){
+	private JTextField smsTextField;
+	private JTextArea smsTextArea;
+	private boolean numberSelected = true;
+
+	public ControlRoom(String name) {
 		super(name);
 		setResizable(true);
 		holotransmitter = new HoloTransmitter();
@@ -52,54 +56,86 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 	public void addComponentsToPane(final Container pane) {
 		final JPanel welcome = new JPanel();
-		welcome.add(new JLabel("Welcome!  Use the buttons below to control your phone!"));
-		
+		welcome.add(new JLabel(
+				"Welcome!  Use the buttons below to control your phone!"));
+
 		final JPanel volume = new JPanel();
 		volume.add(new JLabel("Adjust phone volume: "));
 		volume.add(createButton("+", "volUp"));
 		volume.add(createButton("-", "volDown"));
-		
+
 		currentVolume = new JLabel("unknown");
 		final JPanel currentVol = new JPanel();
 		currentVol.add(new JLabel("Your phone's current volume is: "));
 		currentVol.add(currentVolume);
-		
+
 		final JPanel silent = new JPanel();
 		silent.add(new JLabel("Turn phone ringer: "));
 		silent.add(createButton("On", "silAc"));
 		silent.add(createButton("Off", "silDeac"));
-		
+
 		final JPanel vibrate = new JPanel();
 		vibrate.add(new JLabel("Turn vibrator: "));
 		vibrate.add(createButton("On", "vibAc"));
 		vibrate.add(createButton("Off", "vibDeac"));
-		
+
+		final JPanel sms = new JPanel();
+		sms.add(new JLabel("Send text to:"));
+		smsTextField = new JTextField(8);
+		smsTextField.setMaximumSize(smsTextField.getSize());
+		sms.add(smsTextField);
+		sms.add(new JLabel("Which is a:"));
+		JRadioButton radioNumber = new JRadioButton("Phone Number");
+		radioNumber.setActionCommand("radio_number");
+		radioNumber.addActionListener(this);
+		radioNumber.setSelected(true);
+		JRadioButton radioName = new JRadioButton("Contact's Name");
+		radioName.setActionCommand("radio_name");
+		radioName.addActionListener(this);
+		ButtonGroup radioGroup = new ButtonGroup();
+		radioGroup.add(radioNumber);
+		radioGroup.add(radioName);
+		sms.add(radioNumber);
+		sms.add(radioName);
+
+		final JPanel smsText = new JPanel();
+		smsText.add(new JLabel("Message:"));
+		smsTextArea = new JTextArea(2, 40);
+		smsTextArea.setLineWrap(true);
+		smsTextArea.setWrapStyleWord(true);
+		smsTextArea.setMaximumSize(smsTextArea.getSize());
+		JScrollPane jsp = new JScrollPane(smsTextArea);
+		smsText.add(jsp);
+		smsText.add(createButton("Send Text!", "text"));
+
 		lockButton = createButton("Lock Phone", "lock");
 		final JPanel lock_find = new JPanel();
 		lock_find.add(lockButton);
 		lock_find.add(new JLabel(""));
 		lock_find.add(createButton("Where is my phone?", "gps"));
-		
+
 		final JPanel controls = new JPanel();
-		controls.setLayout(new GridLayout(6,1));
-		
+		controls.setLayout(new GridLayout(8, 1));
+
 		controls.add(welcome);
 		controls.add(volume);
 		controls.add(currentVol);
 		controls.add(silent);
 		controls.add(vibrate);
+		controls.add(sms);
+		controls.add(smsText);
 		controls.add(lock_find);
-		
+
 		pane.add(controls);
 	}
-	
+
 	private JButton createButton(String text, String actionCommand) {
 		JButton button = new JButton(text);
 		button.setActionCommand(actionCommand);
 		button.addActionListener(this);
 		return button;
 	}
-	
+
 	private static void createAndShowGUI() {
 		// Create and set up the window.
 		frame = new ControlRoom("May the Sith be with you.");
@@ -110,27 +146,26 @@ public class ControlRoom extends JFrame implements ActionListener {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
-		
+
 		rsaDesktop = new RSAUtilImpl();
 		rsaDesktop.setPath("./res/desktop/");
 		channelDesktop = new SecureChannel(rsaDesktop);
-		
-/*		try {
-			HoloTransmitter.sendSMS();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
+		/*
+		 * try { HoloTransmitter.sendSMS(); } catch (MessagingException e) { //
+		 * TODO Auto-generated catch block e.printStackTrace(); }
+		 */
 
 		/* Use an appropriate Look and Feel */
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager
+					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (UnsupportedLookAndFeelException ex) {
 			ex.printStackTrace();
 		} catch (IllegalAccessException ex) {
@@ -153,10 +188,31 @@ public class ControlRoom extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String command = arg0.getActionCommand();
+
+		if (command.equals("radio_number")) {
+			numberSelected = true;
+			return;
+		} else if (command.equals("radio_name")) {
+			numberSelected = false;
+			return;
+		}
+
 		Message outMsg = new SimplMessage();
-		
+
 		try {
-			outMsg.addParam("cmd", command);
+			if (command.equals("text")) {
+				if(numberSelected){
+					outMsg.addParam("cmd", "textNumber");
+				} else {
+					outMsg.addParam("cmd", "textName");
+				}
+				
+				outMsg.addParam("to", smsTextField.getText());
+				outMsg.addParam("text", smsTextArea.getText());
+				
+			} else {
+				outMsg.addParam("cmd", command);
+			}
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
@@ -170,67 +226,82 @@ public class ControlRoom extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-		
-		if(command.equals("volUp")){
-			if(wasSuccessful){
-			JOptionPane.showMessageDialog(frame,"Volume Increased!");
+
+		if (command.equals("volUp")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Volume Increased!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Volume Not Increased!");
+				JOptionPane.showMessageDialog(frame, "Volume Not Increased!");
 			}
-		} else if (command.equals("volDown")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Volume Decreased!");
+		} else if (command.equals("volDown")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Volume Decreased!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Volume Not Decreased!");
+				JOptionPane.showMessageDialog(frame, "Volume Not Decreased!");
 			}
-		} else if (command.equals("silAc")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Silent Mode Activated!");
+		} else if (command.equals("silAc")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Silent Mode Activated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Silent Mode Not Activated!");
+				JOptionPane.showMessageDialog(frame,
+						"Silent Mode Not Activated!");
 			}
-		} else if (command.equals("silDeac")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Silent Mode Deactivated!");
+		} else if (command.equals("silDeac")) {
+			if (wasSuccessful) {
+				JOptionPane
+						.showMessageDialog(frame, "Silent Mode Deactivated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Silent Mode Not Deactivated!");
+				JOptionPane.showMessageDialog(frame,
+						"Silent Mode Not Deactivated!");
 			}
-		} else if (command.equals("vibAc")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Vibrate Mode Activated!");
+		} else if (command.equals("vibAc")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Vibrate Mode Activated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Vibrate Mode Not Activated!");
+				JOptionPane.showMessageDialog(frame,
+						"Vibrate Mode Not Activated!");
 			}
-		} else if (command.equals("vibDeac")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Vibrate Mode Deactivated!");
+		} else if (command.equals("vibDeac")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame,
+						"Vibrate Mode Deactivated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Vibrate Mode Not Deactivated!");
+				JOptionPane.showMessageDialog(frame,
+						"Vibrate Mode Not Deactivated!");
 			}
-		} else if (command.equals("lock")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Phone is locked!");
-			lockButton.setText("Unlock Phone");
-			lockButton.setActionCommand("unlock");
+		} else if (command.equals("text")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame,
+						"Text Sent!");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Phone is not locked!");
+				JOptionPane.showMessageDialog(frame,
+						"Text Failed!");
 			}
-		} else if (command.equals("unlock")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame,"Phone is unlocked!");
-			lockButton.setText("Lock Phone");
-			lockButton.setActionCommand("lock");
+		} else if (command.equals("lock")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Phone is locked!");
+				lockButton.setText("Unlock Phone");
+				lockButton.setActionCommand("unlock");
 			} else {
-				JOptionPane.showMessageDialog(frame,"Phone is not unlocked!");
+				JOptionPane.showMessageDialog(frame, "Phone is not locked!");
 			}
-		} else if (command.equals("gps")){
-			if(wasSuccessful){
-				JOptionPane.showMessageDialog(frame, "I found your phone!\n(...but I'm not telling you where it is)");
+		} else if (command.equals("unlock")) {
+			if (wasSuccessful) {
+				JOptionPane.showMessageDialog(frame, "Phone is unlocked!");
+				lockButton.setText("Lock Phone");
+				lockButton.setActionCommand("lock");
+			} else {
+				JOptionPane.showMessageDialog(frame, "Phone is not unlocked!");
+			}
+		} else if (command.equals("gps")) {
+			if (wasSuccessful) {
+				JOptionPane
+						.showMessageDialog(frame,
+								"I found your phone!\n(...but I'm not telling you where it is)");
 
 				double lat = 0;
 				double lon = 0;
-				
+
 				try {
 					lat = (Double) msg.getParam("lat");
 					lon = (Double) msg.getParam("long");
@@ -239,7 +310,12 @@ public class ControlRoom extends JFrame implements ActionListener {
 				}
 				// code modified from:
 				// http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
-				JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=" + lat + "," + lon + "\">My Phone!</a>" + "</body></html>");
+				JEditorPane ep = new JEditorPane(
+						"text/html",
+						"<html><body>"
+								+ "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q="
+								+ lat + "," + lon + "\">My Phone!</a>"
+								+ "</body></html>");
 
 				// handle link events
 				ep.addHyperlinkListener(new HyperlinkListener() {
@@ -269,23 +345,22 @@ public class ControlRoom extends JFrame implements ActionListener {
 	private void sendMsg(Message outMsg) throws Exception {
 
 		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 61244);
-		
-		
+
 		channelDesktop.serialize(outMsg, socket);
-		
+
 	}
 
 	private Message waitForResponse(int port) throws Exception {
 
 		ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            System.err.println("Could not listen on port: " + port);
-            System.exit(1);
-        }
-		
-        Socket clientSocket = null;
+		try {
+			serverSocket = new ServerSocket(port);
+		} catch (IOException e) {
+			System.err.println("Could not listen on port: " + port);
+			System.exit(1);
+		}
+
+		Socket clientSocket = null;
 		try {
 			clientSocket = serverSocket.accept();
 			System.out.println("Connected");
@@ -294,11 +369,10 @@ public class ControlRoom extends JFrame implements ActionListener {
 			System.exit(1);
 		}
 
-		
 		Message inMsg = channelDesktop.deSerialize(clientSocket);
 
 		serverSocket.close();
-		
+
 		return inMsg;
 	}
 
