@@ -203,12 +203,17 @@ public class ControlRoom extends JFrame implements ActionListener {
 			if (command.equals("text")) {
 				if(numberSelected){
 					outMsg.addParam("cmd", "textNumber");
+					System.out.println("Adding as a number");
 				} else {
 					outMsg.addParam("cmd", "textName");
+					System.out.println("Adding as a name");
 				}
 				
 				outMsg.addParam("to", smsTextField.getText());
 				outMsg.addParam("text", smsTextArea.getText());
+				
+				System.out.println("to: " + smsTextField.getText());
+				System.out.println("text: " + smsTextArea.getText());
 				
 			} else {
 				outMsg.addParam("cmd", command);
