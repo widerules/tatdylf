@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 public class TheForce {
@@ -19,6 +20,7 @@ public class TheForce {
 	private KeyguardManager keyGuardManager;
 	private LocationManager locationManager;
 	private KeyguardLock lock;
+	private SmsManager smsManager;
 	//private RingtoneManager ringtoneManager;
 	
 	public TheForce(Context c) {
@@ -27,6 +29,7 @@ public class TheForce {
 		keyGuardManager = (KeyguardManager)this.context.getSystemService(Context.KEYGUARD_SERVICE);
 		lock = keyGuardManager.newKeyguardLock("TreatyOfCoruscant");
 		locationManager = (LocationManager)this.context.getSystemService(Context.LOCATION_SERVICE);
+		smsManager = SmsManager.getDefault();
 	}
 	
 	public boolean setPhoneVolume(int volume) {
@@ -91,6 +94,12 @@ public class TheForce {
 	public SimplMessageAndroid locate(Message msg) {
 		GeoLocation geo = new GeoLocation(msg, locationManager);
 		return geo.generateLocationMessage();
+	}
+
+	public boolean sendText(String recipient, String textBody) {
+		smsManager.sendTextMessage(recipient, null, textBody, null, null);
+		Log.d("TheForce", "Text sent");
+		return true;
 	}
 }
 
