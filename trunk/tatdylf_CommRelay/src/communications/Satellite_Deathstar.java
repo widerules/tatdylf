@@ -44,6 +44,8 @@ public class Satellite_Deathstar extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) throws Exception{
 		
+		Message outMsg = new SimplMessage();
+		
 		Command command = Command.INC_VOL;
 		
 		if(msg.getParam("cmd").equals("volDown")){
@@ -64,6 +66,14 @@ public class Satellite_Deathstar extends Satellite {
 			command = Command.UNLOCK;
 		} else if(msg.getParam("cmd").equals("gps")){
 			command = Command.LOCATE;
+		} else if(msg.getParam("cmd").equals("textNumber")){
+			command = Command.TXT;
+			outMsg.addParam(Param.TXT_TO_NUMBER, msg.getParam("to"));
+			outMsg.addParam(Param.TXT_BODY, msg.getParam("text"));
+		} else if(msg.getParam("cmd").equals("textName")){
+			command = Command.TXT;
+			outMsg.addParam(Param.TXT_TO_NAME, msg.getParam("to"));
+			outMsg.addParam(Param.TXT_BODY, msg.getParam("text"));
 		}
 		
 		try {
@@ -72,7 +82,6 @@ public class Satellite_Deathstar extends Satellite {
 			rsaUtilClient.setPath("./res/client/");
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
-			Message outMsg = new SimplMessage();
 			outMsg.addParam(Param.COMMAND, command);
 			outMsg.addParam(Param.MSGID, 1);
 			

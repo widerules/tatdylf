@@ -15,6 +15,7 @@ import security.RSAUtilImpl;
 
 import comm.messaging.Message;
 import comm.messaging.Param;
+import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
 
@@ -42,7 +43,9 @@ public class Satellite_Coruscant extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) throws Exception{
 		
-		boolean success = (Boolean) msg.getParam(Param.RESULT);
+		Result res = (Result) msg.getRes();
+		
+		boolean success = (res == Result.SUCCESS);
 		
 		double lat = -181;
 		double lon = -181;
