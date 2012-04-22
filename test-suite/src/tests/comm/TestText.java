@@ -27,8 +27,8 @@ public class TestText {
 		
 		Message outMsg = new SimplMessage();
 		outMsg.addParam(Param.COMMAND, Command.TXT);
-		outMsg.addParam(Param.TXT_TO, "3149226150");
-		outMsg.addParam(Param.TXT_BODY, "This is a test.  It is only a test.  You should be alarmed.");
+		outMsg.addParam(Param.TXT_TO, "9173315119");
+		outMsg.addParam(Param.TXT_BODY, "You are receiving this text via our application.  I thought this was worth it.  Next time I see you I'll give you a dime for the text.  -Nate");
 		outMsg.addParam(Param.MSGID, 1);
 		
 		channelClient.serialize(outMsg, socket);
