@@ -2,6 +2,7 @@ package coruscant.imperial.palace;
 
 import comm.messaging.Message;
 import comm.messaging.Param;
+import comm.messaging.Result;
 
 public class Dispatcher extends Thread {
 	TheForce theForce;
@@ -10,7 +11,7 @@ public class Dispatcher extends Thread {
 		theForce = TheSenate.useTheForce();
 	}
 	
-	public boolean handleCommand(Message msg) {
+	public Result handleCommand(Message msg) {
 		
 		try {
 			switch(msg.getCmd()){
@@ -24,7 +25,7 @@ public class Dispatcher extends Thread {
 			case PLAY: return theForce.playAudio();
 			case LOCK: return theForce.lock();
 			case UNLOCK: return theForce.unlock();
-			case TXT: return theForce.sendText((String)msg.getParam(Param.TXT_TO), (String)msg.getParam(Param.TXT_BODY));
+			case TXT: return theForce.sendText(msg);
 			
 			}
 			
@@ -33,7 +34,7 @@ public class Dispatcher extends Thread {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return Result.ERROR;
 	}
 	
 	public Message handleLocation(Message msg) {
