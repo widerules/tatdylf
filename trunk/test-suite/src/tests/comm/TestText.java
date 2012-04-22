@@ -27,7 +27,7 @@ public class TestText {
 		
 		Message outMsg = new SimplMessage();
 		outMsg.addParam(Param.COMMAND, Command.TXT);
-		outMsg.addParam(Param.TXT_TO_NAME, "Nathaniel Weiss");
+		outMsg.addParam(Param.TXT_TO, "Nathaniel Weiss");
 		outMsg.addParam(Param.TXT_BODY, "You are receiving this text via our application.  I thought this was worth it.  Next time I see you I'll give you a dime for the text.  -Nate");
 		outMsg.addParam(Param.MSGID, 1);
 		
