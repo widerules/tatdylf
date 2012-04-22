@@ -14,7 +14,8 @@ public enum Command implements JSONString{
 	PLAY,
 	LOCK,
 	UNLOCK,
-	LOCATE;
+	LOCATE,
+	TXT;
 
 	@Override
 	public String toJSONString() {
