@@ -21,8 +21,19 @@ public enum Result implements JSONString{
 	public static Result toResult(String s){
 		if(s.equals("SUCCESS")){
 			return Result.SUCCESS;
+		} else if (s.equals("ERROR")){
+			return Result.ERROR;
+		} else if (s.equals("MULTIPLE_CONTACTS")){
+			return Result.MULTIPLE_CONTACTS;
+		} else if (s.equals("MULTIPLE_NUMBERS")){
+			return Result.MULTIPLE_NUMBERS;
+		} else if (s.equals("CONTACT_NOT_FOUND")){
+			return Result.CONTACT_NOT_FOUND;
+		} else if (s.equals("NUMBER_NOT_FOUND")){
+			return Result.NUMBER_NOT_FOUND;
 		}
-		return Result.ERROR;
+		
+		return null;
 	}
 	
 }
