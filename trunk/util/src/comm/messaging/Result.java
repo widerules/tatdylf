@@ -18,4 +18,11 @@ public enum Result implements JSONString{
 		return Integer.toString(ordinal());
 	}
 	
+	public static Result toResult(String s){
+		if(s.equals("SUCCESS")){
+			return Result.SUCCESS;
+		}
+		return Result.ERROR;
+	}
+	
 }

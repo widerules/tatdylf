@@ -21,7 +21,7 @@ public class SimplMessage implements Message {
 
 	@Override
 	public Result getRes() throws JSONException {
-		return Result.values()[(Integer)json.get(Param.RESULT)];
+		return Result.toResult((String) json.get(Param.RESULT));
 	}
 
 	@Override
