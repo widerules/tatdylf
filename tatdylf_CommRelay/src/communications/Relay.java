@@ -29,7 +29,7 @@ public class Relay {
 		coruscant.start();
 		
 		try {
-			Thread.sleep(600000);
+			Thread.sleep(6000000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
