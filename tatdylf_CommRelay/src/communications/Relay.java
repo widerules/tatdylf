@@ -77,4 +77,12 @@ public class Relay {
 	public synchronized void handled(Message msg) throws Exception{
 		msgArr.handle(msg);
 	}
+	
+	public synchronized int findMessageById(int id) throws Exception {
+		return msgArr.findByMessageID(id);
+	}
+	
+	public synchronized Message getMessage(int index){
+		return msgArr.getMessage(index);
+	}
 }

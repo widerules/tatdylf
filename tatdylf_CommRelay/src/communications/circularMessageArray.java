@@ -51,4 +51,8 @@ public class circularMessageArray {
 		return -1;
 	}
 	
+	public Message getMessage(int index){
+		return sentArray[index];
+	}
+	
 }
