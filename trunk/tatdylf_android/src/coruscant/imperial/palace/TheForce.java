@@ -124,6 +124,9 @@ public class TheForce {
 
 	public Result playAudio() {
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
+			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getStreamVolume(audioManager.STREAM_RING) == 0) {
+				return Result.RINGTONE_NOT_AUDIBLE;
+			}
 			Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
 			Ringtone ringtone = RingtoneManager.getRingtone(context, r_uri);
 			ringtone.play();
