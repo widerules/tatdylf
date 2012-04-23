@@ -7,41 +7,11 @@
        	<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_description" />        
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/location_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lock_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ringtone_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/silent_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/vibration_setting"
-            android:checked="true" />
-        <CheckBox
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/volume_setting"
-            android:checked="true" />
+            android:text="@string/settings_description" />
+       	<Button 
+       	    android:layout_width="wrap_content"
+       	    android:layout_height="wrap_content"
+       	    android:text="@string/settings_button"
+       	    android:onClick="showPreferences" />
 
 </LinearLayout>

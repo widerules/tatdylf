@@ -3,13 +3,28 @@
 
     <string name="hello">Hello World, Tatdylf_androidActivity!</string>
     <string name="app_name">Tatdylf_android</string>
-    <string name="settings_description">Use the controls below to change which operations will be allowed or disallowed by the remote desktop application:</string>
+    <string name="settings_description">Use the settings provided with this application to control what aspects of your phone can be controlled by your computer</string>
+    <string name="settings_button">Edit Settings</string>
+    <string name="volume_key">volume</string>
     <string name="volume_setting">Volume Changes</string>
+    <string name="volume_setting_description">Allow your computer to change the volume of your phone</string>
+    <string name="vibration_key">vibration</string>
     <string name="vibration_setting">Vibration Changes</string>
+    <string name="vibration_setting_description">Allow your computer to change the vibration settings of your phone</string>
+    <string name="silent_key">silent</string>
     <string name="silent_setting">Silent Mode Changes</string>
+    <string name="silent_setting_description">Allow your computer to change whether your phone is on silent mode</string>
+    <string name="ringtone_key">ringtone</string>
     <string name="ringtone_setting">Play Ringtone</string>
+    <string name="ringtone_setting_description">Allow your computer to play a ringtone on your phone</string>
+    <string name="lock_key">lock</string>
     <string name="lock_setting">Lock/Unlock</string>
+    <string name="lock_setting_description">Allow your computer to unlock and lock your phone</string>
+    <string name="location_key">location</string>
     <string name="location_setting">Access Location</string>
+    <string name="location_setting_description">Allow your computer to access the location of your phone</string>
+    <string name="text_key">text</string>
     <string name="text_setting">Send Texts</string>    
+    <string name="text_setting_description">Allow your computer to send text messages through your phone</string>
     
 </resources>
