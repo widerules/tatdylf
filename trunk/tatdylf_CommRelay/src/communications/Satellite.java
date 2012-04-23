@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Random;
 
 import security.RSAUtilImpl;
 
@@ -105,6 +104,6 @@ public class Satellite extends Thread {
 		return null;
 	}
 	
-	protected void handleMessage(Message msg) throws Exception{
+	protected void handleMessage(Message msg) {
 	}	
 }
