@@ -3,7 +3,6 @@ package comm.messaging;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
