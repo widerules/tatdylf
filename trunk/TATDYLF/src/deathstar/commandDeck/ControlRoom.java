@@ -33,6 +33,7 @@ import javax.swing.event.HyperlinkListener;
 import security.RSAUtilImpl;
 
 import comm.messaging.Message;
+import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
 
@@ -157,11 +158,6 @@ public class ControlRoom extends JFrame implements ActionListener {
 		rsaDesktop.setPath("./res/desktop/");
 		channelDesktop = new SecureChannel(rsaDesktop);
 
-		/*
-		 * try { HoloTransmitter.sendSMS(); } catch (MessagingException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-
 		/* Use an appropriate Look and Feel */
 		try {
 			UIManager
@@ -221,69 +217,77 @@ public class ControlRoom extends JFrame implements ActionListener {
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
-		boolean wasSuccessful = false;
+		Result res = null;
 		Message msg = null;
 		try {
 			sendMsg(outMsg);
 			msg = waitForResponse(61243);
-			wasSuccessful = (Boolean) msg.getParam("success");
+			res = msg.getRes();
 		} catch (Exception e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
 		if (command.equals("volUp")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Volume Increased!");
 			} else {
-				JOptionPane.showMessageDialog(frame, "Volume Not Increased!");
+				JOptionPane.showMessageDialog(frame, "Volume Increase Failed!");
 			}
 		} else if (command.equals("volDown")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Volume Decreased!");
 			} else {
-				JOptionPane.showMessageDialog(frame, "Volume Not Decreased!");
+				JOptionPane.showMessageDialog(frame, "Volume Decrease Failed!");
 			}
 		} else if (command.equals("silAc")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Silent Mode Activated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,
-						"Silent Mode Not Activated!");
+				JOptionPane.showMessageDialog(frame, "Activating Silent Mode Failed!");
 			}
 		} else if (command.equals("silDeac")) {
-			if (wasSuccessful) {
-				JOptionPane
-						.showMessageDialog(frame, "Silent Mode Deactivated!");
+			if (res == Result.SUCCESS) {
+				JOptionPane.showMessageDialog(frame, "Silent Mode Deactivated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,
-						"Silent Mode Not Deactivated!");
+				JOptionPane.showMessageDialog(frame, "Deactivating Silent Mode Failed!");
 			}
 		} else if (command.equals("vibAc")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Vibrate Mode Activated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,
-						"Vibrate Mode Not Activated!");
+				JOptionPane.showMessageDialog(frame, "Activating Vibrate Mode Failed!");
 			}
 		} else if (command.equals("vibDeac")) {
-			if (wasSuccessful) {
-				JOptionPane.showMessageDialog(frame,
-						"Vibrate Mode Deactivated!");
+			if (res == Result.SUCCESS) {
+				JOptionPane.showMessageDialog(frame, "Vibrate Mode Deactivated!");
 			} else {
-				JOptionPane.showMessageDialog(frame,
-						"Vibrate Mode Not Deactivated!");
+				JOptionPane.showMessageDialog(frame, "Deactivating Vibrate Mode Failed!");
 			}
 		} else if (command.equals("text")) {
-			if (wasSuccessful) {
-				JOptionPane.showMessageDialog(frame,
-						"Text Sent!");
-			} else {
-				JOptionPane.showMessageDialog(frame,
-						"Text Failed!");
+			switch (res) {
+				case SUCCESS:
+					JOptionPane.showMessageDialog(frame, "Text Sent!");
+					break;
+				case INVALID_INPUT:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nInvalid Input.");
+					break;
+				case MULTIPLE_CONTACTS:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nMultiple contacts with that name.");
+					break;
+				case MULTIPLE_NUMBERS:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nContact has multiple numbers; unable to determine which to text to.");
+					break;
+				case CONTACT_NOT_FOUND:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nContact not found.");
+					break;
+				case NUMBER_NOT_FOUND:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nNumber not found.");
+					break;
+				default:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nGeneral Error.");
 			}
 		} else if (command.equals("lock")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Phone is locked!");
 				lockButton.setText("Unlock Phone");
 				lockButton.setActionCommand("unlock");
@@ -291,7 +295,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(frame, "Phone is not locked!");
 			}
 		} else if (command.equals("unlock")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Phone is unlocked!");
 				lockButton.setText("Lock Phone");
 				lockButton.setActionCommand("lock");
@@ -299,7 +303,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(frame, "Phone is not unlocked!");
 			}
 		} else if (command.equals("gps")) {
-			if (wasSuccessful) {
+			if (res == Result.SUCCESS) {
 				JOptionPane
 						.showMessageDialog(frame,
 								"I found your phone!\n(...but I'm not telling you where it is)");
