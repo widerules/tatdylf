@@ -39,10 +39,13 @@ public class TestComm {
 		Double dbl = (Double)nmsg.getParam("T3");
 		Integer x = (Integer)nmsg.getParam("T2");
 		Command cmmd = nmsg.getCmd();
+		Result result = nmsg.getRes();
+		
 		
 		System.out.println("Printing double: "+dbl);
 		System.out.println("Printing int: "+x);
 		System.out.println("Printing command: "+cmmd.name());
+		System.out.println("Printing result: "+result.name());
 		
 //		RSAUtilImpl.initialize("/home/neil/");
 //		System.out.println("Encrypted message: ");

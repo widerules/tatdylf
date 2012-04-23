@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -65,9 +66,9 @@ public class RSAUtilImpl implements RSAUtil{
 		}
 		
 		try {
-			saveToFile(path+"public.key", pub.getModulus(),
+			saveToFile(new FileOutputStream(path+"public.key"), pub.getModulus(),
 			  pub.getPublicExponent());
-			saveToFile(path+"private.key", priv.getModulus(),
+			saveToFile(new FileOutputStream(path+"private.key"), priv.getModulus(),
 					  priv.getPrivateExponent());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -76,10 +77,46 @@ public class RSAUtilImpl implements RSAUtil{
 		
 	}
 	
-	public static void saveToFile(String fileName,
+	public static void genAndWriteKeysToFile(OutputStream pubOut, OutputStream privOut){
+		KeyPairGenerator kpg = null;
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		kpg.initialize(2048);
+		KeyPair kp = kpg.genKeyPair();
+		
+		KeyFactory fact;
+		RSAPublicKeySpec pub = null;
+		RSAPrivateKeySpec priv = null;
+		
+		try {
+			fact = KeyFactory.getInstance("RSA");
+			pub = fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
+			priv = fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			saveToFile(pubOut, pub.getModulus(),
+			  pub.getPublicExponent());
+			saveToFile(privOut, priv.getModulus(),
+					  priv.getPrivateExponent());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	private static void saveToFile(OutputStream out,
 			  BigInteger mod, BigInteger exp) throws IOException {
-			  ObjectOutputStream oout = new ObjectOutputStream(
-			    new BufferedOutputStream(new FileOutputStream(fileName)));
+			  ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
 			  try {
 			    oout.writeObject(mod);
 			    oout.writeObject(exp);
