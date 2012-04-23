@@ -14,6 +14,7 @@ public class Relay {
 	private static Satellite_Deathstar deathstar;
 	private static Satellite_Coruscant coruscant;
 	private static int messageID = 0;
+	private static circularMessageArray msgArr = new circularMessageArray(50);
 
 	public Relay() {}
 	
@@ -67,5 +68,13 @@ public class Relay {
 	
 	public synchronized int getNextID(){
 		return messageID++;
+	}
+	
+	public synchronized void addToArray(Message msg){
+		msgArr.add(msg);
+	}
+	
+	public synchronized void handled(Message msg) throws Exception{
+		msgArr.handle(msg);
 	}
 }
