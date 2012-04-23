@@ -32,9 +32,9 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 		
 		relay.handled(msg);
 		
-		int id = relay.findMessageById((Integer)msg.getParam(Param.MSGID));
+		int loc = relay.findMessageById((Integer)msg.getParam(Param.MSGID));
 		
-		Command command = relay.getMessage(id).getCmd();
+		Command command = relay.getMessage(loc).getCmd();
 		
 		Result res = msg.getRes();
 		
