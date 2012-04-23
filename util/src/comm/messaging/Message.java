@@ -2,8 +2,6 @@ package comm.messaging;
 
 import java.io.Serializable;
 
-import org.json.JSONException;
-
 public interface Message extends Serializable{
 	
 	public static final String CMD = "COMMAND";

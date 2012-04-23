@@ -16,7 +16,7 @@ public class SimplMessage implements Message {
 	
 	@Override
 	public Command getCmd() throws JSONException {
-		return Command.values()[(Integer) json.get(Param.COMMAND)];
+		return Command.toCommand((String) json.get(Param.COMMAND));
 	}
 
 	@Override
