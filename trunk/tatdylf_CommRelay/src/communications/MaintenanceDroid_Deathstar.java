@@ -49,6 +49,8 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 			command = Command.UNLOCK;
 		} else if(msg.getParam("cmd").equals("gps")){
 			command = Command.LOCATE;
+		} else if(msg.getParam("cmd").equals("play")){
+			command = Command.PLAY;
 		} else if(msg.getParam("cmd").equals("textNumber")){
 			command = Command.TXT;
 			outMsg.addParam(Param.TXT_BY_NAME, false);
@@ -68,7 +70,7 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
 			outMsg.addParam(Param.COMMAND, command);
-			outMsg.addParam(Param.MSGID, 1);
+			outMsg.addParam(Param.MSGID, new Relay().getNextID());
 			
 			channelClient.serialize(outMsg, socket);
 		} catch (Exception e) {
