@@ -10,7 +10,8 @@ public enum Result implements JSONString{
 	MULTIPLE_CONTACTS,
 	MULTIPLE_NUMBERS,
 	CONTACT_NOT_FOUND,
-	NUMBER_NOT_FOUND;
+	NUMBER_NOT_FOUND,
+	PERMISSION_DENIED;
 	
 
 	@Override
@@ -31,6 +32,8 @@ public enum Result implements JSONString{
 			return Result.CONTACT_NOT_FOUND;
 		} else if (s.equals("NUMBER_NOT_FOUND")){
 			return Result.NUMBER_NOT_FOUND;
+		} else if (s.equals("PERMISSION_DENIED")){
+			return Result.PERMISSION_DENIED;
 		}
 		
 		return null;
