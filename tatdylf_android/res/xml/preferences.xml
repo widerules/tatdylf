@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="@string/location_key"
+		android:defaultValue="true"
+        android:title="@string/location_setting"
+        android:summary="@string/location_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/lock_key"
+		android:defaultValue="true"
+        android:title="@string/lock_setting"
+        android:summary="@string/lock_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/ringtone_key"
+		android:defaultValue="true"
+        android:title="@string/ringtone_setting"
+        android:summary="@string/ringtone_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/silent_key"
+		android:defaultValue="true"
+        android:title="@string/silent_setting"
+        android:summary="@string/silent_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/text_key"
+		android:defaultValue="true"
+        android:title="@string/text_setting"
+        android:summary="@string/text_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/vibration_key"
+		android:defaultValue="true"
+        android:title="@string/vibration_setting"
+        android:summary="@string/vibration_setting_description" />
+    <CheckBoxPreference 
+        android:key="@string/volume_key"
+		android:defaultValue="true"
+        android:title="@string/volume_setting"
+        android:summary="@string/volume_setting_description" />
+</PreferenceScreen>

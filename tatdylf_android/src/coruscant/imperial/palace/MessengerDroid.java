@@ -67,6 +67,8 @@ public class MessengerDroid extends Thread {
 					Result result = dispatch.handleCommand(msg_in);
 					Socket clientSocket = openOutboundSocket();
 					Message res = new SimplMessageAndroid();
+					res.addParam(Param.MSGID, msg_in.getParam(Param.MSGID));
+					Log.d("Messenger Droid", "responding to message " + msg_in.getParam(Param.MSGID));
 					res.addParam(Param.RESULT, result);
 					channel.serialize(res, clientSocket);
 				}

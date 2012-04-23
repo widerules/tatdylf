@@ -4,7 +4,9 @@ package coruscant.imperial.palace;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.view.View;
 
 public class TreatyOfCoruscant extends Activity {
     /** Called when the activity is first created. */
@@ -19,5 +21,11 @@ public class TreatyOfCoruscant extends Activity {
         	intent.setAction("coruscant.imperial.palace.THE_SENATE");
         	startService(intent);
 //        }
+    }
+    
+    public void showPreferences(View v) {
+		Intent prefs = new Intent(this, Preferences.class);
+    	prefs.setAction("coruscant.imperial.palace.PREFERENCES");
+		startActivity(prefs);
     }
 }

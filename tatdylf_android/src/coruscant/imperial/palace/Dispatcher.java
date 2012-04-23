@@ -19,7 +19,7 @@ public class Dispatcher extends Thread {
 			case INC_VOL: return theForce.incresePhoneVolume();
 			case DEC_VOL: return theForce.decreasePhoneVolume();
 			case SILENT_ON: return theForce.turnSilentOn();
-			case SILENT_OFF: theForce.turnSilentOff();
+			case SILENT_OFF: return theForce.turnSilentOff();
 			case VIB_ON: return theForce.turnVibrationOn();
 			case VIB_OFF: return theForce.turnVibrationOff();
 			case PLAY: return theForce.playAudio();
