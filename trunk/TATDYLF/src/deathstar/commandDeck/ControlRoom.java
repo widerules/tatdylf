@@ -114,9 +114,12 @@ public class ControlRoom extends JFrame implements ActionListener {
 		lock_find.add(lockButton);
 		lock_find.add(new JLabel(""));
 		lock_find.add(createButton("Where is my phone?", "gps"));
+		
+		final JPanel playSound = new JPanel();
+		playSound.add(createButton("Make some noise!", "play"));
 
 		final JPanel controls = new JPanel();
-		controls.setLayout(new GridLayout(8, 1));
+		controls.setLayout(new GridLayout(9, 1));
 
 		controls.add(welcome);
 		controls.add(volume);
@@ -126,6 +129,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 		controls.add(sms);
 		controls.add(smsText);
 		controls.add(lock_find);
+		controls.add(playSound);
 
 		pane.add(controls);
 	}
@@ -241,15 +245,15 @@ public class ControlRoom extends JFrame implements ActionListener {
 			}
 		} else if (command.equals("silAc")) {
 			if (res == Result.SUCCESS) {
-				JOptionPane.showMessageDialog(frame, "Silent Mode Activated!");
+				JOptionPane.showMessageDialog(frame, "Ringer Turned On!");
 			} else {
-				JOptionPane.showMessageDialog(frame, "Activating Silent Mode Failed!");
+				JOptionPane.showMessageDialog(frame, "Turning Ringer On Failed!");
 			}
 		} else if (command.equals("silDeac")) {
 			if (res == Result.SUCCESS) {
-				JOptionPane.showMessageDialog(frame, "Silent Mode Deactivated!");
+				JOptionPane.showMessageDialog(frame, "Ringer Turned Off!");
 			} else {
-				JOptionPane.showMessageDialog(frame, "Deactivating Silent Mode Failed!");
+				JOptionPane.showMessageDialog(frame, "Turning Ringer Off Failed!");
 			}
 		} else if (command.equals("vibAc")) {
 			if (res == Result.SUCCESS) {
@@ -262,6 +266,12 @@ public class ControlRoom extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(frame, "Vibrate Mode Deactivated!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Deactivating Vibrate Mode Failed!");
+			}
+		} else if (command.equals("play")) {
+			if (res == Result.SUCCESS) {
+				JOptionPane.showMessageDialog(frame, "Playing!");
+			} else {
+				JOptionPane.showMessageDialog(frame, "Play Failed!");
 			}
 		} else if (command.equals("text")) {
 			switch (res) {
@@ -379,7 +389,9 @@ public class ControlRoom extends JFrame implements ActionListener {
 		}
 
 		Message inMsg = channelDesktop.deSerialize(clientSocket);
-
+		
+		System.out.println(inMsg.prettyPrint());
+		
 		serverSocket.close();
 
 		return inMsg;
