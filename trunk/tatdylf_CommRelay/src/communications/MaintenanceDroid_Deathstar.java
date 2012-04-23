@@ -72,6 +72,8 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 			outMsg.addParam(Param.COMMAND, command);
 			outMsg.addParam(Param.MSGID, new Relay().getNextID());
 			
+			new Relay().addToArray(outMsg);
+			
 			channelClient.serialize(outMsg, socket);
 		} catch (Exception e) {
 			e.printStackTrace();

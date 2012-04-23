@@ -27,6 +27,8 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	@Override
 	protected void handleMessage() throws Exception{
 		
+		new Relay().handled(msg);
+		
 		Result res = msg.getRes();
 		
 		boolean success = (res == Result.SUCCESS);
