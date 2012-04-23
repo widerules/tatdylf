@@ -17,6 +17,7 @@ public class CommTower extends Thread {
 	
 	public CommTower(ControlRoom frame, int port) {
 		this.frame = frame;
+		this.port = port;
 	}
 	
 	public void run() {
