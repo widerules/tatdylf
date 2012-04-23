@@ -13,10 +13,10 @@ public class Relay {
 
 	private static Satellite_Deathstar deathstar;
 	private static Satellite_Coruscant coruscant;
+	private static int messageID = 0;
+
+	public Relay() {}
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		deathstar = new Satellite_Deathstar(61244);
@@ -63,5 +63,9 @@ public class Relay {
 		
 		channelClient.serialize(outMsg, socket);
 		
+	}
+	
+	public synchronized int getNextID(){
+		return messageID++;
 	}
 }

@@ -4,11 +4,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import security.RSAUtilImpl;
+
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
 import comm.messaging.SecureChannel;
-import comm.messaging.SimplMessage;
 
 public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 
@@ -44,7 +44,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			rsaUtilClient.setPath("./res/relay/");
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
-			Message outMsg = new SimplMessage();
+			Message outMsg = msg;
 			outMsg.addParam("success", success);
 			if(lat != -181){
 				outMsg.addParam("lat", lat);
