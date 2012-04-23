@@ -5,6 +5,7 @@ import java.net.Socket;
 
 import security.RSAUtilImpl;
 
+import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
@@ -27,7 +28,13 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	@Override
 	protected void handleMessage() throws Exception{
 		
-		new Relay().handled(msg);
+		Relay relay = new Relay();
+		
+		relay.handled(msg);
+		
+		int id = relay.findMessageById((Integer)msg.getParam(Param.MSGID));
+		
+		Command command = relay.getMessage(id).getCmd();
 		
 		Result res = msg.getRes();
 		
@@ -48,6 +55,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			
 			Message outMsg = msg;
 			outMsg.addParam("success", success);
+			outMsg.addParam(Param.COMMAND, command);
 			if(lat != -181){
 				outMsg.addParam("lat", lat);
 				outMsg.addParam("long", lon);
