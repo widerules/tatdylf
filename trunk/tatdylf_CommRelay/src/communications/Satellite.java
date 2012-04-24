@@ -35,7 +35,6 @@ public class Satellite extends Thread {
 		try {
 			s.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -89,14 +88,8 @@ public class Satellite extends Thread {
 			Message inMsg = null;
 			try {
 				inMsg = channelServer.deSerialize(clientSocket);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try {
 				handleMessage(inMsg);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
