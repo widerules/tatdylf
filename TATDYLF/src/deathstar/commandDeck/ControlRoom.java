@@ -140,7 +140,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		frame = new ControlRoom("May the Sith be with you.");
+		frame = new ControlRoom("May the Clones be with you.");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Set up the content pane.
 		frame.addComponentsToPane(frame.getContentPane());
@@ -209,7 +209,6 @@ public class ControlRoom extends JFrame implements ActionListener {
 					to = to.replaceAll("\\)|\\(|-|\\.|\\s", "");
 					if (to.matches(".*\\D.*")){
 						JOptionPane.showMessageDialog(frame, "Invalid number");
-						JOptionPane.showMessageDialog(frame, to);
 						return;
 					}
 					outMsg.addParam("cmd", "textNumber");
@@ -222,8 +221,8 @@ public class ControlRoom extends JFrame implements ActionListener {
 				outMsg.addParam("to", to);
 				outMsg.addParam("text", text);
 				
-				System.out.println("to: " + smsTextField.getText());
-				System.out.println("text: " + smsTextArea.getText());
+				System.out.println("to: " + to);
+				System.out.println("text: " + text);
 				
 			} else {
 				outMsg.addParam("cmd", command);
