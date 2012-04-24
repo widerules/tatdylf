@@ -26,7 +26,7 @@
     <string name="text_key">text</string>
     <string name="text_setting">Send Texts</string>    
     <string name="text_setting_description">Allow your computer to send text messages through your phone</string>
-    <string name="comm_relay_ip"></string>
-    <string name="comm_relay_port"></string>
+    <string name="comm_relay_ip">128.59.19.241</string>
+    <string name="comm_relay_port">61246</string>
     
 </resources>

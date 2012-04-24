@@ -3,6 +3,7 @@ package coruscant.imperial.palace;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
+import coruscant.jedi.temple.initialization.Init;
 
 public class TheSenate extends IntentService {
 	private static TheForce theForce;
