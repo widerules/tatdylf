@@ -19,5 +19,6 @@ public class Param {
 	public static final String MAX_VOLUME = "MaximumVolume";
 	public static final String PHONE_NUMBERS = "PhoneNumbers";
 	public static final String CONTACT_RESULTS = "ContactResults";
+	public static final String NEW_IP = "NewIP";
 	
 }

@@ -7,7 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.util.Log;
+import coruscant.imperial.palace.MessengerDroid;
 import coruscant.imperial.palace.TheSenate;
+import coruscant.imperial.palace.comm.RSAUtilImpl;
 import coruscant.jedi.temple.initialization.Init;
 
 public class R2D2 extends BroadcastReceiver {
@@ -34,6 +36,7 @@ public class R2D2 extends BroadcastReceiver {
 	        }else if(state == State.CONNECTED){
 	        	try {
 					Init.init(ctx);
+					MessengerDroid.updateIP(new RSAUtilImpl(ctx));
 				} catch (Exception e) {
 					Log.e("R2D2", "Could not initialize", e);
 					e.printStackTrace();
