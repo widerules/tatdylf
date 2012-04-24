@@ -1,5 +1,7 @@
 package coruscant.imperial.palace;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 
 import android.app.KeyguardManager;
@@ -49,6 +51,17 @@ public class TheForce {
 		PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
+	
+	public SimplMessageAndroid createResponse(SimplMessageAndroid msg_in, Result result) {
+		SimplMessageAndroid msg_out = new SimplMessageAndroid();
+		try {
+			msg_out.addParam(Param.MSGID, msg_in.getParam(Param.MSGID));
+			msg_out.addParam(Param.RESULT, result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return msg_out;
+	}
 
 	public Result setPhoneVolume(int volume) {
 		if (preferences.getBoolean(context.getString(R.string.volume_key), false)) {
@@ -61,37 +74,60 @@ public class TheForce {
 		}
 	}
 
-	public Result incresePhoneVolume() {
+	public SimplMessageAndroid incresePhoneVolume(SimplMessageAndroid msg_in) {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-		return setPhoneVolume(++vol);
+		int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+		Result res = setPhoneVolume(++vol);
+		SimplMessageAndroid msg_out = createResponse(msg_in, res);
+		try {
+			msg_out.addParam(Param.CURRENT_VOLUME, vol);
+			msg_out.addParam(Param.MAX_VOLUME, max_vol);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return msg_out;
 	}
 
-	public Result decreasePhoneVolume() {
+	public SimplMessageAndroid decreasePhoneVolume(SimplMessageAndroid msg_in) {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-		return setPhoneVolume(--vol);
+		int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+		Result res = setPhoneVolume(--vol);
+		SimplMessageAndroid msg_out = createResponse(msg_in, res);
+		try {
+			msg_out.addParam(Param.CURRENT_VOLUME, vol);
+			msg_out.addParam(Param.MAX_VOLUME, max_vol);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return msg_out;
 	}
 
-	public Result turnSilentOn() {
+	public SimplMessageAndroid turnSilentOn(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.silent_key), false)) {
 			audioManager.setRingerMode(audioManager.RINGER_MODE_SILENT);
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Silent permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result turnSilentOff() {
+	public SimplMessageAndroid turnSilentOff(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.silent_key), false)) {
 			audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Silent permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result turnVibrationOn() {
+	public SimplMessageAndroid turnVibrationOn(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.vibration_key), false)) {
 			audioManager.setVibrateSetting(
 					audioManager.VIBRATE_TYPE_NOTIFICATION,
@@ -99,14 +135,16 @@ public class TheForce {
 			audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER,
 					audioManager.VIBRATE_SETTING_ON);
 			audioManager.setRingerMode(audioManager.RINGER_MODE_VIBRATE);
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Vibration permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result turnVibrationOff() {
+	public SimplMessageAndroid turnVibrationOff(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.vibration_key), false)) {
 			audioManager.setVibrateSetting(
 					audioManager.VIBRATE_TYPE_NOTIFICATION,
@@ -114,119 +152,113 @@ public class TheForce {
 			audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER,
 					audioManager.VIBRATE_SETTING_OFF);
 			audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Vibration permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result playAudio() {
+	public SimplMessageAndroid playAudio(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
 			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getStreamVolume(audioManager.STREAM_RING) == 0) {
-				return Result.RINGTONE_NOT_AUDIBLE;
+				result = Result.RINGTONE_NOT_AUDIBLE;
 			}
 			Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
 			Ringtone ringtone = RingtoneManager.getRingtone(context, r_uri);
 			ringtone.play();
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Play audio permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result unlock() {
+	public SimplMessageAndroid unlock(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.lock_key), false)) {
 			lock.disableKeyguard();
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Unlock permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public Result lock() {
+	public SimplMessageAndroid lock(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.lock_key), false)) {
 			lock.reenableKeyguard();
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Lock permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	public SimplMessageAndroid locate(Message msg) {
+	public SimplMessageAndroid locate(SimplMessageAndroid msg_in) {
 		if (preferences.getBoolean(context.getString(R.string.location_key), false)) {
-			GeoLocation geo = new GeoLocation(msg, locationManager);
+			GeoLocation geo = new GeoLocation(msg_in, locationManager);
 			return geo.generateLocationMessage();
 		} else {
 			Log.d("TheForce", "Locate permission denied");
-			try {
-				SimplMessageAndroid msg_out = new SimplMessageAndroid();
-				msg_out.addParam(Param.MSGID, msg.getParam(Param.MSGID));
-				msg_out.addParam(Param.RESULT, Result.PERMISSION_DENIED);
-				return msg_out;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
+			return createResponse(msg_in, Result.PERMISSION_DENIED);
 		}
 	}
 
-	public Result sendText(Message msg) {
+	public SimplMessageAndroid sendText(SimplMessageAndroid msg_in) {
+		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.text_key), false)) {
 			String phoneNumber = null;
 			String name = null;
 			String msgText = null;
 			try {
-				if ((Boolean) msg.getParam(Param.TXT_BY_NAME)) {
-					name = (String) msg.getParam(Param.TXT_TO);
+				if ((Boolean) msg_in.getParam(Param.TXT_BY_NAME)) {
+					name = (String) msg_in.getParam(Param.TXT_TO);
 					Log.d("TheForce", "Looking up number based on name: "
 							+ name);
-					Result r = getNumberByName(name);
-					if (r != Result.SUCCESS) {
-						Log.d("TheForce", "Failed to find number");
-						return r;
-					} else {
-						phoneNumber = this.contactNumber;
-						Log.d("TheForce", "Found number: " + phoneNumber);
-					}
+					return getNumberByName(name, msg_in);
 				} else {
-					phoneNumber = (String) msg.getParam(Param.TXT_TO);
+					phoneNumber = (String) msg_in.getParam(Param.TXT_TO);
 					Log.d("TheForce", "Using phone number: " + phoneNumber);
 				}
-				msgText = (String) msg.getParam(Param.TXT_BODY);
+				msgText = (String) msg_in.getParam(Param.TXT_BODY);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.d("TheForce", "Invalid Input.  Text failed");
-				return Result.INVALID_INPUT;
+				result = Result.INVALID_INPUT;
 			}
 			Log.d("TheForce", "name: " + name + " number: " + phoneNumber
 					+ " text: " + msgText);
 			smsManager.sendTextMessage(phoneNumber, null, msgText, null, null);
 			Log.d("TheForce", "Text sent");
 
-			return Result.SUCCESS;
+			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Sending text permission denied");
-			return Result.PERMISSION_DENIED;
+			result = Result.PERMISSION_DENIED;
 		}
+		return createResponse(msg_in, result);
 	}
 
-	private Result getNumberByName(String name) {
-		int contactCount = 0;
-		int numberCount = 0;
+	private SimplMessageAndroid getNumberByName(String name, SimplMessageAndroid msg_in) {
+		ArrayList<String> Contacts = new ArrayList<String>();
+		ArrayList<String> Numbers = new ArrayList<String>();
 		Uri lkup = Uri.withAppendedPath(
 				ContactsContract.Contacts.CONTENT_FILTER_URI, name);
 		Cursor idCursor = context.getContentResolver().query(lkup, null, null,
 				null, null);
 		while (idCursor.moveToNext()) {
-			contactCount++;
 			String id = idCursor.getString(idCursor
 					.getColumnIndex(ContactsContract.Contacts._ID));
 			name = idCursor.getString(idCursor
 					.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+			Contacts.add(name);
 
 			String phoneQuery = ContactsContract.Data.CONTACT_ID + " = ? AND "
 					+ ContactsContract.Data.MIMETYPE + " = ?";
@@ -236,27 +268,41 @@ public class TheForce {
 					ContactsContract.Data.CONTENT_URI, null, phoneQuery,
 					phoneParams, null);
 			while (phoneRes.moveToNext()) {
-				numberCount++;
 				contactNumber = phoneRes
 						.getString(phoneRes
 								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 				Log.d("TheForce", "contact: " + name + " number: "
 						+ contactNumber);
+				Numbers.add(contactNumber);
 			}
 			phoneRes.close();
 		}
 		idCursor.close();
-		if (contactCount == 1 && numberCount == 1) {
-			return Result.SUCCESS;
-		} else if (contactCount > 1) {
-			return Result.MULTIPLE_CONTACTS;
-		} else if (numberCount > 1) {
-			return Result.MULTIPLE_NUMBERS;
-		} else if (contactCount == 0) {
-			return Result.CONTACT_NOT_FOUND;
-		} else if (numberCount == 0) {
-			return Result.NUMBER_NOT_FOUND;
+		SimplMessageAndroid msg_out = null;
+		if (Contacts.size() == 1 && Numbers.size() == 1) {
+			msg_out = createResponse(msg_in, Result.SUCCESS);
+		} else if (Contacts.size() > 1) {
+			msg_out = createResponse(msg_in, Result.MULTIPLE_CONTACTS);
+			try {
+				msg_out.addParam(Param.CONTACT_RESULTS, Contacts.toArray());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else if (Numbers.size() > 1) {
+			msg_out = createResponse(msg_in, Result.MULTIPLE_NUMBERS);
+			try {
+				msg_out.addParam(Param.PHONE_NUMBERS, Numbers.toArray());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else if (Contacts.size() == 0) {
+			msg_out = createResponse(msg_in, Result.CONTACT_NOT_FOUND);
+		} else if (Numbers.size() == 0) {
+			msg_out = createResponse(msg_in, Result.NUMBER_NOT_FOUND);
 		}
-		return Result.ERROR;
+		else {
+			msg_out = createResponse(msg_in, Result.NUMBER_NOT_FOUND);
+		}
+		return msg_out;
 	}
 }
