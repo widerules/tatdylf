@@ -1,11 +1,10 @@
 package coruscant.imperial.palace;
 
 
+import coruscant.jedi.temple.initialization.Init;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 public class TreatyOfCoruscant extends Activity {
 	SharedPreferences prefs;
+	static boolean isInit = false;
 	
     /** Called when the activity is first created. */
     @Override
@@ -28,34 +28,23 @@ public class TreatyOfCoruscant extends Activity {
         	setContentView(R.layout.main);
         }
         Log.d("TreatyOfCoruscant", "Started activity!!!");
-        
+        if(!isInit){
+        	try {
+//				Init.init(getApplicationContext());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	isInit = true;
+        }
        	Intent intent = new Intent(TreatyOfCoruscant.this, TheSenate.class);
        	intent.setAction("coruscant.imperial.palace.THE_SENATE");
        	startService(intent);
     }
     
     public void showPreferences(View v) {
-    	setContentView(R.layout.authenticate);
-    }
-    
-    public void showPasswordHint(View v) {
-    	TextView hint = (TextView)findViewById(R.id.show_hint);
-    	hint.setText(prefs.getString(getString(R.string.hint_key), null));
-    	hint.setVisibility(View.VISIBLE);
-    }
-    
-    public void submitPassword(View v) {
-    	String savedPass = prefs.getString(getString(R.string.password_key), null);
-    	EditText passField = (EditText)findViewById(R.id.authenticate_password);
-    	String enteredPass = passField.getText().toString();
-    	if(savedPass.equals(enteredPass)) {
-    		Intent showPrefs = new Intent(this, Preferences.class);
-    		showPrefs.setAction("coruscant.imperial.palace.PREFERENCES");
-    		startActivity(showPrefs);
-    	} else {
-    		TextView error = (TextView)findViewById(R.id.authentication_error);
-    		error.setVisibility(View.VISIBLE);
-    	}
+       	Intent intent = new Intent(TreatyOfCoruscant.this, LowerDeflectorShield.class);
+       	intent.setAction("coruscant.imperial.palace.LOWER_DEFLECTOR_SHIELD");
+       	startActivity(intent);
     }
     
     public void createPassword(View v) {

@@ -10,6 +10,7 @@ import java.security.spec.RSAPublicKeySpec;
 
 import security.RSAUtilImpl;
 import android.content.Context;
+import android.util.Log;
 
 import comm.messaging.Message;
 import comm.messaging.Param;
@@ -29,11 +30,13 @@ public class Init {
 	    {
 	    	String[] filenames = ctx.fileList();
 	    	
-	    	for(int i=0; i<filenames.length; i++){
+/*	    	for(int i=0; i<filenames.length; i++){
 	    		if(filenames[i].equals("privateKey")){
 	    			return;
 	    		}
-	    	}
+	    	}*/
+	    	
+	    	Log.d("Init", "Init started");
 	    	
 	        FileOutputStream privOut = ctx.openFileOutput("privateKey", Context.MODE_PRIVATE);
 	        FileOutputStream pubOut = ctx.openFileOutput("myPublicKey", Context.MODE_PRIVATE);
@@ -48,9 +51,9 @@ public class Init {
 	        outMsg.addParam(Param.PUB_KEY_EXP, pubAndroid.getPublicExponent().toString());
 	        outMsg.addParam(Param.INIT, true);
 	        	        
-	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
-	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);
-	        Socket socket = new Socket(commRelayAddr, commRelayPort);
+/*	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
+	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);*/
+	        Socket socket = new Socket("128.59.19.241", 61246); //commRelayAddr commRelayPort
 	        
 	        SimplChannel channel = new SimplChannel();
 	        channel.serialize(outMsg, socket);
