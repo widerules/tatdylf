@@ -1,19 +1,12 @@
 package tests.comm;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import security.RSAUtilImpl;
 
-import comm.messaging.Command;
 import comm.messaging.Message;
-import comm.messaging.Param;
 import comm.messaging.SecureChannel;
 import comm.messaging.SimplMessage;
 
@@ -23,10 +16,10 @@ public class TestSecureClient {
 
 		 
         Socket kkSocket = null;
-        OutputStream out = null;
-        InputStream in = null;
+        //OutputStream out = null;
+        //InputStream in = null;
  
-        Scanner s = new Scanner(System.in);
+        //Scanner s = new Scanner(System.in);
         
         try {
             kkSocket = new Socket("192.168.1.7", 61243);

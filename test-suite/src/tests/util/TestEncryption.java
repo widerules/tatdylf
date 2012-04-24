@@ -7,8 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import security.RSAUtilImpl;
-
 public class TestEncryption {
 
 	/**
@@ -22,7 +20,6 @@ public class TestEncryption {
 		try {
 			kpg = KeyPairGenerator.getInstance("RSA");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		kpg.initialize(2048);
@@ -37,10 +34,9 @@ public class TestEncryption {
 			pub = fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
 			priv = fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		priv.getModulus();
 		pub.getModulus();
 	}
 

@@ -1,9 +1,6 @@
 package tests.comm;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import security.RSAUtilImpl;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
