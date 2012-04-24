@@ -12,21 +12,25 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
 import security.RSAUtil;
+import android.content.Context;
 import android.content.res.Resources;
 import coruscant.imperial.palace.R;
 
 public class RSAUtilImpl implements RSAUtil {
 	
 	Resources resources = null;
+	Context ctx = null;
 	
-	public RSAUtilImpl(Resources resources) {
-		this.resources = resources;
+	public RSAUtilImpl(Context ctx) {
+		this.ctx = ctx;
+		this.resources = ctx.getResources();
 	}
 
 	@Override
 	public PrivateKey readPrivateKeyFromFile() throws IOException {
 		
-		InputStream in = resources.openRawResource(R.raw.privatekey);
+		//InputStream in = resources.openRawResource(R.raw.privatekey);
+		InputStream in = ctx.openFileInput("privateKey");
 		    
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
@@ -46,7 +50,9 @@ public class RSAUtilImpl implements RSAUtil {
 
 	@Override
 	public PublicKey readPublicKeyFromFile() throws IOException {
-		InputStream in = resources.openRawResource(R.raw.publickey);
+		//InputStream in = resources.openRawResource(R.raw.publickey);
+		InputStream in = ctx.openFileInput("publicKey");
+		
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
 		  try {

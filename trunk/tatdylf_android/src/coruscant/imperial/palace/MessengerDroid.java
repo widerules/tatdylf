@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
@@ -12,10 +13,10 @@ import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
-import coruscant.imperial.palace.comm.SecureChannelAndroid;
-import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 import coruscant.imperial.palace.comm.RSAUtilImpl;
+import coruscant.imperial.palace.comm.SecureChannelAndroid;
+import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class MessengerDroid extends Thread {
 	private static boolean isRunning = false;
@@ -25,16 +26,16 @@ public class MessengerDroid extends Thread {
 	Resources resources;
 	SecureChannelAndroid channel;
 	
-	public MessengerDroid(Resources res) {
+	public MessengerDroid(Context ctx) {
 		dispatch = new Dispatcher();
-		resources = res;
-		channel = new SecureChannelAndroid(new RSAUtilImpl(res));
+		resources = ctx.getResources();
+		channel = new SecureChannelAndroid(new RSAUtilImpl(ctx));
 		computerIP = "128.59.19.241";
 	}
 	
-	public static void startDroid(Resources res) {
+	public static void startDroid(Context ctx) {
 		if(!isRunning) {
-			MessengerDroid droid = new MessengerDroid(res);
+			MessengerDroid droid = new MessengerDroid(ctx);
 			droid.start();
 			isRunning = true;
 		}
