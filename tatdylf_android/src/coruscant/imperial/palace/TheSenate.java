@@ -7,7 +7,8 @@ import android.util.Log;
 public class TheSenate extends IntentService {
 	private static TheForce theForce;
 	private static String commIP;
-	private static Integer commPort;
+	private static Integer toCommPort;
+	private static Integer fromCommPort;
 	private MessengerDroid droid;
 
 	public TheSenate() {
@@ -18,8 +19,12 @@ public class TheSenate extends IntentService {
 		return theForce;
 	}
 	
-	public static Integer getCommPort() {
-		return commPort;
+	public static Integer getToCommPort() {
+		return toCommPort;
+	}
+
+	public static Integer getFromCommPort() {
+		return fromCommPort;
 	}
 
 	public static String getCommIP() {
@@ -43,7 +48,8 @@ public class TheSenate extends IntentService {
 		super.onCreate();
 		theForce = new TheForce(getApplicationContext());
 		commIP = getString(R.string.comm_relay_ip);
-		commPort = Integer.parseInt(getString(R.string.comm_relay_port));
+		toCommPort = Integer.parseInt(getString(R.string.comm_relay_outbound));
+		fromCommPort = Integer.parseInt(getString(R.string.comm_relay_inbound));
 	}
 	
 	@Override

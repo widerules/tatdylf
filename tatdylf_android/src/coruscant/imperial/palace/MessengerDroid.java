@@ -44,13 +44,14 @@ public class MessengerDroid extends Thread {
 	
 	public static void updateIP(RSAUtil rsaUtil) throws Exception{
 		Socket s = openOutboundSocket();
-		SecureChannel channnel = new SecureChannelAndroid(rsaUtil);
+		SecureChannel channel = new SecureChannelAndroid(rsaUtil);
 		Message msg = new SimplMessageAndroid();
 		msg.addParam(Param.NEW_IP, s.getLocalAddress().toString().substring(1));
+		channel.serialize(msg, s);
 	}
 	
 	private static Socket openOutboundSocket() throws UnknownHostException, IOException {
-		Socket s = new Socket(TheSenate.getCommIP(), TheSenate.getCommPort());
+		Socket s = new Socket(TheSenate.getCommIP(), TheSenate.getToCommPort());
 		return s;
 	}
 
@@ -66,7 +67,7 @@ public class MessengerDroid extends Thread {
 			channel.serialize(msg_out, clientSocket);*/
 			
 			Log.d("MessengerDroid", "Trying to create server socket");
-			server = new ServerSocket(61246);
+			server = new ServerSocket(TheSenate.getFromCommPort());
 			while(keepListening) {
 				Log.d("MessengerDroid", "Now waiting for connections on " + server.getLocalPort());
 				Socket socket = server.accept();
