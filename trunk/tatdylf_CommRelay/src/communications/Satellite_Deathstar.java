@@ -29,7 +29,7 @@ public class Satellite_Deathstar extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) {
 		
-		MaintenanceDroid_Deathstar droid = new MaintenanceDroid_Deathstar(msg, toIP, toPort, this);
+		MaintenanceDroid_Deathstar droid = new MaintenanceDroid_Deathstar(msg, toIP, toPort);
 		droid.start();
 		
 	}

@@ -20,7 +20,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	
 	public MaintenanceDroid_Coruscant() {}
 
-	public MaintenanceDroid_Coruscant(Message msg, String toIP, int toPort, Satellite coruscant) {
+	public MaintenanceDroid_Coruscant(Message msg, String toIP, int toPort) {
 		this.msg = msg;
 		this.toIP = toIP;
 		this.toPort = toPort;
@@ -30,12 +30,12 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	@Override
 	protected void handleMessage() throws Exception{
 		
+		Relay relay = new Relay();
+		
 		try {
-			coruscant.setIp((String) msg.getParam(Param.NEW_IP));
+			relay.getDeathstar().setIp((String) msg.getParam(Param.NEW_IP));
 			return;
 		} catch (Exception e){}
-		
-		Relay relay = new Relay();
 		
 		relay.handled(msg);
 		

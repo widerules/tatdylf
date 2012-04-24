@@ -1,9 +1,11 @@
 package communications;
 
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
 import security.RSAUtilImpl;
+
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
@@ -18,7 +20,7 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 	
 	public MaintenanceDroid_Deathstar() {}
 
-	public MaintenanceDroid_Deathstar(Message msg, String toIP, int toPort, Satellite deathstar) {
+	public MaintenanceDroid_Deathstar(Message msg, String toIP, int toPort) {
 		this.msg = msg;
 		this.toIP = toIP;
 		this.toPort = toPort;
@@ -75,6 +77,9 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 			new Relay().addToArray(outMsg);
 			
 			channelClient.serialize(outMsg, socket);
+		} catch (ConnectException ce) {
+			System.out.println("The IP has changed.  Use the right one");
+			System.out.println("Wrong IP: " + toIP);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

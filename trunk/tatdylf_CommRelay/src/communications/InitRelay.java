@@ -18,9 +18,12 @@ import comm.messaging.SimplChannel;
 import comm.messaging.SimplMessage;
 
 public class InitRelay {
-	
+	static int numInitted = 0;
 	public static void init(Socket socket, Satellite deathstar, Satellite coruscant) throws Exception{
-
+		//if(numInitted >= 2){
+			//System.out.println("Not initting again");
+			//return;
+		//}
 	    try
 	    {
 	    	String path = null;
@@ -28,16 +31,18 @@ public class InitRelay {
 	        
 	        Message inMsg = channel.deSerialize(socket);
 	        
-	        Endpoint type = Endpoint.toEndpoint((Integer)inMsg.getParam(Param.ENDPOINT_TYPE));
-	        String ip = socket.getInetAddress().toString().substring(1);
-	        
+	        Endpoint type = Endpoint.toEndpoint(inMsg.getParam(Param.ENDPOINT_TYPE));
+	        String ip = socket.getInetAddress().getHostAddress();
 	        switch(type){
 	        	case CORUSCANT:
+	        		++numInitted;
 	        		path = "./res/client/";
+	        		System.out.println("Current IP: " + ip);
 	        		deathstar.setIp(ip);
 	        		break;
 	        	
 	        	case DEATHSTAR:
+	        		++numInitted;
 	        		path = "./res/relay/";
 	        		coruscant.setIp(ip);
 	        }

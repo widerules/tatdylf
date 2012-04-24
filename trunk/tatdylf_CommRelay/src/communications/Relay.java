@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import comm.messaging.Message;
-import comm.messaging.SimplChannel;
 
 public class Relay {
 
@@ -26,6 +25,8 @@ public class Relay {
 		
 		deathstar.start();
 		coruscant.start();
+		
+		
 		
 		boolean keepListening = true;
 		
@@ -76,5 +77,13 @@ public class Relay {
 	
 	public synchronized Message getMessage(int index){
 		return msgArr.getMessage(index);
+	}
+	
+	public Satellite getDeathstar(){
+		return deathstar;
+	}
+	
+	public Satellite getCoruscant(){
+		return coruscant;
 	}
 }
