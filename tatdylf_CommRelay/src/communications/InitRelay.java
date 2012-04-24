@@ -11,6 +11,7 @@ import java.security.spec.RSAPublicKeySpec;
 
 import security.RSAUtilImpl;
 
+import comm.messaging.Endpoint;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.SimplChannel;
@@ -18,10 +19,29 @@ import comm.messaging.SimplMessage;
 
 public class InitRelay {
 	
-	public static void init(Socket socket, String path) throws Exception{
+	public static void init(Socket socket, Satellite deathstar, Satellite coruscant) throws Exception{
 
 	    try
 	    {
+	    	String path;
+	    	SimplChannel channel = new SimplChannel();
+	        
+	        Message inMsg = channel.deSerialize(socket);
+	        
+	        Endpoint type = Endpoint.toEndpoint((Integer)inMsg.getParam(Param.ENDPOINT_TYPE));
+	        String ip = socket.getInetAddress().toString().substring(1);
+	        
+	        switch(type){
+	        	case CORUSCANT:
+	        		path = "./res/client/";
+	        		deathstar.setIp(ip);
+	        		break;
+	        	
+	        	case DEATHSTAR:
+	        		path = "./res/relay/";
+	        		corsucant.setIp(ip);
+	        }
+	        
 	    	FileOutputStream privOut = new FileOutputStream(path+"private.key");
 	        FileOutputStream pubOut = new FileOutputStream(path+"myPublicKey");
 	        RSAUtilImpl.genAndWriteKeysToFile(pubOut, privOut);
@@ -30,9 +50,7 @@ public class InitRelay {
 	        KeyFactory fact = KeyFactory.getInstance("RSA");
 	        RSAPublicKeySpec pubAndroid = fact.getKeySpec(pubKey, RSAPublicKeySpec.class);
 
-	        SimplChannel channel = new SimplChannel();
 	        
-	        Message inMsg = channel.deSerialize(socket);
 	        RSAPublicKeySpec pubCommRelay = new RSAPublicKeySpec(new BigInteger(
 	        			(String)inMsg.getParam(Param.PUB_KEY_MOD)), new BigInteger((String) inMsg.getParam(Param.PUB_KEY_EXP)));
 	        

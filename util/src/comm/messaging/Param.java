@@ -14,5 +14,6 @@ public class Param {
 	public static final String PUB_KEY_MOD = "PublicKeyModulus";
 	public static final String PUB_KEY_EXP = "PublicKeyExponent";
 	public static final String INIT = "init";
+	public static final String ENDPOINT_TYPE = "EndpointType";
 	
 }
