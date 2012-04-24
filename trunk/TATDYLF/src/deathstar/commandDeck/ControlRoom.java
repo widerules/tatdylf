@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -198,7 +201,17 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 		try {
 			if (command.equals("text")) {
-				if(numberSelected){
+				
+				String to = smsTextField.getText();
+				String text = smsTextArea.getText();
+				
+				if (numberSelected) {
+					to = to.replaceAll("\\)|\\(|-|\\.|\\s", "");
+					if (to.matches(".*\\D.*")){
+						JOptionPane.showMessageDialog(frame, "Invalid number");
+						JOptionPane.showMessageDialog(frame, to);
+						return;
+					}
 					outMsg.addParam("cmd", "textNumber");
 					System.out.println("Adding as a number");
 				} else {
@@ -206,8 +219,8 @@ public class ControlRoom extends JFrame implements ActionListener {
 					System.out.println("Adding as a name");
 				}
 				
-				outMsg.addParam("to", smsTextField.getText());
-				outMsg.addParam("text", smsTextArea.getText());
+				outMsg.addParam("to", to);
+				outMsg.addParam("text", text);
 				
 				System.out.println("to: " + smsTextField.getText());
 				System.out.println("text: " + smsTextArea.getText());
