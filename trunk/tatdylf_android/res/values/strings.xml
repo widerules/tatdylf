@@ -25,6 +25,7 @@
     <string name="submit_password_button">Submit</string>
     <string name="hint_text_element_id">HintText</string>
     <string name="validation_error">Error: Incorrect password.  Try authenticating again.</string>
+    <string name="cancel_authenticate">Cancel</string>
 
 	<!-- Preferences Screen -->
     <string name="volume_key">volume</string>

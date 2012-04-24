@@ -3,60 +3,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+
+    <TextView
+        android:id="@+id/authentication_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/validation_error"
         android:textColor="#FF0000"
-        android:visibility="gone"
-        android:id="@+id/authentication_error" />
-    
-    <TextView 
+        android:visibility="gone" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/enter_pass_text"
         android:textSize="16sp" />
-    <TextView 
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
         android:text="@string/pass_label"
-        android:textSize="14sp"
-        android:layout_marginTop="20sp" />
-    <EditText 
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/authenticate_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:id="@+id/authenticate_password" />
-    
-    <LinearLayout 
-        android:orientation="horizontal"
+        android:inputType="textPassword" />
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
         android:gravity="center"
-        android:layout_marginTop="20sp">
-    	<Button
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/show_hint_button"
-        	android:layout_gravity="left"
-        	android:layout_marginRight="30sp"
-        	android:onClick="showPasswordHint" />
-    	<Button
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/submit_password_button"
-        	android:layout_gravity="right"
-        	android:layout_marginLeft="30sp"
-        	android:onClick="submitPassword" />
-	</LinearLayout>
-	
-    <TextView 
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginRight="30sp"
+            android:onClick="showPasswordHint"
+            android:text="@string/show_hint_button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="30sp"
+            android:onClick="submitPassword"
+            android:text="@string/submit_password_button" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/show_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
         android:text=""
-        android:visibility="invisible"
-        android:id="@+id/show_hint"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginLeft="30sp"
+        android:onClick="cancelAuthentication"
+        android:text="@string/cancel_authenticate" />
+
 </LinearLayout>
