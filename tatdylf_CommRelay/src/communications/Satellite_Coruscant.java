@@ -29,7 +29,7 @@ public class Satellite_Coruscant extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) {
 		
-		MaintenanceDroid_Coruscant droid = new MaintenanceDroid_Coruscant(msg, toIP, toPort, this);
+		MaintenanceDroid_Coruscant droid = new MaintenanceDroid_Coruscant(msg, toIP, toPort);
 		droid.start();
 		
 	}
