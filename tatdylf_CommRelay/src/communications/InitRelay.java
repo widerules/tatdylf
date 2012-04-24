@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 

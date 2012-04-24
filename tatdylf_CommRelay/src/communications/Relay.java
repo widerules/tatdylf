@@ -1,16 +1,10 @@
 package communications;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import security.RSAUtilImpl;
-
 import comm.messaging.Message;
-import comm.messaging.SecureChannel;
-import comm.messaging.SimplChannel;
-import comm.messaging.SimplMessage;
 
 public class Relay {
 
