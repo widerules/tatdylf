@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import security.RSAUtil;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
@@ -13,6 +15,7 @@ import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
+import comm.messaging.SecureChannel;
 
 import coruscant.imperial.palace.comm.RSAUtilImpl;
 import coruscant.imperial.palace.comm.SecureChannelAndroid;
@@ -39,7 +42,14 @@ public class MessengerDroid extends Thread {
 		}
 	}
 	
-	private Socket openOutboundSocket() throws UnknownHostException, IOException {
+	public static void updateIP(RSAUtil rsaUtil) throws Exception{
+		Socket s = openOutboundSocket();
+		SecureChannel channnel = new SecureChannelAndroid(rsaUtil);
+		Message msg = new SimplMessageAndroid();
+		msg.addParam(Param.NEW_IP, s.getLocalAddress().toString().substring(1));
+	}
+	
+	private static Socket openOutboundSocket() throws UnknownHostException, IOException {
 		Socket s = new Socket(TheSenate.getCommIP(), TheSenate.getCommPort());
 		return s;
 	}
