@@ -19,7 +19,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	
 	public MaintenanceDroid_Coruscant() {}
 
-	public MaintenanceDroid_Coruscant(Message msg, String toIP, int toPort) {
+	public MaintenanceDroid_Coruscant(Message msg, String toIP, int toPort, Satellite coruscant) {
 		this.msg = msg;
 		this.toIP = toIP;
 		this.toPort = toPort;

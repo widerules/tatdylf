@@ -18,7 +18,7 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 	
 	public MaintenanceDroid_Deathstar() {}
 
-	public MaintenanceDroid_Deathstar(Message msg, String toIP, int toPort) {
+	public MaintenanceDroid_Deathstar(Message msg, String toIP, int toPort, Satellite deathstar) {
 		this.msg = msg;
 		this.toIP = toIP;
 		this.toPort = toPort;

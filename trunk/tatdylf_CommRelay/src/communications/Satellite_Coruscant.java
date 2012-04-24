@@ -9,7 +9,7 @@ public class Satellite_Coruscant extends Satellite {
 	public Satellite_Coruscant(){
 		super();
 		port = 61245;
-		toIP = "127.0.0.1";
+		toIP = "";
 		toPort = 61243;
 		rsaUtilServer = new RSAUtilImpl();
 		rsaUtilServer.setPath("./res/client/");
@@ -19,7 +19,7 @@ public class Satellite_Coruscant extends Satellite {
 	public Satellite_Coruscant(int port){
 		super();
 		this.port = port;
-		toIP = "127.0.0.1";
+		toIP = "";
 		toPort = 61243;
 		rsaUtilServer = new RSAUtilImpl();
 		rsaUtilServer.setPath("./res/client/");
@@ -29,7 +29,7 @@ public class Satellite_Coruscant extends Satellite {
 	@Override
 	protected void handleMessage(Message msg) {
 		
-		MaintenanceDroid_Coruscant droid = new MaintenanceDroid_Coruscant(msg, toIP, toPort);
+		MaintenanceDroid_Coruscant droid = new MaintenanceDroid_Coruscant(msg, toIP, toPort, this);
 		droid.start();
 		
 	}
