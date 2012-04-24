@@ -33,7 +33,6 @@ public class TheForce {
 	private SmsManager smsManager;
 	private String contactNumber;
 	private SharedPreferences preferences;
-	private PreferenceManager preferenceManager;
 
 	// private RingtoneManager ringtoneManager;
 

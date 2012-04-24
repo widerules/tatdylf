@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/validation_error"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:id="@+id/authentication_error" />
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_pass_text"
+        android:textSize="16sp" />
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_label"
+        android:textSize="14sp"
+        android:layout_marginTop="20sp" />
+    <EditText 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:id="@+id/authenticate_password" />
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20sp">
+    	<Button
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/show_hint_button"
+        	android:layout_gravity="left"
+        	android:layout_marginRight="30sp"
+        	android:onClick="showPasswordHint" />
+    	<Button
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/submit_password_button"
+        	android:layout_gravity="right"
+        	android:layout_marginLeft="30sp"
+        	android:onClick="submitPassword" />
+	</LinearLayout>
+	
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:text=""
+        android:visibility="invisible"
+        android:id="@+id/show_hint"
+        android:textSize="14sp" />
+</LinearLayout>

@@ -18,7 +18,7 @@ import coruscant.imperial.palace.comm.SimplMessageAndroid;
 import coruscant.imperial.palace.comm.RSAUtilImpl;
 
 public class MessengerDroid extends Thread {
-	
+	private static boolean isRunning = false;
 	String computerIP;
 	Dispatcher dispatch;
 	boolean keepListening;
@@ -29,7 +29,15 @@ public class MessengerDroid extends Thread {
 		dispatch = new Dispatcher();
 		resources = res;
 		channel = new SecureChannelAndroid(new RSAUtilImpl(res));
-		computerIP = "192.168.1.7";
+		computerIP = "128.59.19.241";
+	}
+	
+	public static void startDroid(Resources res) {
+		if(!isRunning) {
+			MessengerDroid droid = new MessengerDroid(res);
+			droid.start();
+			isRunning = true;
+		}
 	}
 	
 	private Socket openOutboundSocket() throws UnknownHostException, IOException {
@@ -78,6 +86,7 @@ public class MessengerDroid extends Thread {
 		} catch (Exception e) {
 			Log.e("MessengerDroid", "Error in IO", e);
 		}
+		isRunning = false;
 	}
 	
 	public void stopThread() {

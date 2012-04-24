@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, Tatdylf_androidActivity!</string>
+    <string name="hello">Welcome to Tatdylf_Android!</string>
     <string name="app_name">Tatdylf_android</string>
-    <string name="settings_description">Use the settings provided with this application to control what aspects of your phone can be controlled by your computer</string>
-    <string name="settings_button">Edit Settings</string>
+    <!-- Password Creation/Change Screen -->
+    <string name="password_creation_welcome">Please create a password so that only you will be allowed to change what operations can be carried out on your phone remotely from your computer</string>
+    <string name="create_password_label">Enter a password: </string>
+    <string name="password_key">tatdylf_pass</string>
+    <string name="confirm_password_label">Confirm your password: </string>
+    <string name="hint_label">Enter a hint in case you forget your password: </string>
+    <string name="hint_key">tatdylf_pass_hint</string>
+    <string name="create_password_button">Submit Password</string>
+    <string name="mismatching_passwords">Error: Unable to create password.  Password and confirmation do not match.</string>
+    
+    <!-- Home Screen -->
+    <string name="about_tatdylf">TATDYLF is a tool that allows you to connect to your android phone, and control some of its functions, from your computer.  This application allows you to modify various aspects of your phone status, such as the volume, whether it is on silent or vibrate mode, and will even allow you to locate your phone and send text messages!  Use this application to help find a lost phone, or just as a convenience.</string>
+    <string name="settings_description">To edit what functions are allowed to be carried out remotely, access the preferences menu: </string>
+    <string name="settings_button">Edit Preferences</string>
+
+    <!-- Enter Password Screen -->
+    <string name="enter_pass_text">Please enter your password to view and update security preferences</string>
+    <string name="pass_label">Password: </string>
+    <string name="show_hint_button">Show Password Hint</string>
+    <string name="submit_password_button">Submit</string>
+    <string name="hint_text_element_id">HintText</string>
+    <string name="validation_error">Error: Incorrect password.  Try authenticating again.</string>
+
+	<!-- Preferences Screen -->
     <string name="volume_key">volume</string>
     <string name="volume_setting">Volume Changes</string>
     <string name="volume_setting_description">Allow your computer to change the volume of your phone</string>
@@ -26,6 +48,8 @@
     <string name="text_key">text</string>
     <string name="text_setting">Send Texts</string>    
     <string name="text_setting_description">Allow your computer to send text messages through your phone</string>
+    
+    <!-- connectivity -->
     <string name="comm_relay_ip">128.59.19.241</string>
     <string name="comm_relay_port">61246</string>
     

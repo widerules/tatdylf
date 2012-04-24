@@ -3,15 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-       	<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_description" />
-       	<Button 
-       	    android:layout_width="wrap_content"
-       	    android:layout_height="wrap_content"
-       	    android:text="@string/settings_button"
-       	    android:onClick="showPreferences" />
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about_tatdylf"
+        android:textSize="16sp" />
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_description"
+        android:layout_marginTop="20sp"
+        android:textSize="14sp" />
+    <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_button"
+        android:layout_gravity="right"
+        android:onClick="showPreferences" />
 
 </LinearLayout>
