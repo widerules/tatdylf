@@ -3,6 +3,7 @@ package coruscant.imperial.palace;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
+import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class Dispatcher extends Thread {
 	TheForce theForce;
@@ -11,21 +12,22 @@ public class Dispatcher extends Thread {
 		theForce = TheSenate.useTheForce();
 	}
 	
-	public Result handleCommand(Message msg) {
+	public SimplMessageAndroid handleCommand(SimplMessageAndroid msg) {
 		
 		try {
 			switch(msg.getCmd()){
 			
-			case INC_VOL: return theForce.incresePhoneVolume();
-			case DEC_VOL: return theForce.decreasePhoneVolume();
-			case SILENT_ON: return theForce.turnSilentOn();
-			case SILENT_OFF: return theForce.turnSilentOff();
-			case VIB_ON: return theForce.turnVibrationOn();
-			case VIB_OFF: return theForce.turnVibrationOff();
-			case PLAY: return theForce.playAudio();
-			case LOCK: return theForce.lock();
-			case UNLOCK: return theForce.unlock();
+			case INC_VOL: return theForce.incresePhoneVolume(msg);
+			case DEC_VOL: return theForce.decreasePhoneVolume(msg);
+			case SILENT_ON: return theForce.turnSilentOn(msg);
+			case SILENT_OFF: return theForce.turnSilentOff(msg);
+			case VIB_ON: return theForce.turnVibrationOn(msg);
+			case VIB_OFF: return theForce.turnVibrationOff(msg);
+			case PLAY: return theForce.playAudio(msg);
+			case LOCK: return theForce.lock(msg);
+			case UNLOCK: return theForce.unlock(msg);
 			case TXT: return theForce.sendText(msg);
+			case LOCATE: return theForce.locate(msg);
 			
 			}
 			
@@ -34,12 +36,6 @@ public class Dispatcher extends Thread {
 			e.printStackTrace();
 		}
 		
-		return Result.ERROR;
-	}
-	
-	public Message handleLocation(Message msg) {
-		Message res = theForce.locate(msg);
-		return res;
-	}
-	
+		return theForce.createResponse(msg, Result.ERROR);
+	}	
 }

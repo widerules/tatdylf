@@ -75,18 +75,14 @@ public class MessengerDroid extends Thread {
 				if(msg_in.getCmd() == Command.EXIT) {
 					keepListening = false;
 				}
-				else if(msg_in.getCmd() == Command.LOCATE) {
-					Message res = dispatch.handleLocation(msg_in);
-					Socket clientSocket = openOutboundSocket();
-					channel.serialize(res, clientSocket);
-				}
 				else {
-					Result result = dispatch.handleCommand(msg_in);
+//					Result result = dispatch.handleCommand(msg_in);
+					Message res = dispatch.handleCommand((SimplMessageAndroid)msg_in);
 					Socket clientSocket = openOutboundSocket();
-					Message res = new SimplMessageAndroid();
+/*					Message res = new SimplMessageAndroid();
 					res.addParam(Param.MSGID, msg_in.getParam(Param.MSGID));
 					Log.d("Messenger Droid", "responding to message " + msg_in.getParam(Param.MSGID));
-					res.addParam(Param.RESULT, result);
+					res.addParam(Param.RESULT, result);*/
 					channel.serialize(res, clientSocket);
 				}
 			}
