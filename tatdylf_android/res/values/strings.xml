@@ -51,7 +51,7 @@
     <string name="text_setting_description">Allow your computer to send text messages through your phone</string>
     
     <!-- connectivity -->
-    <string name="comm_relay_ip">128.59.19.241</string>
+    <string name="comm_relay_ip">128.59.13.32</string>
     <string name="comm_relay_port">61246</string>
     
 </resources>

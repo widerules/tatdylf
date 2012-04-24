@@ -55,7 +55,7 @@ public class Init {
 	        	        
 /*	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
 	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);*/
-	        Socket socket = new Socket("128.59.19.241", 61246); //commRelayAddr commRelayPort
+	        Socket socket = new Socket("128.59.13.32", 61246); //commRelayAddr commRelayPort
 	        
 	        SimplChannel channel = new SimplChannel();
 	        channel.serialize(outMsg, socket);
