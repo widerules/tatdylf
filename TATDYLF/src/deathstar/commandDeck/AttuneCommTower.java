@@ -10,6 +10,7 @@ import java.security.spec.RSAPublicKeySpec;
 
 import security.RSAUtilImpl;
 
+import comm.messaging.Endpoint;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.SimplChannel;
@@ -31,6 +32,7 @@ public class AttuneCommTower {
         outMsg.addParam(Param.PUB_KEY_MOD, pubAndroid.getModulus().toString());
         outMsg.addParam(Param.PUB_KEY_EXP, pubAndroid.getPublicExponent().toString());
         outMsg.addParam(Param.INIT, true);
+        outMsg.addParam(Param.ENDPOINT_TYPE, Endpoint.DEATHSTAR);
         	        
 /*	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
         int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);*/

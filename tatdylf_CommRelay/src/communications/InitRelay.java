@@ -23,7 +23,7 @@ public class InitRelay {
 
 	    try
 	    {
-	    	String path;
+	    	String path = null;
 	    	SimplChannel channel = new SimplChannel();
 	        
 	        Message inMsg = channel.deSerialize(socket);
@@ -39,7 +39,7 @@ public class InitRelay {
 	        	
 	        	case DEATHSTAR:
 	        		path = "./res/relay/";
-	        		corsucant.setIp(ip);
+	        		coruscant.setIp(ip);
 	        }
 	        
 	    	FileOutputStream privOut = new FileOutputStream(path+"private.key");
