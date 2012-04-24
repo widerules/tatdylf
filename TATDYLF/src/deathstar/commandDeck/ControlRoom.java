@@ -153,6 +153,13 @@ public class ControlRoom extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		System.out.println("Hello, Android!");
 
+		try {
+			AttuneCommTower.init("./res/desktop/");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		rsaDesktop = new RSAUtilImpl();
 		rsaDesktop.setPath("./res/desktop/");
 		channelDesktop = new SecureChannel(rsaDesktop);
