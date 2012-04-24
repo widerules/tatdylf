@@ -13,13 +13,15 @@ public class Relay {
 	private static int messageID = 0;
 	private static circularMessageArray msgArr = new circularMessageArray(50);
 	private static int initialPort = 61246;
+	private static int deathstarPort = 61244;
+	private static int coruscantPort = 61245;
 
 	public Relay() {}
 	
 	public static void main(String[] args) {
 		
-		deathstar = new Satellite_Deathstar(61244);
-		coruscant = new Satellite_Coruscant(61245);
+		deathstar = new Satellite_Deathstar(deathstarPort);
+		coruscant = new Satellite_Coruscant(coruscantPort);
 		
 		deathstar.start();
 		coruscant.start();
@@ -57,21 +59,6 @@ public class Relay {
 		}
         
 	}
-
-	/*public static void sendMessage(int i, boolean success, int port, String toIP, String string) throws Exception {
-		System.out.println(string);
-		
-		Socket socket = new Socket(InetAddress.getByName(toIP), port);
-		RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
-		rsaUtilClient.setPath("./res/client/");
-		SecureChannel channelClient = new SecureChannel(rsaUtilClient);
-		
-		Message outMsg = new SimplMessage();
-		outMsg.addParam("success", success);
-		
-		channelClient.serialize(outMsg, socket);
-		
-	}*/
 	
 	public synchronized int getNextID(){
 		return messageID++;
