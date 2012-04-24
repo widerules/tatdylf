@@ -1,12 +1,15 @@
 package communications;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import security.RSAUtilImpl;
 
 import comm.messaging.Message;
 import comm.messaging.SecureChannel;
+import comm.messaging.SimplChannel;
 import comm.messaging.SimplMessage;
 
 public class Relay {
@@ -15,6 +18,7 @@ public class Relay {
 	private static Satellite_Coruscant coruscant;
 	private static int messageID = 0;
 	private static circularMessageArray msgArr = new circularMessageArray(50);
+	private static int initialPort = 61246;
 
 	public Relay() {}
 	
@@ -26,32 +30,35 @@ public class Relay {
 		deathstar.start();
 		coruscant.start();
 		
-		try {
-			Thread.sleep(6000000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		boolean keepListening = true;
 		
-		while(!deathstar.stopListening()){
-			System.out.println("Waiting on deathstar");
+		ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(initialPort);
+        } catch (IOException e) {
+            System.err.println("Could not listen on port: " + initialPort);
+            System.exit(1);
+        }
+        
+        while (keepListening) {
+			Socket clientSocket = null;
 			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
+				clientSocket = serverSocket.accept();
+				System.out.println("Connected");
+			} catch (IOException e) {
+				System.err.println("Accept failed.");
+				System.exit(1);
+			}
+			try {
+				InitRelay.init(clientSocket, "/res/tests/");
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-		while(!coruscant.stopListening()){
-			System.out.println("Waiting on coruscant");
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+        
 	}
 
-	public static void sendMessage(int i, boolean success, int port, String toIP, String string) throws Exception {
+	/*public static void sendMessage(int i, boolean success, int port, String toIP, String string) throws Exception {
 		System.out.println(string);
 		
 		Socket socket = new Socket(InetAddress.getByName(toIP), port);
@@ -64,7 +71,7 @@ public class Relay {
 		
 		channelClient.serialize(outMsg, socket);
 		
-	}
+	}*/
 	
 	public synchronized int getNextID(){
 		return messageID++;
