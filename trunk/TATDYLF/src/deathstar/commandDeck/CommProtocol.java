@@ -11,6 +11,7 @@ import javax.swing.event.HyperlinkListener;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
+import comm.messaging.Param;
 import comm.messaging.Result;
 
 public class CommProtocol extends Thread {
@@ -46,12 +47,18 @@ public class CommProtocol extends Thread {
 		
 		if (command == Command.INC_VOL) {
 			if (res == Result.SUCCESS) {
+				int current = (Integer) msg.getParam(Param.CURRENT_VOLUME);
+				int max = (Integer) msg.getParam(Param.MAX_VOLUME);
+				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Increased!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Increase Failed!");
 			}
 		} else if (command == Command.DEC_VOL) {
 			if (res == Result.SUCCESS) {
+				int current = (Integer) msg.getParam(Param.CURRENT_VOLUME);
+				int max = (Integer) msg.getParam(Param.MAX_VOLUME);
+				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Decreased!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Decrease Failed!");
