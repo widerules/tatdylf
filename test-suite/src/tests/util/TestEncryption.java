@@ -1,5 +1,12 @@
 package tests.util;
 
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+
 import security.RSAUtilImpl;
 
 public class TestEncryption {
@@ -9,18 +16,32 @@ public class TestEncryption {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-//		RSAUtilImpl.initialize("/home/neil/");
-//		System.out.println("RSAUtil initialized");
-//		
-//		StringBuilder sb = new StringBuilder();
-//		
-//		byte[] cipher = RSAUtilImpl.encrypt("Hello World".getBytes());
-//		System.out.println(new String(cipher));
-//		byte[] data = RSAUtilImpl.decrypt(cipher);
-//		String str = new String(data);
-//		System.out.println(str);
 		
+		KeyPairGenerator kpg = null;
+		//this.path = path;
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		kpg.initialize(2048);
+		KeyPair kp = kpg.genKeyPair();
+		
+		KeyFactory fact;
+		RSAPublicKeySpec pub = null;
+		RSAPrivateKeySpec priv = null;
+		
+		try {
+			fact = KeyFactory.getInstance("RSA");
+			pub = fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
+			priv = fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		pub.getModulus();
 	}
 
 }

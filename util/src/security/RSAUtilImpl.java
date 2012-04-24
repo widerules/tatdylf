@@ -114,7 +114,7 @@ public class RSAUtilImpl implements RSAUtil{
 		
 	}
 	
-	private static void saveToFile(OutputStream out,
+	public static void saveToFile(OutputStream out,
 			  BigInteger mod, BigInteger exp) throws IOException {
 			  ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
 			  try {
@@ -127,8 +127,7 @@ public class RSAUtilImpl implements RSAUtil{
 			  }
 	}
 	
-	private PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
-		InputStream in = new FileInputStream(keyFileName);
+	public static PublicKey readPublicKeyFromFile(InputStream in) throws IOException {
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
 		  try {
@@ -145,8 +144,7 @@ public class RSAUtilImpl implements RSAUtil{
 		  }
 		}
 	
-	private PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
-		  InputStream in = new FileInputStream(keyFileName);
+	public static PrivateKey readPrivateKeyFromFile(InputStream in) throws IOException {
 		    
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
@@ -165,7 +163,7 @@ public class RSAUtilImpl implements RSAUtil{
 		}
 	
 	public byte[] encrypt(byte[] data) throws Exception {
-		PublicKey pubKey = readPublicKeyFromFile(path+"public.key");
+		PublicKey pubKey = readPublicKeyFromFile(new FileInputStream(path+"public.key"));
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE, pubKey);
 		byte[] cipherData = cipher.doFinal(data);
@@ -173,7 +171,7 @@ public class RSAUtilImpl implements RSAUtil{
 	}
 	
 	public byte[] decrypt(byte[] cipherData) throws Exception{
-		PrivateKey privKey = readPrivateKeyFromFile(path+"private.key");
+		PrivateKey privKey = readPrivateKeyFromFile(new FileInputStream(path+"private.key"));
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.DECRYPT_MODE, privKey);
 		byte[] data = cipher.doFinal(cipherData);
@@ -182,12 +180,12 @@ public class RSAUtilImpl implements RSAUtil{
 
 	@Override
 	public PrivateKey readPrivateKeyFromFile() throws IOException {
-		return readPrivateKeyFromFile(path+"private.key");
+		return readPrivateKeyFromFile(new FileInputStream(path+"private.key"));
 	}
 
 	@Override
 	public PublicKey readPublicKeyFromFile() throws IOException {
-		return readPublicKeyFromFile(path+"public.key");
+		return readPublicKeyFromFile(new FileInputStream(path+"public.key"));
 	}
 
 }
