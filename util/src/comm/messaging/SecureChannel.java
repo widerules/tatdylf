@@ -25,7 +25,7 @@ public class SecureChannel {
     
     protected Cipher cipher = null;
 	private RSAUtil rsaUtil = null;
-	private String path = null;
+	//private String path = null;
 	
 	public SecureChannel(RSAUtil rsaUtil){
 		this.rsaUtil = rsaUtil;
