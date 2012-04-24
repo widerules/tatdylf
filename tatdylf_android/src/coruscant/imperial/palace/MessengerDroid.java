@@ -84,6 +84,7 @@ public class MessengerDroid extends Thread {
 					res.addParam(Param.MSGID, msg_in.getParam(Param.MSGID));
 					Log.d("Messenger Droid", "responding to message " + msg_in.getParam(Param.MSGID));
 					res.addParam(Param.RESULT, result);*/
+					Log.d("MessengerDroid","Sending msg:" + res.prettyPrint());
 					channel.serialize(res, clientSocket);
 				}
 			}

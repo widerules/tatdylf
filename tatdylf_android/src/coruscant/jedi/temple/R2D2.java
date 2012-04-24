@@ -1,5 +1,10 @@
 package coruscant.jedi.temple;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +41,14 @@ public class R2D2 extends BroadcastReceiver {
 	        }else if(state == State.CONNECTED){
 	        	try {
 					Init.init(ctx);
+					URL url = new URL("http://checkip.dyndns.org/");
+					HttpURLConnection http = (HttpURLConnection) url.openConnection();
+					BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
+					String content = in.readLine();
+					String ip = content.replaceAll("[^\\.0-9]","");
+					Log.d("R2D2", "content: " +content);
+					Log.d("R2D2", "ip: " + ip);
+					http.disconnect();
 					MessengerDroid.updateIP(new RSAUtilImpl(ctx));
 				} catch (Exception e) {
 					Log.e("R2D2", "Could not initialize", e);
