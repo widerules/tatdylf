@@ -20,6 +20,8 @@ public class R2D2 extends BroadcastReceiver {
 
 		Intent service = new Intent(ctx, TheSenate.class);
     	service.setAction("coruscant.imperial.palace.THE_SENATE");
+    	
+    	
 		
     	boolean noConnectivity =
 	            intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);

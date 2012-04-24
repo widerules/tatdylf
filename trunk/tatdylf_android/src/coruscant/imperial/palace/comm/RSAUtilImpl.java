@@ -50,7 +50,7 @@ public class RSAUtilImpl implements RSAUtil {
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
 		  try {
-		    BigInteger m = (BigInteger) oin.readObject();
+			BigInteger m = (BigInteger) oin.readObject();
 		    BigInteger e = (BigInteger) oin.readObject();
 		    RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
 		    KeyFactory fact = KeyFactory.getInstance("RSA");
