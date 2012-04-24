@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import comm.messaging.Message;
+import comm.messaging.SimplChannel;
 
 public class Relay {
 
@@ -47,12 +48,9 @@ public class Relay {
 				System.err.println("Accept failed.");
 				System.exit(1);
 			}
-			deathstar.toIP = clientSocket.getInetAddress().toString().substring(1);
-			System.out.println(clientSocket.getInetAddress().toString());
-			System.out.println(new String(clientSocket.getInetAddress().getAddress()));
 			try {
 				System.out.println("Starting relay");
-				InitRelay.init(clientSocket, "./res/client/");
+				InitRelay.init(clientSocket, deathstar, coruscant);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
