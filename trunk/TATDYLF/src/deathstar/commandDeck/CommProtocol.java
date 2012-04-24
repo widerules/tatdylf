@@ -106,6 +106,9 @@ public class CommProtocol extends Thread {
 				case NUMBER_NOT_FOUND:
 					JOptionPane.showMessageDialog(frame, "Text Failed!\nNumber not found.");
 					break;
+				case RINGTONE_NOT_AUDIBLE:
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nRinger is not audible.\nPlease turn up the volume or turn on the ringer.");
+					break;
 				default:
 					JOptionPane.showMessageDialog(frame, "Text Failed!\nGeneral Error.");
 			}
