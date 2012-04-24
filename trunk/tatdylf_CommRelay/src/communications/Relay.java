@@ -35,6 +35,7 @@ public class Relay {
 		ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(initialPort);
+            System.out.println("Server set up");
         } catch (IOException e) {
             System.err.println("Could not listen on port: " + initialPort);
             System.exit(1);
@@ -43,14 +44,19 @@ public class Relay {
         while (keepListening) {
 			Socket clientSocket = null;
 			try {
+				System.out.println("Waiting on a connection");
 				clientSocket = serverSocket.accept();
 				System.out.println("Connected");
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
 				System.exit(1);
 			}
+			deathstar.toIP = clientSocket.getInetAddress().toString().substring(1);
+			System.out.println(clientSocket.getInetAddress().toString());
+			System.out.println(new String(clientSocket.getInetAddress().getAddress()));
 			try {
-				InitRelay.init(clientSocket, "/res/tests/");
+				System.out.println("Starting relay");
+				InitRelay.init(clientSocket, "./res/client/");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

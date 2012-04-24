@@ -9,7 +9,7 @@ public class Satellite_Deathstar extends Satellite {
 	public Satellite_Deathstar(){
 		super();
 		port = 61244;
-		toIP = "209.2.211.96";//"192.168.1.9";//
+		toIP = "";//"209.2.211.96";//"192.168.1.9";//
 		toPort = 61246;
 		rsaUtilServer = new RSAUtilImpl();
 		rsaUtilServer.setPath("./res/relay/");
@@ -19,7 +19,7 @@ public class Satellite_Deathstar extends Satellite {
 	public Satellite_Deathstar(int port){
 		super();
 		this.port = port;
-		toIP = "209.2.211.96";//"192.168.1.9";//
+		toIP = "";//"209.2.211.96";//"192.168.1.9";//
 		toPort = 61246;
 		rsaUtilServer = new RSAUtilImpl();
 		rsaUtilServer.setPath("./res/relay/");
