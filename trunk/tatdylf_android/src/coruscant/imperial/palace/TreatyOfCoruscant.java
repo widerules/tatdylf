@@ -16,7 +16,6 @@ import android.widget.TextView;
 public class TreatyOfCoruscant extends Activity {
 	SharedPreferences prefs;
 	static boolean isInit = false;
-	
 		
     @Override
 	protected void onResume() {
@@ -41,17 +40,11 @@ public class TreatyOfCoruscant extends Activity {
         	setContentView(R.layout.main);
         }
         Log.d("TreatyOfCoruscant", "Started activity!!!");
+        LocateSatellites ls = new LocateSatellites(getApplicationContext(), !isInit, this);
+        ls.run();
         if(!isInit){
-        	try {
-				Init.init(getApplicationContext());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
         	isInit = true;
         }
-       	Intent intent = new Intent(TreatyOfCoruscant.this, TheSenate.class);
-       	intent.setAction("coruscant.imperial.palace.THE_SENATE");
-       	startService(intent);
     }
     
     public void showPreferences(View v) {
