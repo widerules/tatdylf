@@ -3,7 +3,6 @@ package coruscant.imperial.palace;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
-import coruscant.jedi.temple.initialization.Init;
 
 public class TheSenate extends IntentService {
 	private static TheForce theForce;
@@ -20,8 +19,8 @@ public class TheSenate extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
     	Log.d("TheSenate", "Starting MessengerDroid Thread");
-   		MessengerDroid.startDroid(getResources());
-		return super.onStartCommand(intent,flags,startId);
+    	MessengerDroid.startDroid(getApplicationContext());
+    	return super.onStartCommand(intent,flags,startId);
     }
 
     @Override
