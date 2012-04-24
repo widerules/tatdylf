@@ -10,8 +10,13 @@ public enum Endpoint implements JSONString {
 		return Integer.toString(ordinal());
 	}
 	
-	public static Endpoint toEndpoint(int ord){
-		return values()[ord];
+	public static Endpoint toEndpoint(Object obj){
+		
+		if(obj instanceof Integer){
+			return values()[(Integer) obj];
+		} else if(obj instanceof String){
+			return valueOf((String)obj);
+		}
+		return null;
 	}
-
 }
