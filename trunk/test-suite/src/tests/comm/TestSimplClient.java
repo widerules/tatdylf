@@ -1,11 +1,8 @@
 package tests.comm;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import comm.messaging.Command;
 import comm.messaging.Message;
@@ -17,10 +14,10 @@ public class TestSimplClient {
 
 	public static void main(String[] args) throws Exception{
 		Socket kkSocket = null;
-        OutputStream out = null;
-        InputStream in = null;
+        //OutputStream out = null;
+        //InputStream in = null;
  
-        Scanner s = new Scanner(System.in);
+        //Scanner s = new Scanner(System.in);
         
         try {
             kkSocket = new Socket("127.0.0.1", 61243);
