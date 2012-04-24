@@ -12,6 +12,7 @@ import security.RSAUtilImpl;
 import android.content.Context;
 import android.util.Log;
 
+import comm.messaging.Endpoint;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.SimplChannel;
@@ -30,11 +31,11 @@ public class Init {
 	    {
 	    	String[] filenames = ctx.fileList();
 	    	
-/*	    	for(int i=0; i<filenames.length; i++){
+	    	for(int i=0; i<filenames.length; i++){
 	    		if(filenames[i].equals("privateKey")){
 	    			return;
 	    		}
-	    	}*/
+	    	}
 	    	
 	    	Log.d("Init", "Init started");
 	    	
@@ -50,6 +51,7 @@ public class Init {
 	        outMsg.addParam(Param.PUB_KEY_MOD, pubAndroid.getModulus().toString());
 	        outMsg.addParam(Param.PUB_KEY_EXP, pubAndroid.getPublicExponent().toString());
 	        outMsg.addParam(Param.INIT, true);
+	        outMsg.addParam(Param.ENDPOINT_TYPE, Endpoint.CORUSCANT);
 	        	        
 /*	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
 	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);*/
