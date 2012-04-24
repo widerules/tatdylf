@@ -21,6 +21,10 @@ public class Satellite extends Thread {
 	public Satellite() {
 	}
 	
+	public void setIp(String ip){
+		toIP = ip;
+	}
+	
 	public Socket openOutboundSocket(String ipAddress, int targetPort){
 		Socket socket = null;
 		try {
