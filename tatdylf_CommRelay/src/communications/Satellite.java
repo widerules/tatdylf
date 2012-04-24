@@ -11,7 +11,7 @@ import security.RSAUtilImpl;
 import comm.messaging.Message;
 import comm.messaging.SecureChannel;
 
-public class Satellite extends Thread {
+public abstract class Satellite extends Thread {
 	boolean keepListening, closed;
 	int port, toPort;
 	String toIP;
@@ -101,6 +101,5 @@ public class Satellite extends Thread {
 		return null;
 	}
 	
-	protected void handleMessage(Message msg) {
-	}	
+	protected abstract void handleMessage(Message msg);	
 }

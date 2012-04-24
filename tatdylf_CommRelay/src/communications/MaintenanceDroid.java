@@ -1,6 +1,6 @@
 package communications;
 
-public class MaintenanceDroid extends Thread {
+public abstract class MaintenanceDroid extends Thread {
 	
 	public MaintenanceDroid() { }
 	
@@ -12,6 +12,6 @@ public class MaintenanceDroid extends Thread {
 		}
 	}
 	
-	protected void handleMessage() throws Exception{}
+	protected abstract void handleMessage() throws Exception;
 
 }
