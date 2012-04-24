@@ -52,6 +52,7 @@
     
     <!-- connectivity -->
     <string name="comm_relay_ip">128.59.13.32</string>
-    <string name="comm_relay_port">61246</string>
+    <string name="comm_relay_inbound">61246</string>
+    <string name="comm_relay_outbound">61245</string>
     
 </resources>

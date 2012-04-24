@@ -52,27 +52,23 @@ public class TreatyOfCoruscant extends Activity {
     }
     
     public void showPasswordHint(View v) {
-    	Log.d("LowerDeflectorShield", "showing password hint");
+    	Log.d("TreatyOfCoruscant", "showing password hint");
     	TextView hint = (TextView)findViewById(R.id.show_hint);
     	hint.setText(prefs.getString(getString(R.string.hint_key), null)); 
     	hint.setVisibility(View.VISIBLE);
     }
     
     public void submitPassword(View v) {
-    	Log.d("LowerDeflectorShield", "submitting password");
     	String savedPass = prefs.getString(getString(R.string.password_key), "");
-    	Log.d("LowerDeflectorShield", "got saved pass: " + savedPass);
     	EditText passField = (EditText)findViewById(R.id.authenticate_password);
-    	Log.d("LowerDeflectorShield", "got pass field");
     	String enteredPass = passField.getText().toString();
-    	Log.d("LowerDeflectorShield", "got submitted pass" + enteredPass);
     	if(savedPass.equals(enteredPass)) {
-    		Log.d("LowerDeflectorShield", "password is correct!");
+    		Log.d("TreatyOfCoruscant", "password is correct!");
     		Intent showPrefs = new Intent(this, Preferences.class);
     		showPrefs.setAction("coruscant.imperial.palace.PREFERENCES");
     		startActivity(showPrefs);
     	} else {
-    		Log.d("LowerDeflectorShield", "password is NOT correct!");
+    		Log.d("TreatyOfCoruscant", "password is NOT correct!");
     		TextView error = (TextView)findViewById(R.id.authentication_error);
     		error.setVisibility(View.VISIBLE);
     	}
@@ -88,9 +84,7 @@ public class TreatyOfCoruscant extends Activity {
     	if(pass.equals(confirm)) {
     		Editor e = prefs.edit();
     		e.putString(getString(R.string.password_key), pass);
-    		Log.d("TreatyOfCoruscant", "adding password to prefs: " + pass);
     		e.putString(getString(R.string.hint_key), hint);
-    		Log.d("TreatyOfCoruscant", "adding hint to prefs: " + hint);
     		e.commit();
         	setContentView(R.layout.main);
     	} else {
