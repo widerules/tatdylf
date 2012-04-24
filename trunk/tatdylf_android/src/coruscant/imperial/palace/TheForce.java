@@ -291,7 +291,7 @@ public class TheForce {
 		} else if (Numbers.size() > 1) {
 			msg_out = createResponse(msg_in, Result.MULTIPLE_NUMBERS);
 			try {
-				msg_out.addParam(Param.PHONE_NUMBERS, Numbers.toArray());
+				msg_out.addParam(Param.PHONE_NUMBERS, Numbers.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
