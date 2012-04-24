@@ -284,7 +284,7 @@ public class TheForce {
 		} else if (Contacts.size() > 1) {
 			msg_out = createResponse(msg_in, Result.MULTIPLE_CONTACTS);
 			try {
-				msg_out.addParam(Param.CONTACT_RESULTS, Contacts.toArray());
+				msg_out.addParam(Param.CONTACT_RESULTS, Contacts.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
