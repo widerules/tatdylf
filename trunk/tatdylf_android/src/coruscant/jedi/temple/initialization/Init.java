@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 
@@ -47,6 +46,7 @@ public class Init {
 	        SimplMessage outMsg = new SimplMessageAndroid();
 	        outMsg.addParam(Param.PUB_KEY_MOD, pubAndroid.getModulus().toString());
 	        outMsg.addParam(Param.PUB_KEY_EXP, pubAndroid.getPublicExponent().toString());
+	        outMsg.addParam(Param.INIT, true);
 	        	        
 	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
 	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);
