@@ -34,7 +34,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 //	private static HoloTransmitter holotransmitter;
 	private static ControlRoom frame;
 	private JButton lockButton;
-	private JLabel currentVolume;
+	private static JLabel currentVolume;
 	private static RSAUtilImpl rsaDesktop;
 	private static SecureChannel channelDesktop;
 	private JTextField smsTextField;
@@ -46,6 +46,10 @@ public class ControlRoom extends JFrame implements ActionListener {
 		super(name);
 		setResizable(true);
 //		holotransmitter = new HoloTransmitter();
+	}
+	
+	public static JLabel getCurrentVolume(){
+		return currentVolume;
 	}
 
 	public void addComponentsToPane(final Container pane) {
