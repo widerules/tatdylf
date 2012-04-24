@@ -31,7 +31,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 	protected void handleMessage() throws Exception{
 		
 		try {
-			coruscant.setIp(msg.getParam(Param.NEW_IP));
+			coruscant.setIp((String) msg.getParam(Param.NEW_IP));
 			return;
 		} catch (Exception e){}
 		
