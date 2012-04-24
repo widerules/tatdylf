@@ -13,5 +13,6 @@ public class Param {
 	public static final String TXT_BY_NAME = "TextToName";
 	public static final String PUB_KEY_MOD = "PublicKeyModulus";
 	public static final String PUB_KEY_EXP = "PublicKeyExponent";
+	public static final String INIT = "init";
 	
 }
