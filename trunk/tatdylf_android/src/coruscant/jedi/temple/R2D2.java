@@ -27,8 +27,9 @@ public class R2D2 extends BroadcastReceiver {
     	boolean noConnectivity =
 	            intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 	    
-    	if(!noConnectivity)
+    	if(noConnectivity)
 	        {
+    			Log.d("R2D2", "stopping service");
 	        	ctx.stopService(service);
 	        }else if(state == State.CONNECTED){
 	        	try {

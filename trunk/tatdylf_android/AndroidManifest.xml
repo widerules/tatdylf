@@ -15,7 +15,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:debuggable="true" >
-        <receiver android:name=".R2D2">
+        <receiver android:name="coruscant.jedi.temple.R2D2">
 	    	<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
 	    	</intent-filter>
