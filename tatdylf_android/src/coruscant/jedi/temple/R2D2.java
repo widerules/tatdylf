@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.util.Log;
 import coruscant.imperial.palace.TheSenate;
+import coruscant.jedi.temple.initialization.Init;
 
 public class R2D2 extends BroadcastReceiver {
 
@@ -30,7 +31,12 @@ public class R2D2 extends BroadcastReceiver {
 	        {
 	        	ctx.stopService(service);
 	        }else if(state == State.CONNECTED){
-	        
+	        	try {
+					Init.init(ctx);
+				} catch (Exception e) {
+					Log.e("R2D2", "Could not initialize", e);
+					e.printStackTrace();
+				}
 	        	int type = networkInfo.getType(); 
 	        	if(type == ConnectivityManager.TYPE_MOBILE || type == ConnectivityManager.TYPE_WIFI
 	        			|| type == ConnectivityManager.TYPE_WIMAX || type == ConnectivityManager.TYPE_MOBILE_DUN
