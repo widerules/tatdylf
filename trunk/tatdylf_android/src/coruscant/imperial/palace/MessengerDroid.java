@@ -20,7 +20,6 @@ import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class MessengerDroid extends Thread {
 	private static boolean isRunning = false;
-	String relayIP;
 	Dispatcher dispatch;
 	boolean keepListening;
 	Resources resources;
@@ -30,7 +29,6 @@ public class MessengerDroid extends Thread {
 		dispatch = new Dispatcher();
 		resources = ctx.getResources();
 		channel = new SecureChannelAndroid(new RSAUtilImpl(ctx));
-		relayIP = "128.59.19.241";
 	}
 	
 	public static void startDroid(Context ctx) {
@@ -42,7 +40,7 @@ public class MessengerDroid extends Thread {
 	}
 	
 	private Socket openOutboundSocket() throws UnknownHostException, IOException {
-		Socket s = new Socket(relayIP, 61245);
+		Socket s = new Socket(TheSenate.getCommIP(), TheSenate.getCommPort());
 		return s;
 	}
 
