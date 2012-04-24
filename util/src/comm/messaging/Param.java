@@ -15,5 +15,9 @@ public class Param {
 	public static final String PUB_KEY_EXP = "PublicKeyExponent";
 	public static final String INIT = "init";
 	public static final String ENDPOINT_TYPE = "EndpointType";
+	public static final String CURRENT_VOLUME = "CurrentVolume";
+	public static final String MAX_VOLUME = "MaximumVolume";
+	public static final String PHONE_NUMBERS = "PhoneNumbers";
+	public static final String CONTACT_RESULTS = "ContactResults";
 	
 }
