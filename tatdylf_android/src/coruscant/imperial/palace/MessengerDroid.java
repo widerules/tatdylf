@@ -1,8 +1,12 @@
 package coruscant.imperial.palace;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 import security.RSAUtil;
@@ -42,11 +46,20 @@ public class MessengerDroid extends Thread {
 		}
 	}
 	
-	public static void updateIP(RSAUtil rsaUtil) throws Exception{
-		Socket s = openOutboundSocket();
+	public static void updateIP(RSAUtil rsaUtil, Context context) throws Exception{
+		// get ip
+		URL url = new URL("http://109.74.3.85/ip/"); //http://api.externalip.net/ip/
+								// http://automation.whatismyip.com/n09230945.asp
+//		HttpURLConnection http = (HttpURLConnection) url.openConnection();
+		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+		String ip = in.readLine().trim();
+//		String ip = content.replaceAll("[^\\.0-9]","");
+		Log.d("R2D2", "ip: " + ip);
+		//send ip
+		Socket s = new Socket(context.getString(R.string.comm_relay_ip), Integer.parseInt(context.getString(R.string.comm_relay_outbound)));
 		SecureChannel channel = new SecureChannelAndroid(rsaUtil);
 		Message msg = new SimplMessageAndroid();
-		msg.addParam(Param.NEW_IP, s.getLocalAddress().toString().substring(1));
+		msg.addParam(Param.NEW_IP, ip);
 		channel.serialize(msg, s);
 	}
 	

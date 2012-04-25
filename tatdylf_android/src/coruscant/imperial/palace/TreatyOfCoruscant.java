@@ -41,7 +41,7 @@ public class TreatyOfCoruscant extends Activity {
         }
         Log.d("TreatyOfCoruscant", "Started activity!!!");
         LocateSatellites ls = new LocateSatellites(getApplicationContext(), !isInit, this);
-        ls.run();
+        ls.start();
         if(!isInit){
         	isInit = true;
         }

@@ -1,7 +1,13 @@
 package coruscant.imperial.palace;
 
+import java.io.IOException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+import security.RSAUtil;
 import android.content.Context;
 import android.content.Intent;
+import coruscant.imperial.palace.comm.RSAUtilImpl;
 import coruscant.jedi.temple.initialization.Init;
 
 public class LocateSatellites extends Thread {
@@ -19,6 +25,7 @@ public class LocateSatellites extends Thread {
 		if(runInit) {
 			try {
 				Init.init(context);
+				MessengerDroid.updateIP(new RSAUtilImpl(context), context);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -26,6 +33,5 @@ public class LocateSatellites extends Thread {
     	Intent intent = new Intent(treaty, TheSenate.class);
     	intent.setAction("coruscant.imperial.palace.THE_SENATE");
     	context.startService(intent);
-
 	}
 }

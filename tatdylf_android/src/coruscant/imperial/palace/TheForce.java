@@ -6,9 +6,9 @@ import org.json.JSONException;
 
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.LocationManager;
 import android.media.AudioManager;
@@ -20,11 +20,11 @@ import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 
-import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.Result;
 
 import coruscant.imperial.palace.comm.SimplMessageAndroid;
+import coruscant.jedi.temple.C3PO;
 
 public class TheForce {
 	Context context;
@@ -50,6 +50,10 @@ public class TheForce {
 		smsManager = SmsManager.getDefault();
 		PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		ComponentName c3po = new ComponentName(context.getPackageName(),
+                C3PO.class.getName());
+		audioManager.registerMediaButtonEventReceiver(c3po);
 	}
 	
 	public SimplMessageAndroid createResponse(SimplMessageAndroid msg_in, Result result) {
@@ -78,9 +82,10 @@ public class TheForce {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
 		Result res = setPhoneVolume(++vol);
+		int newVol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		SimplMessageAndroid msg_out = createResponse(msg_in, res);
 		try {
-			msg_out.addParam(Param.CURRENT_VOLUME, vol);
+			msg_out.addParam(Param.CURRENT_VOLUME, newVol);
 			msg_out.addParam(Param.MAX_VOLUME, max_vol);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -92,9 +97,10 @@ public class TheForce {
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
 		Result res = setPhoneVolume(--vol);
+		int newVol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		SimplMessageAndroid msg_out = createResponse(msg_in, res);
 		try {
-			msg_out.addParam(Param.CURRENT_VOLUME, vol);
+			msg_out.addParam(Param.CURRENT_VOLUME, newVol);
 			msg_out.addParam(Param.MAX_VOLUME, max_vol);
 		} catch (JSONException e) {
 			e.printStackTrace();
