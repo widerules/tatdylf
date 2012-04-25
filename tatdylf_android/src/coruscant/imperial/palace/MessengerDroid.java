@@ -78,6 +78,7 @@ public class MessengerDroid extends Thread {
 				
 				try {
 					socket = server.accept();
+					Log.d("MessengerDroid", "Just received a connection");
 					msg_in = channel.deSerialize(socket);
 				} catch (Exception e) {
 					Log.e("MessengerDroid", "Deserialization or accept failed",e);
