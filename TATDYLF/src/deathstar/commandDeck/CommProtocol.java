@@ -56,6 +56,8 @@ public class CommProtocol extends Thread {
 				int max = (Integer) msg.getParam(Param.MAX_VOLUME);
 				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Increased!");
+			} else if (res == Result.RINGTONE_NOT_AUDIBLE) {
+				JOptionPane.showMessageDialog(frame, "Ringtone is not audible!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Increase Failed!");
 			}
@@ -65,6 +67,8 @@ public class CommProtocol extends Thread {
 				int max = (Integer) msg.getParam(Param.MAX_VOLUME);
 				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Decreased!");
+			} else if (res == Result.RINGTONE_NOT_AUDIBLE) {
+				JOptionPane.showMessageDialog(frame, "Ringtone is not audible!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Decrease Failed!");
 			}
@@ -95,6 +99,8 @@ public class CommProtocol extends Thread {
 		} else if (command == Command.PLAY) {
 			if (res == Result.SUCCESS) {
 				JOptionPane.showMessageDialog(frame, "Playing!");
+			} else if (res == Result.RINGTONE_NOT_AUDIBLE) {
+				JOptionPane.showMessageDialog(frame, "Ringtone is not audible!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Play Failed!");
 			}
