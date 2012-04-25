@@ -18,6 +18,7 @@ import comm.messaging.Param;
 import comm.messaging.SimplChannel;
 import comm.messaging.SimplMessage;
 
+import coruscant.imperial.palace.R;
 import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class Init {
