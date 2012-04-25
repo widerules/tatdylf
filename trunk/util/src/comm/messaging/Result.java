@@ -36,6 +36,8 @@ public enum Result implements JSONString{
 			return Result.NUMBER_NOT_FOUND;
 		} else if (s.equals("PERMISSION_DENIED")){
 			return Result.PERMISSION_DENIED;
+		} else if (s.equals("LOCATION_DISABLED")){
+			return Result.LOCATION_DISABLED;
 		}
 		
 		return null;
