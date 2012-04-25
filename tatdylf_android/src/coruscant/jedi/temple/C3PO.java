@@ -20,18 +20,20 @@ import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class C3PO extends ContentObserver {
 	
+	private AudioManager audioManager;
 	private Context context = null;
+	private int oldVolume;
 	
 	public void setCtx(Context ctx) {
 		this.context = ctx;
+		audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		oldVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 	}
 
 	public C3PO(Handler handler) {
 		super(handler);
-
 	}
 
-	private AudioManager audioManager;
 
 	@Override
 	public void onChange(boolean selfChange) {
@@ -40,11 +42,12 @@ public class C3PO extends ContentObserver {
 		super.onChange(selfChange);
 	    Log.d("C3PO", "Settings change detected");
 		
-		audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 		int vol = audioManager.getStreamVolume(AudioManager.STREAM_RING);
 		int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-		
-		
+		if(vol == oldVolume) {
+			return;
+		}
+		oldVolume = vol;
 		SimplMessageAndroid msg_out = new SimplMessageAndroid();
 		try {
 			msg_out.addParam(Param.MSGID, -1);
