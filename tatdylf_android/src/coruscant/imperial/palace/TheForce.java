@@ -15,6 +15,7 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
@@ -51,9 +52,13 @@ public class TheForce {
 		PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		ComponentName c3po = new ComponentName(context.getPackageName(),
-                C3PO.class.getName());
-		audioManager.registerMediaButtonEventReceiver(c3po);
+//		ComponentName c3po = new ComponentName(context.getPackageName(),
+//                C3PO.class.getName());
+		C3PO c3po = new C3PO( new Handler() );
+		c3po.setCtx(context);
+		context.getContentResolver().registerContentObserver( 
+		    android.provider.Settings.System.CONTENT_URI, true, c3po );
+		//audioManager.registerMediaButtonEventReceiver(c3po);
 	}
 	
 	public SimplMessageAndroid createResponse(SimplMessageAndroid msg_in, Result result) {

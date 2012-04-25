@@ -20,11 +20,12 @@
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
 	    	</intent-filter>
 		</receiver>
-        <receiver android:name="coruscant.jedi.temple.C3PO">
+<!--         <receiver android:name="coruscant.jedi.temple.C3PO">
 	    	<intent-filter>
 				<action android:name="android.intent.action.MEDIA_BUTTON"/>
 	    	</intent-filter>
 		</receiver>
+		 -->
         <service android:name=".TheSenate">
             <intent-filter>
                 <action android:name="coruscant.imperial.palace.THE_SENATE" />
