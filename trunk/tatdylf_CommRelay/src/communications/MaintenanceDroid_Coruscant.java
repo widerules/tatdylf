@@ -24,7 +24,6 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 		this.msg = msg;
 		this.toIP = toIP;
 		this.toPort = toPort;
-		this.coruscant = coruscant;
 	}
 	
 	@Override
