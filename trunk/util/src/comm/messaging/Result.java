@@ -26,6 +26,8 @@ public enum Result implements JSONString{
 			return Result.SUCCESS;
 		} else if (s.equals("ERROR")){
 			return Result.ERROR;
+		} else if (s.equals("INVALID_INPUT")){
+			return Result.INVALID_INPUT;
 		} else if (s.equals("MULTIPLE_CONTACTS")){
 			return Result.MULTIPLE_CONTACTS;
 		} else if (s.equals("MULTIPLE_NUMBERS")){
@@ -36,6 +38,8 @@ public enum Result implements JSONString{
 			return Result.NUMBER_NOT_FOUND;
 		} else if (s.equals("PERMISSION_DENIED")){
 			return Result.PERMISSION_DENIED;
+		} else if (s.equals("RINGTONE_NOT_AUDIBLE")){
+			return Result.RINGTONE_NOT_AUDIBLE;
 		} else if (s.equals("LOCATION_DISABLED")){
 			return Result.LOCATION_DISABLED;
 		}
