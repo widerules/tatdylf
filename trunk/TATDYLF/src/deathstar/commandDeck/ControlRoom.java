@@ -214,6 +214,11 @@ public class ControlRoom extends JFrame implements ActionListener {
 				
 				String to = smsTextField.getText();
 				String text = smsTextArea.getText();
+				int maxTextLength = 125;
+				if(text.length() > maxTextLength){
+					JOptionPane.showMessageDialog(frame, "Message length too long.\nCurrent length: " + text.length() + "\nMax length: " + maxTextLength);
+					return;
+				}
 				
 				if (numberSelected) {
 					to = to.replaceAll("\\)|\\(|-|\\.|\\s", "");

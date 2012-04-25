@@ -44,7 +44,11 @@ public class CommProtocol extends Thread {
 			JOptionPane.showMessageDialog(frame, "Permission denied.  Please check your settings on your phone.");
 			return;
 		}
-		
+		if (command == Command.ASYNC_VOL){
+			int current = (Integer) msg.getParam(Param.CURRENT_VOLUME);
+			int max = (Integer) msg.getParam(Param.MAX_VOLUME);
+			ControlRoom.getCurrentVolume().setText(current + "/" + max);
+		}
 		if (command == Command.INC_VOL) {
 			if (res == Result.SUCCESS) {
 				int current = (Integer) msg.getParam(Param.CURRENT_VOLUME);
