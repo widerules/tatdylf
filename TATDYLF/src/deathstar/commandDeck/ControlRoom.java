@@ -3,6 +3,7 @@
  */
 package deathstar.commandDeck;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -248,6 +249,10 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 		channelDesktop.serialize(outMsg, socket);
 
+	}
+	
+	public static Color getFrameBackground(){
+		return frame.getBackground();
 	}
 
 	/*private Message waitForResponse(int port) throws Exception {
