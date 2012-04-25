@@ -8,7 +8,6 @@ import security.RSAUtilImpl;
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
-import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 
 public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
@@ -37,23 +36,25 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			return;
 		} catch (Exception e){}
 		
-		relay.handled(msg);
-		
-		int loc = relay.findMessageById((Integer)msg.getParam(Param.MSGID));
-		
-		Command command = relay.getMessage(loc).getCmd();
-		
-		Result res = msg.getRes();
-		
-		boolean success = (res == Result.SUCCESS);
-		
+		int msgId = (Integer) msg.getParam(Param.MSGID);
+		Command command;
 		double lat = -181;
 		double lon = -181;
-		try {
-			lat = (Double) msg.getParam(Param.LATITUDE);
-			lon = (Double) msg.getParam(Param.LONGITUDE);
-		} catch (Exception e) {}
 		
+		if (msgId >= 0) {
+			relay.handled(msg);
+
+			int loc = relay.findMessageById(msgId);
+
+			command = relay.getMessage(loc).getCmd();
+
+			try {
+				lat = (Double) msg.getParam(Param.LATITUDE);
+				lon = (Double) msg.getParam(Param.LONGITUDE);
+			} catch (Exception e) {}
+		} else {
+			command = Command.ASYNC_VOL;
+		}
 		try {
 			Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
 			RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
@@ -61,7 +62,6 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
 			Message outMsg = msg;
-			outMsg.addParam("success", success);
 			outMsg.addParam(Param.COMMAND, command);
 			if(lat != -181){
 				outMsg.addParam("lat", lat);
