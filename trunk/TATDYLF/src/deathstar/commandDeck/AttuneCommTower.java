@@ -34,7 +34,7 @@ public class AttuneCommTower {
         outMsg.addParam(Param.INIT, true);
         outMsg.addParam(Param.ENDPOINT_TYPE, Endpoint.DEATHSTAR);
         	        
-	    Socket socket = new Socket(Constant.COMM_RELAY, Constant.COMM_RELAY_PORT); 
+	    Socket socket = new Socket(Constant.COMM_RELAY, Constant.COMM_RELAY_INIT_PORT); 
         
         SimplChannel channel = new SimplChannel();
         channel.serialize(outMsg, socket);
