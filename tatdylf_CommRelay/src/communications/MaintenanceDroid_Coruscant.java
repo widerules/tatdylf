@@ -8,6 +8,7 @@ import security.RSAUtilImpl;
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
+import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 
 public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
@@ -40,7 +41,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 		Command command;
 		double lat = -181;
 		double lon = -181;
-		
+		Message outMsg = msg;
 		if (msgId >= 0) {
 			relay.handled(msg);
 
@@ -54,6 +55,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			} catch (Exception e) {}
 		} else {
 			command = Command.ASYNC_VOL;
+			outMsg.addParam(Param.RESULT, "SUCCESS");
 		}
 		try {
 			Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
@@ -61,7 +63,6 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			rsaUtilClient.setPath("./res/relay/");
 			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
-			Message outMsg = msg;
 			outMsg.addParam(Param.COMMAND, command);
 			if(lat != -181){
 				outMsg.addParam("lat", lat);
