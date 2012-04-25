@@ -133,13 +133,9 @@ public class CommProtocol extends Thread {
 			}
 		} else if (command == Command.LOCATE) {
 			if (res == Result.SUCCESS) {
-				JOptionPane
-						.showMessageDialog(frame,
-								"I found your phone!\n(...but I'm not telling you where it is)");
-
+				//JOptionPane.showMessageDialog(frame, "I found your phone!\n(...but I'm not telling you where it is)");
 				double lat = 0;
 				double lon = 0;
-
 				try {
 					lat = (Double) msg.getParam("lat");
 					lon = (Double) msg.getParam("long");
@@ -148,13 +144,7 @@ public class CommProtocol extends Thread {
 				}
 				// code modified from:
 				// http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
-				JEditorPane ep = new JEditorPane(
-						"text/html",
-						"<html><body>"
-								+ "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q="
-								+ lat + "," + lon + "\">My Phone!</a>"
-								+ "</body></html>");
-
+				JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=" + lat + "," + lon + "\">My Phone!</a>" + "</body></html>");
 				// handle link events
 				ep.addHyperlinkListener(new HyperlinkListener() {
 					@Override
@@ -171,8 +161,7 @@ public class CommProtocol extends Thread {
 					}
 				});
 				ep.setEditable(false);
-				ep.setBackground(frame.getBackground());
-
+				ep.setBackground(ControlRoom.getFrameBackground());
 				JOptionPane.showMessageDialog(frame, ep);
 			} else {
 				JOptionPane.showMessageDialog(frame, "Stuff failed.");
