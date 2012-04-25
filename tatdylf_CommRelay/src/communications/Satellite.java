@@ -43,21 +43,21 @@ public abstract class Satellite extends Thread {
 		}
 	}
 	
-	public boolean stopListening() {
-		try {
-			keepListening = false;
-			
-			Socket socket = openOutboundSocket("127.0.0.1", port);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			out.println("Bye.");
-			out.close();
-			closeSocket(socket);
-		} catch (Exception e) {
-			keepListening = true;
-			return false;
-		}
-		return closed;
-	}
+//	private boolean stopListening() {
+//		try {
+//			keepListening = false;
+//			
+//			//Socket socket = openOutboundSocket(toIP, port);
+//			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//			out.println("Bye.");
+//			out.close();
+//			closeSocket(socket);
+//		} catch (Exception e) {
+//			keepListening = true;
+//			return false;
+//		}
+//		return closed;
+//	}
 
 	public void run() {
 		try {
