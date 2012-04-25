@@ -1,18 +1,41 @@
 package coruscant.imperial.palace;
 
-import comm.messaging.Message;
-import comm.messaging.Param;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import comm.messaging.Result;
+import comm.messaging.SecureChannel;
+
+import coruscant.imperial.palace.comm.RSAUtilImpl;
+import coruscant.imperial.palace.comm.SecureChannelAndroid;
 import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
 public class Dispatcher extends Thread {
 	TheForce theForce;
+	SimplMessageAndroid msg_in;
 
-	public Dispatcher() {
+	public Dispatcher(SimplMessageAndroid msg) {
 		theForce = TheSenate.useTheForce();
+		msg_in = msg;
 	}
 	
-	public SimplMessageAndroid handleCommand(SimplMessageAndroid msg) {
+	public void run() {
+		SimplMessageAndroid msg_out = handleCommand(msg_in);
+		sendResponse(msg_out);
+	}
+	
+	private void sendResponse(SimplMessageAndroid msg) {
+		try {
+			Socket s = MessengerDroid.openOutboundSocket();
+			SecureChannel channel = new SecureChannelAndroid(new RSAUtilImpl(theForce.context));
+			channel.serialize(msg, s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private SimplMessageAndroid handleCommand(SimplMessageAndroid msg) {
 		
 		try {
 			switch(msg.getCmd()){
@@ -32,10 +55,9 @@ public class Dispatcher extends Thread {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return theForce.createResponse(msg, Result.ERROR);
+		return theForce.createResponse(msg, Result.ERROR);		
 	}	
 }
