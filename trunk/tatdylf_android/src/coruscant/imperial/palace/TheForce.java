@@ -76,8 +76,7 @@ public class TheForce {
 		if (preferences.getBoolean(context.getString(R.string.volume_key), false)) {
 			audioManager.setStreamVolume(AudioManager.STREAM_RING, volume,
 					AudioManager.FLAG_SHOW_UI);
-			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE)
-			{
+			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE) {
 				return Result.RINGTONE_NOT_AUDIBLE;
 			}
 			else {
@@ -157,6 +156,7 @@ public class TheForce {
 			Log.d("TheForce", "Vibration permission denied");
 			result = Result.PERMISSION_DENIED;
 		}
+		Log.d("TheForce", "ringer mode: " + audioManager.getRingerMode());
 		return createResponse(msg_in, result);
 	}
 
@@ -174,6 +174,7 @@ public class TheForce {
 			Log.d("TheForce", "Vibration permission denied");
 			result = Result.PERMISSION_DENIED;
 		}
+		Log.d("TheForce", "ringer mode: " + audioManager.getRingerMode());
 		return createResponse(msg_in, result);
 	}
 
@@ -182,11 +183,12 @@ public class TheForce {
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
 			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE) {
 				result = Result.RINGTONE_NOT_AUDIBLE;
+			} else {
+				Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
+				Ringtone ringtone = RingtoneManager.getRingtone(context, r_uri);
+				ringtone.play();
+				result = Result.SUCCESS; 
 			}
-			Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
-			Ringtone ringtone = RingtoneManager.getRingtone(context, r_uri);
-			ringtone.play();
-			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Play audio permission denied");
 			result = Result.PERMISSION_DENIED;
