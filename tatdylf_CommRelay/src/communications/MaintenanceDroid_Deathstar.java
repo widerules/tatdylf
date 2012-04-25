@@ -66,23 +66,27 @@ public class MaintenanceDroid_Deathstar extends MaintenanceDroid {
 		}
 		
 		try {
-			Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
-			RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
-			rsaUtilClient.setPath("./res/client/");
-			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
-			
-			outMsg.addParam(Param.COMMAND, command);
-			outMsg.addParam(Param.MSGID, new Relay().getNextID());
-			
-			new Relay().addToArray(outMsg);
-			
-			channelClient.serialize(outMsg, socket);
+			sendMessage(outMsg, command);
 		} catch (ConnectException ce) {
 			System.out.println("The IP has changed.  Use the right one");
 			System.out.println("Wrong IP: " + toIP);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private synchronized void sendMessage(Message outMsg, Command command) throws ConnectException, Exception {
+		Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
+		RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
+		rsaUtilClient.setPath("./res/client/");
+		SecureChannel channelClient = new SecureChannel(rsaUtilClient);
+		
+		outMsg.addParam(Param.COMMAND, command);
+		outMsg.addParam(Param.MSGID, new Relay().getNextID());
+		
+		new Relay().addToArray(outMsg);
+		
+		channelClient.serialize(outMsg, socket);
 	}
 
 }
