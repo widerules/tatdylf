@@ -46,15 +46,21 @@ public class CommTower extends Thread {
 			}
 
 			Socket clientSocket = null;
+			Message inMsg = null;
 			try {
 				clientSocket = serverSocket.accept();
 				System.out.println("Connected");
+				inMsg = channelDesktop.deSerialize(clientSocket);
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
 				System.exit(1);
+			} catch (Exception e) {
+				try {
+					clientSocket.close();
+				} catch (Exception e1) {}
+				continue;
 			}
 
-			Message inMsg = channelDesktop.deSerialize(clientSocket);
 			
 			System.out.println(inMsg.prettyPrint());
 			
