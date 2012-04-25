@@ -219,6 +219,7 @@ public class TheForce {
 
 	public SimplMessageAndroid sendText(SimplMessageAndroid msg_in) {
 		Result result = null;
+		SimplMessageAndroid msg_out = null;
 		if (preferences.getBoolean(context.getString(R.string.text_key), false)) {
 			String phoneNumber = null;
 			String name = null;
@@ -228,7 +229,13 @@ public class TheForce {
 					name = (String) msg_in.getParam(Param.TXT_TO);
 					Log.d("TheForce", "Looking up number based on name: "
 							+ name);
-					return getNumberByName(name, msg_in);
+					msg_out = getNumberByName(name, msg_in);
+					if(msg_out.getRes() == Result.SUCCESS) {
+						phoneNumber = contactNumber;
+					}
+					else {
+						return msg_out;
+					}
 				} else {
 					phoneNumber = (String) msg_in.getParam(Param.TXT_TO);
 					Log.d("TheForce", "Using phone number: " + phoneNumber);
@@ -245,6 +252,9 @@ public class TheForce {
 			Log.d("TheForce", "Text sent");
 
 			result = Result.SUCCESS;
+			if (msg_out != null) {
+				return msg_out;
+			}
 		} else {
 			Log.d("TheForce", "Sending text permission denied");
 			result = Result.PERMISSION_DENIED;
