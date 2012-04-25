@@ -1,5 +1,6 @@
 package communications;
 
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -8,7 +9,6 @@ import security.RSAUtilImpl;
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
-import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 
 public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
@@ -58,21 +58,36 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 			outMsg.addParam(Param.RESULT, "SUCCESS");
 		}
 		try {
-			Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
-			RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
-			rsaUtilClient.setPath("./res/relay/");
-			SecureChannel channelClient = new SecureChannel(rsaUtilClient);
 			
-			outMsg.addParam(Param.COMMAND, command);
 			if(lat != -181){
 				outMsg.addParam("lat", lat);
 				outMsg.addParam("long", lon);
 			}
 			
-			channelClient.serialize(outMsg, socket);
+			try {
+				sendMessage(outMsg, command);
+			} catch (ConnectException ce) {
+				System.out.println("The IP has changed.  Use the right one");
+				System.out.println("Wrong IP: " + toIP);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private synchronized void sendMessage(Message outMsg, Command command) throws Exception, ConnectException {
+		Socket socket = new Socket(InetAddress.getByName(toIP), toPort);
+		RSAUtilImpl rsaUtilClient = new RSAUtilImpl();
+		rsaUtilClient.setPath("./res/relay/");
+		SecureChannel channelClient = new SecureChannel(rsaUtilClient);
+		
+		outMsg.addParam(Param.COMMAND, command);
+		
+		
+		channelClient.serialize(outMsg, socket);
 	}
 
 }
