@@ -34,6 +34,7 @@ public class MaintenanceDroid_Coruscant extends MaintenanceDroid {
 		
 		try {
 			relay.getDeathstar().setIp((String) msg.getParam(Param.NEW_IP));
+			System.out.println((String) msg.getParam(Param.NEW_IP));
 			return;
 		} catch (Exception e){}
 		
