@@ -15,7 +15,8 @@ public enum Command implements JSONString{
 	LOCK,
 	UNLOCK,
 	LOCATE,
-	TXT;
+	TXT,
+	ASYNC_VOL;
 
 	@Override
 	public String toJSONString() {
@@ -47,6 +48,8 @@ public enum Command implements JSONString{
 			return Command.LOCATE;
 		} else if (s.equals("TXT") || s.equals("11")) {
 			return Command.TXT;
+		} else if (s.equals("ASYNC_VOL") || s.equals("12")) {
+			return Command.ASYNC_VOL;
 		}
 		
 		return null;
