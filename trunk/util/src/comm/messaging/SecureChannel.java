@@ -37,7 +37,7 @@ public class SecureChannel {
 		}
 	}
 	
-	public Message deSerialize(Socket socket) throws Exception{
+	public synchronized Message deSerialize(Socket socket) throws Exception{
 		Message msg = new SimplMessage();
 		return msg.deSerialize(readCiphered(cipher, getPublicKey(), socket));
 	}
