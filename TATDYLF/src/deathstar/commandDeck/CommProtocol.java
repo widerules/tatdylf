@@ -41,13 +41,14 @@ public class CommProtocol extends Thread {
 		Result res = msg.getRes();
 		
 		if(res == Result.PERMISSION_DENIED){
-			JOptionPane.showMessageDialog(frame, "Permission denied.  Please check your settings on your phone.");
+			JOptionPane.showMessageDialog(frame, "Permission denied.  Please check the settings on your phone.");
 			return;
 		}
 		if (command == Command.ASYNC_VOL){
 			int current = (Integer) msg.getParam(Param.CURRENT_VOLUME);
 			int max = (Integer) msg.getParam(Param.MAX_VOLUME);
 			ControlRoom.getCurrentVolume().setText(current + "/" + max);
+			return;
 		}
 		if (command == Command.INC_VOL) {
 			if (res == Result.SUCCESS) {
@@ -106,10 +107,10 @@ public class CommProtocol extends Thread {
 					JOptionPane.showMessageDialog(frame, "Text Failed!\nInvalid Input.");
 					break;
 				case MULTIPLE_CONTACTS:
-					JOptionPane.showMessageDialog(frame, "Text Failed!\nMultiple contacts with that name.");
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nMultiple contacts with that name.\n" + msg.getParam(Param.CONTACT_RESULTS));
 					break;
 				case MULTIPLE_NUMBERS:
-					JOptionPane.showMessageDialog(frame, "Text Failed!\nContact has multiple numbers; unable to determine which to text to.");
+					JOptionPane.showMessageDialog(frame, "Text Failed!\nContact has multiple numbers; unable to determine which to text to.\n" + msg.getParam(Param.PHONE_NUMBERS));
 					break;
 				case CONTACT_NOT_FOUND:
 					JOptionPane.showMessageDialog(frame, "Text Failed!\nContact not found.");
@@ -167,6 +168,8 @@ public class CommProtocol extends Thread {
 				ep.setEditable(false);
 				ep.setBackground(ControlRoom.getFrameBackground());
 				JOptionPane.showMessageDialog(frame, ep);
+			} else if (res == Result.LOCATION_DISABLED) {
+				JOptionPane.showMessageDialog(frame, "GPS and Network Location services are disabled on your phone.");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Stuff failed.");
 			}

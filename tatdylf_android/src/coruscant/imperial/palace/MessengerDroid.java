@@ -72,8 +72,25 @@ public class MessengerDroid extends Thread {
 			server = new ServerSocket(TheSenate.getFromCommPort());
 			while(keepListening) {
 				Log.d("MessengerDroid", "Now waiting for connections on " + server.getLocalPort());
-				Socket socket = server.accept();
-				Message msg_in = channel.deSerialize(socket);
+				
+				Socket socket = null;
+				Message msg_in = null;
+				
+				try {
+					socket = server.accept();
+					msg_in = channel.deSerialize(socket);
+				} catch (Exception e) {
+					Log.e("MessengerDroid", "Deserialization or accept failed",e);
+					try{
+						socket.close();
+					}catch (Exception e1){
+						// Die silently
+					}
+					server.close();
+					continue;
+				}
+				
+				
 				Log.d("MessengerDroid","Received msg:" + msg_in.prettyPrint());
 				if(msg_in.getCmd() == Command.EXIT) {
 					keepListening = false;
