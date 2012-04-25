@@ -174,7 +174,7 @@ public class TheForce {
 	public SimplMessageAndroid playAudio(SimplMessageAndroid msg_in) {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
-			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getStreamVolume(audioManager.STREAM_RING) == 0) {
+			if(audioManager.getStreamVolume(audioManager.STREAM_MUSIC) == 0 || audioManager.getStreamVolume(audioManager.STREAM_RING) == 0) {
 				result = Result.RINGTONE_NOT_AUDIBLE;
 			}
 			Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
@@ -305,14 +305,20 @@ public class TheForce {
 		} else if (Contacts.size() > 1) {
 			msg_out = createResponse(msg_in, Result.MULTIPLE_CONTACTS);
 			try {
-				msg_out.addParam(Param.CONTACT_RESULTS, Contacts.toString());
+				if (Contacts.toString().length() <= 125)
+					msg_out.addParam(Param.CONTACT_RESULTS, Contacts.toString());
+				else
+					msg_out.addParam(Param.CONTACT_RESULTS, "Your query matches a large number of contacts");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		} else if (Numbers.size() > 1) {
 			msg_out = createResponse(msg_in, Result.MULTIPLE_NUMBERS);
 			try {
-				msg_out.addParam(Param.PHONE_NUMBERS, Numbers.toString());
+				if (Numbers.toString().length() <= 125)
+					msg_out.addParam(Param.PHONE_NUMBERS, Numbers.toString());
+				else
+					msg_out.addParam(Param.PHONE_NUMBERS, "This contact has too many numbers to list");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
