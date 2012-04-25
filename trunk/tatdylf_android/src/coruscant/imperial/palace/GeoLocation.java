@@ -12,6 +12,7 @@ import android.util.Log;
 
 import comm.messaging.Message;
 import comm.messaging.Param;
+import comm.messaging.Result;
 
 import coruscant.imperial.palace.comm.SimplMessageAndroid;
 
@@ -55,7 +56,7 @@ public class GeoLocation extends Thread {
 		SimplMessageAndroid msg = new SimplMessageAndroid();
 		try {
 			msg.addParam(Param.MSGID, msgID);
-			msg.addParam(Param.RESULT, true);
+			msg.addParam(Param.RESULT, Result.SUCCESS);
 			msg.addParam(Param.LATITUDE, latitude);
 			msg.addParam(Param.LONGITUDE, longitude);
 			return msg;
@@ -67,13 +68,27 @@ public class GeoLocation extends Thread {
 	}
 	
 	public SimplMessageAndroid generateLocationMessage() {
+		boolean gpsEnabled = locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean networkEnabled = locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if(gpsEnabled == false && networkEnabled == false) {
+			try {
+				SimplMessageAndroid msg = new SimplMessageAndroid();
+				msg.addParam(Param.MSGID, msg_in.getParam(Param.MSGID));
+				msg.addParam(Param.RESULT, Result.LOCATION_DISABLED);
+				return msg;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		Log.d("GeoLocation", "Getting location");
 		Location loc1 = locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location loc2 = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		if (loc1 == null && loc2 == null) {
+			Log.d("GeoLocation", "Listening for location");
 			listenForLocation();
 		}
 		else {
+			Log.d("GeoLocation", "Sending last known location");
 			if (loc1 != null) {
 				loc = loc1;
 			}
@@ -96,14 +111,6 @@ public class GeoLocation extends Thread {
 
 	private void listenForLocation() {
 		Looper.prepare();
-		Criteria crit = new Criteria();
-/*		crit.setAccuracy(Criteria.ACCURACY_FINE);
-		crit.setAltitudeRequired(false);
-		crit.setBearingRequired(false);
-		crit.setCostAllowed(false);
-		crit.setPowerRequirement(Criteria.POWER_MEDIUM);
-		crit.setSpeedRequired(false);
-		String provider = locationMgr.getBestProvider(crit, true);*/
 		locationMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 0, locListener);
 		locationMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 6000, 0, locListener);
 		while (!locationFound) {

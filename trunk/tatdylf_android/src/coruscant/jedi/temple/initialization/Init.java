@@ -51,10 +51,10 @@ public class Init {
 	        outMsg.addParam(Param.PUB_KEY_EXP, pubAndroid.getPublicExponent().toString());
 	        outMsg.addParam(Param.INIT, true);
 	        outMsg.addParam(Param.ENDPOINT_TYPE, Endpoint.CORUSCANT);
-	        	        
-/*	        String commRelayAddr = ctx.getResources().getString(R.string.comm_relay_ip);
-	        int commRelayPort = ctx.getResources().getInteger(R.string.comm_relay_port);*/
-	        Socket socket = new Socket("128.59.13.32", 61246); //commRelayAddr commRelayPort
+	        
+	        String commRelayAddr = ctx.getString(R.string.comm_relay_ip);
+	        int commRelayPort = Integer.parseInt(ctx.getString(R.string.comm_relay_inbound));
+	        Socket socket = new Socket(commRelayAddr, commRelayPort);
 	        
 	        SimplChannel channel = new SimplChannel();
 	        channel.serialize(outMsg, socket);
