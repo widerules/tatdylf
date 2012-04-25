@@ -57,7 +57,7 @@ public class CommProtocol extends Thread {
 				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Increased!");
 			} else if (res == Result.RINGTONE_NOT_AUDIBLE) {
-				JOptionPane.showMessageDialog(frame, "Ringtone is not audible!");
+				JOptionPane.showMessageDialog(frame, "Silent and/or Vibrate modes are active!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Increase Failed!");
 			}
@@ -68,7 +68,7 @@ public class CommProtocol extends Thread {
 				ControlRoom.getCurrentVolume().setText(current + "/" + max);
 				JOptionPane.showMessageDialog(frame, "Volume Decreased!");
 			} else if (res == Result.RINGTONE_NOT_AUDIBLE) {
-				JOptionPane.showMessageDialog(frame, "Ringtone is not audible!");
+				JOptionPane.showMessageDialog(frame, "Silent and/or Vibrate modes are active!");
 			} else {
 				JOptionPane.showMessageDialog(frame, "Volume Decrease Failed!");
 			}
