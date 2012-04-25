@@ -76,7 +76,13 @@ public class TheForce {
 		if (preferences.getBoolean(context.getString(R.string.volume_key), false)) {
 			audioManager.setStreamVolume(AudioManager.STREAM_RING, volume,
 					AudioManager.FLAG_SHOW_UI);
-			return Result.SUCCESS;
+			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE)
+			{
+				return Result.RINGTONE_NOT_AUDIBLE;
+			}
+			else {
+				return Result.SUCCESS;
+			}
 		} else {
 			Log.d("TheForce", "Volume permission denied");
 			return Result.PERMISSION_DENIED;
@@ -174,7 +180,7 @@ public class TheForce {
 	public SimplMessageAndroid playAudio(SimplMessageAndroid msg_in) {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
-			if(audioManager.getStreamVolume(audioManager.STREAM_MUSIC) == 0 || audioManager.getStreamVolume(audioManager.STREAM_RING) == 0) {
+			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE) {
 				result = Result.RINGTONE_NOT_AUDIBLE;
 			}
 			Uri r_uri = RingtoneManager.getValidRingtoneUri(context);
