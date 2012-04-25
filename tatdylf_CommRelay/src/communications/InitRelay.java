@@ -32,7 +32,7 @@ public class InitRelay {
 	        Message inMsg = channel.deSerialize(socket);
 	        
 	        Endpoint type = Endpoint.toEndpoint(inMsg.getParam(Param.ENDPOINT_TYPE));
-	        String ip = socket.getInetAddress().getHostAddress();
+	        String ip = socket.getInetAddress().getHostName();//socket.getInetAddress().getHostAddress();
 	        switch(type){
 	        	case CORUSCANT:
 	        		++numInitted;
