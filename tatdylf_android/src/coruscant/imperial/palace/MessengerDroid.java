@@ -87,7 +87,6 @@ public class MessengerDroid extends Thread {
 					}catch (Exception e1){
 						// Die silently
 					}
-					server.close();
 					continue;
 				}
 				
