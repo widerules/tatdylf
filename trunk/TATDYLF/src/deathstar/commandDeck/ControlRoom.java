@@ -250,7 +250,7 @@ public class ControlRoom extends JFrame implements ActionListener {
 
 	private void sendMsg(Message outMsg) throws Exception {
 
-		Socket socket = new Socket(InetAddress.getByName("127.0.0.1"), 61244);
+		Socket socket = new Socket(Constant.COMM_RELAY, Constant.COMM_RELAY_PORT);
 
 		channelDesktop.serialize(outMsg, socket);
 
