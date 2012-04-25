@@ -16,7 +16,7 @@ public class SecureChannelAndroid extends SecureChannel {
 	}
 
 	@Override
-	public Message deSerialize(Socket socket) throws Exception {
+	public synchronized Message deSerialize(Socket socket) throws Exception {
 		Message msg = new SimplMessageAndroid();
 		return msg.deSerialize(readCiphered(cipher, getPublicKey(), socket));
 	}
