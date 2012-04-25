@@ -29,11 +29,11 @@ public class MessengerDroid extends Thread {
 	private static boolean isRunning = false;
 	boolean keepListening;
 	Resources resources;
-	SecureChannelAndroid channel;
+	Context context;
 	
 	public MessengerDroid(Context ctx) {
 		resources = ctx.getResources();
-		channel = new SecureChannelAndroid(new RSAUtilImpl(ctx));
+		context = ctx;
 	}
 	
 	public static void startDroid(Context ctx) {
@@ -72,10 +72,10 @@ public class MessengerDroid extends Thread {
 			server = new ServerSocket(TheSenate.getFromCommPort());
 			while(keepListening) {
 				Log.d("MessengerDroid", "Now waiting for connections on " + server.getLocalPort());
-				
 				Socket socket = null;
 				Message msg_in = null;
-				
+				SecureChannelAndroid channel;
+				channel = new SecureChannelAndroid(new RSAUtilImpl(context));
 				try {
 					socket = server.accept();
 					Log.d("MessengerDroid", "Just received a connection");
@@ -89,8 +89,6 @@ public class MessengerDroid extends Thread {
 					}
 					continue;
 				}
-				
-				
 				Log.d("MessengerDroid","Received msg:" + msg_in.prettyPrint());
 				if(msg_in.getCmd() == Command.EXIT) {
 					keepListening = false;

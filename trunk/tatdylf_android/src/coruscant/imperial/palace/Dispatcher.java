@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.util.Log;
+
 import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 
@@ -25,11 +27,12 @@ public class Dispatcher extends Thread {
 		sendResponse(msg_out);
 	}
 	
-	private void sendResponse(SimplMessageAndroid msg) {
+	private synchronized void sendResponse(SimplMessageAndroid msg) {
 		try {
 			Socket s = MessengerDroid.openOutboundSocket();
 			SecureChannel channel = new SecureChannelAndroid(new RSAUtilImpl(theForce.context));
 			channel.serialize(msg, s);
+			Log.d("Dispatcher","Sending msg:" + msg.prettyPrint());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
