@@ -89,12 +89,17 @@ public abstract class Satellite extends Thread {
 				System.err.println("Accept failed.");
 				System.exit(1);
 			}
+			if(toIP.equals("")){
+				continue;
+			}
 			Message inMsg = null;
 			try {
 				inMsg = channelServer.deSerialize(clientSocket);
 				handleMessage(inMsg);
 			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					clientSocket.close();
+				} catch (Exception e1) {}
 			}
 		}
 		closed = true;
