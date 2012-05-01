@@ -155,7 +155,7 @@ public class CommProtocol extends Thread {
 				}
 				// code modified from:
 				// http://stackoverflow.com/questions/8348063/clickable-links-in-joptionpane
-				JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Ok, fine.  Go to this address: <a href=\"http://maps.google.com/?q=" + lat + "," + lon + "\">My Phone!</a>" + "</body></html>");
+				JEditorPane ep = new JEditorPane("text/html", "<html><body>" + "Click the link: <a href=\"http://maps.google.com/?q=" + lat + "," + lon + "\">My Phone!</a>" + "</body></html>");
 				// handle link events
 				ep.addHyperlinkListener(new HyperlinkListener() {
 					@Override
