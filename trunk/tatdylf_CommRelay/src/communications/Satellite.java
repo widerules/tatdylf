@@ -84,7 +84,7 @@ public abstract class Satellite extends Thread {
 			Socket clientSocket = null;
 			try {
 				clientSocket = serverSocket.accept();
-				System.out.println("Connected");
+				System.out.println("Connected to the Satellite");
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
 				System.exit(1);
