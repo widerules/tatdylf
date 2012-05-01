@@ -20,7 +20,7 @@ public enum Command implements JSONString{
 
 	@Override
 	public String toJSONString() {
-		return Integer.toString(ordinal());
+		return Integer.toString(ordinal()); 
 	}
 	
 	public static Command toCommand(String s){
