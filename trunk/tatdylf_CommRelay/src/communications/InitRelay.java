@@ -50,17 +50,17 @@ public class InitRelay {
 //	    	FileOutputStream privOut = new FileOutputStream(path+"private.key");
 //	        FileOutputStream pubOut = new FileOutputStream(path+"myPublicKey");
 //	        RSAUtilImpl.genAndWriteKeysToFile(pubOut, privOut);
-	        PublicKey pubKey = RSAUtilImpl.readPublicKeyFromFile(new FileInputStream(path+"myPublicKey"));
+//	        PublicKey pubKey = RSAUtilImpl.readPublicKeyFromFile(new FileInputStream(path+"myPublicKey"));
 	        
-	        KeyFactory fact = KeyFactory.getInstance("RSA");
-	        RSAPublicKeySpec pubAndroid = fact.getKeySpec(pubKey, RSAPublicKeySpec.class);
+//	        KeyFactory fact = KeyFactory.getInstance("RSA");
+//	        RSAPublicKeySpec pubAndroid = fact.getKeySpec(pubKey, RSAPublicKeySpec.class);
 
 	        
 	        RSAPublicKeySpec pubCommRelay = new RSAPublicKeySpec(new BigInteger(
 	        			(String)inMsg.getParam(Param.PUB_KEY_MOD)), new BigInteger((String) inMsg.getParam(Param.PUB_KEY_EXP)));
 	        
-//	        RSAUtilImpl.saveToFile(new FileOutputStream(path+"public.key"),
-//	        		pubCommRelay.getModulus(), pubCommRelay.getPublicExponent());
+	        RSAUtilImpl.saveToFile(new FileOutputStream(path+"public.key"),
+	        		pubCommRelay.getModulus(), pubCommRelay.getPublicExponent());
 	        
 //	        SimplMessage outMsg = new SimplMessage();
 //	        outMsg.addParam(Param.PUB_KEY_MOD, pubAndroid.getModulus().toString());
