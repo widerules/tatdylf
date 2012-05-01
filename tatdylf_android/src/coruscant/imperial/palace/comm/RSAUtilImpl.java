@@ -50,8 +50,8 @@ public class RSAUtilImpl implements RSAUtil {
 
 	@Override
 	public PublicKey readPublicKeyFromFile() throws IOException {
-		//InputStream in = resources.openRawResource(R.raw.publickey);
-		InputStream in = ctx.openFileInput("publicKey");
+		InputStream in = resources.openRawResource(R.raw.publickey);
+		//InputStream in = ctx.openFileInput("publicKey");
 		
 		  ObjectInputStream oin =
 		    new ObjectInputStream(new BufferedInputStream(in));
