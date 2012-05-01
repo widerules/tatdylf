@@ -39,12 +39,12 @@ public class AttuneCommTower {
         SimplChannel channel = new SimplChannel();
         channel.serialize(outMsg, socket);
         
-        Message inMsg = channel.deSerialize(socket);
-        RSAPublicKeySpec pubCommRelay = new RSAPublicKeySpec(new BigInteger(
-        			(String)inMsg.getParam(Param.PUB_KEY_MOD)), new BigInteger((String) inMsg.getParam(Param.PUB_KEY_EXP)));
-        
-        RSAUtilImpl.saveToFile(new FileOutputStream(path+"public.key"),
-        		pubCommRelay.getModulus(), pubCommRelay.getPublicExponent());
+//        Message inMsg = channel.deSerialize(socket);
+//        RSAPublicKeySpec pubCommRelay = new RSAPublicKeySpec(new BigInteger(
+//        			(String)inMsg.getParam(Param.PUB_KEY_MOD)), new BigInteger((String) inMsg.getParam(Param.PUB_KEY_EXP)));
+//        
+//        RSAUtilImpl.saveToFile(new FileOutputStream(path+"public.key"),
+//        		pubCommRelay.getModulus(), pubCommRelay.getPublicExponent());
                 
         
     
