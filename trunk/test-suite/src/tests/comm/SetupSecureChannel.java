@@ -7,8 +7,8 @@ public class SetupSecureChannel {
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		RSAUtilImpl rsaServer = new RSAUtilImpl("/home/neil/commRelay/");
 		RSAUtilImpl rsaClient = new RSAUtilImpl("/home/neil/client/");

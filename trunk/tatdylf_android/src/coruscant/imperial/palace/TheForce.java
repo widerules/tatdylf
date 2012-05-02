@@ -6,7 +6,6 @@ import org.json.JSONException;
 
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -76,7 +75,7 @@ public class TheForce {
 		if (preferences.getBoolean(context.getString(R.string.volume_key), false)) {
 			audioManager.setStreamVolume(AudioManager.STREAM_RING, volume,
 					AudioManager.FLAG_SHOW_UI);
-			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE) {
+			if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE) {
 				return Result.RINGTONE_NOT_AUDIBLE;
 			}
 			else {
@@ -121,7 +120,7 @@ public class TheForce {
 	public SimplMessageAndroid turnSilentOn(SimplMessageAndroid msg_in) {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.silent_key), false)) {
-			audioManager.setRingerMode(audioManager.RINGER_MODE_SILENT);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Silent permission denied");
@@ -133,7 +132,7 @@ public class TheForce {
 	public SimplMessageAndroid turnSilentOff(SimplMessageAndroid msg_in) {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.silent_key), false)) {
-			audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Silent permission denied");
@@ -146,11 +145,11 @@ public class TheForce {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.vibration_key), false)) {
 			audioManager.setVibrateSetting(
-					audioManager.VIBRATE_TYPE_NOTIFICATION,
-					audioManager.VIBRATE_SETTING_ON);
-			audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER,
-					audioManager.VIBRATE_SETTING_ON);
-			audioManager.setRingerMode(audioManager.RINGER_MODE_VIBRATE);
+					AudioManager.VIBRATE_TYPE_NOTIFICATION,
+					AudioManager.VIBRATE_SETTING_ON);
+			audioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER,
+					AudioManager.VIBRATE_SETTING_ON);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Vibration permission denied");
@@ -164,11 +163,11 @@ public class TheForce {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.vibration_key), false)) {
 			audioManager.setVibrateSetting(
-					audioManager.VIBRATE_TYPE_NOTIFICATION,
-					audioManager.VIBRATE_SETTING_OFF);
-			audioManager.setVibrateSetting(audioManager.VIBRATE_TYPE_RINGER,
-					audioManager.VIBRATE_SETTING_OFF);
-			audioManager.setRingerMode(audioManager.RINGER_MODE_NORMAL);
+					AudioManager.VIBRATE_TYPE_NOTIFICATION,
+					AudioManager.VIBRATE_SETTING_OFF);
+			audioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER,
+					AudioManager.VIBRATE_SETTING_OFF);
+			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 			result = Result.SUCCESS;
 		} else {
 			Log.d("TheForce", "Vibration permission denied");
@@ -181,7 +180,7 @@ public class TheForce {
 	public SimplMessageAndroid playAudio(SimplMessageAndroid msg_in) {
 		Result result = null;
 		if (preferences.getBoolean(context.getString(R.string.ringtone_key), false)) {
-			if(audioManager.getRingerMode() == audioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == audioManager.RINGER_MODE_VIBRATE) {
+			if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE) {
 				result = Result.RINGTONE_NOT_AUDIBLE;
 			} else {
 				Uri r_uri = RingtoneManager.getValidRingtoneUri(context);

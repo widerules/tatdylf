@@ -1,10 +1,5 @@
 package coruscant.jedi.temple;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

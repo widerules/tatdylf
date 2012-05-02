@@ -3,8 +3,6 @@ package coruscant.imperial.palace.comm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
@@ -12,6 +10,8 @@ import comm.messaging.Result;
 import comm.messaging.SimplMessage;
 
 public class SimplMessageAndroid extends SimplMessage {
+
+	private static final long serialVersionUID = 795888752537500613L;
 
 	@Override
 	public Command getCmd() throws JSONException {

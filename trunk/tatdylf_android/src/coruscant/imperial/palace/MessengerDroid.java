@@ -3,14 +3,12 @@ package coruscant.imperial.palace;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 
 import security.RSAUtil;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
@@ -18,7 +16,6 @@ import android.util.Log;
 import comm.messaging.Command;
 import comm.messaging.Message;
 import comm.messaging.Param;
-import comm.messaging.Result;
 import comm.messaging.SecureChannel;
 
 import coruscant.imperial.palace.comm.RSAUtilImpl;
