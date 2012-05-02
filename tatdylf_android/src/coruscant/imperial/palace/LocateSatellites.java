@@ -1,10 +1,5 @@
 package coruscant.imperial.palace;
 
-import java.io.IOException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-
-import security.RSAUtil;
 import android.content.Context;
 import android.content.Intent;
 import coruscant.imperial.palace.comm.RSAUtilImpl;

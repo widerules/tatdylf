@@ -2,7 +2,6 @@ package coruscant.imperial.palace;
 
 import org.json.JSONException;
 
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -61,7 +60,6 @@ public class GeoLocation extends Thread {
 			msg.addParam(Param.LONGITUDE, longitude);
 			return msg;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

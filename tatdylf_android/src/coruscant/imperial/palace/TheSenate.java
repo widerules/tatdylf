@@ -9,7 +9,6 @@ public class TheSenate extends IntentService {
 	private static String commIP;
 	private static Integer toCommPort;
 	private static Integer fromCommPort;
-	private MessengerDroid droid;
 
 	public TheSenate() {
 		super("TheSenate");

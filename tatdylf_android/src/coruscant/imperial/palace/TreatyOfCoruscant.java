@@ -1,7 +1,6 @@
 package coruscant.imperial.palace;
 
 
-import coruscant.jedi.temple.initialization.Init;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

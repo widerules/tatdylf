@@ -6,7 +6,6 @@ import security.RSAUtil;
 
 import comm.messaging.Message;
 import comm.messaging.SecureChannel;
-import comm.messaging.SimplMessage;
 
 public class SecureChannelAndroid extends SecureChannel {
 

@@ -1,12 +1,9 @@
 package communications;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.Socket;
-import java.security.KeyFactory;
-import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 
 import security.RSAUtilImpl;
@@ -15,7 +12,6 @@ import comm.messaging.Endpoint;
 import comm.messaging.Message;
 import comm.messaging.Param;
 import comm.messaging.SimplChannel;
-import comm.messaging.SimplMessage;
 
 public class InitRelay {
 	static int numInitted = 0;
